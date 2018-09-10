@@ -5,7 +5,7 @@ namespace Core.ViewModels.Inventory
 {
     public class Item
     {
-        List<Models.Inventories.Item> Items { get; set; }
+        List<Models.Item> Items { get; set; }
 
         /// <summary>
         /// List of Items belonging to company.
@@ -23,12 +23,12 @@ namespace Core.ViewModels.Inventory
             return;
         }
 
-        public Boolean Save(Models.Inventories.Item Item)
+        public Boolean Save(Models.Item Item)
         {
             return true;
         }
 
-        public Boolean Delete(Models.Inventories.Item Item)
+        public Boolean Delete(Models.Item Item)
         {
             return true;
         }

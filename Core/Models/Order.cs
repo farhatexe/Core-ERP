@@ -28,7 +28,7 @@ namespace Core.Models
         /// Gets or sets the company.
         /// </summary>
         /// <value>The company.</value>
-        public Base.Company Company { get; set; }
+        public Company Company { get; set; }
 
         /// <summary>
         /// Gets or sets the date.
@@ -40,7 +40,7 @@ namespace Core.Models
         /// Gets or sets the location.
         /// </summary>
         /// <value>The location.</value>
-        public Base.Location Location { get; set; }
+        public Location Location { get; set; }
 
         /// <summary>
         /// Gets or sets the contact.

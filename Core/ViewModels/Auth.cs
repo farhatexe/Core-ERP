@@ -5,8 +5,8 @@ namespace Core.ViewModels
 {
     public static class Auth
     {
-        public static Models.Base.User User;
-        public static Models.Base.Company Company;
+        public static Models.User User;
+        public static Models.Company Company;
 
         /// <summary>
         /// Upon initializing this class, we will check the user name and pin code against our local data. 
@@ -23,7 +23,7 @@ namespace Core.ViewModels
         /// Function will call the list of companies associated with this user from Cognitivo.in.
         /// </summary>
         /// <returns>List of Companies</returns>
-        public static List<Models.Base.Company> Companies()
+        public static List<Models.Company> Companies()
         {
             return null;
         }

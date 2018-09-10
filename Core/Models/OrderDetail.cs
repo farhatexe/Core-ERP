@@ -5,7 +5,7 @@ namespace Core.Models
 {
     public class OrderDetail
     {
-        private Inventories.Item _item;
+        private Item _item;
 
         public OrderDetail()
         {
@@ -34,13 +34,13 @@ namespace Core.Models
         /// Gets or sets the vat.
         /// </summary>
         /// <value>The vat.</value>
-        public Base.Vat Vat { get; set; }
+        public Vat Vat { get; set; }
 
         /// <summary>
         /// Gets or sets the item.
         /// </summary>
         /// <value>The item.</value>
-        public Inventories.Item Item { 
+        public Item Item { 
             get => _item; 
             set 
             {

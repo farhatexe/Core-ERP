@@ -11,6 +11,12 @@ namespace Core.Models
         public int CloudID { get; set; }
 
         /// <summary>
+        /// Gets or sets the company.
+        /// </summary>
+        /// <value>The company.</value>
+        public Company Company { get; set; }
+
+        /// <summary>
         /// Gets or sets the item.
         /// </summary>
         /// <value>The item.</value>

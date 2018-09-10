@@ -9,7 +9,7 @@ namespace Core.ViewModels.Commercial
         /// All the Orders brought by the list.
         /// </summary>
         /// <value>Orders (Purchases or Sales)</value>
-        List<Models.Orders.Order> Orders { get; set; }
+        List<Models.Order> Orders { get; set; }
 
         public void List()
         {
@@ -29,24 +29,24 @@ namespace Core.ViewModels.Commercial
         /// Creates a new instance of the Order.
         /// </summary>
         /// <returns>The new.</returns>
-        public Models.Orders.Order New() => new Models.Orders.Order();
+        public Models.Order New() => new Models.Order();
 
-        public Boolean Save(Models.Orders.Order Order)
+        public Boolean Save(Models.Order Order)
         {
             return true;
         }
 
-        public Boolean Approve(Models.Orders.Order Order)
+        public Boolean Approve(Models.Order Order)
         {
             return true;
         }
 
-        public Boolean Annull(Models.Orders.Order Order)
+        public Boolean Annull(Models.Order Order)
         {
             return true;
         }
 
-        public Boolean Delete(Models.Orders.Order Order, bool Force = false)
+        public Boolean Delete(Models.Order Order, bool Force = false)
         {
             return true;
         }

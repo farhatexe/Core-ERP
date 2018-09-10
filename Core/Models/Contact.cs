@@ -14,7 +14,7 @@ namespace Core.Models
         /// Gets or sets the company.
         /// </summary>
         /// <value>The company.</value>
-        public Base.Company Company { get; set; }
+        public Company Company { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="T:Core.Models.Orders.Contact"/> is customer.
@@ -57,5 +57,17 @@ namespace Core.Models
         /// </summary>
         /// <value>The telephone.</value>
         public string Telephone { get; set; }
+
+        /// <summary>
+        /// Gets or sets the lead time.
+        /// </summary>
+        /// <value>The lead time.</value>
+        public int? LeadTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the credit limit.
+        /// </summary>
+        /// <value>The credit limit.</value>
+        public int? CreditLimit { get; set; }
     }
 }
