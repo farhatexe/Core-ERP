@@ -22,6 +22,7 @@ namespace Core.Models
         public string Name { get; set; }
 
         /// <summary>
+        /// Gets or sets the tax identifier.
         /// </summary>
         /// <value>The tax identifier.</value>
         public string TaxID { get; set; }
