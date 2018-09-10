@@ -7,13 +7,13 @@ namespace Core.Models.Base
     {
         public Vat()
         {
-            details = new List<VatDetail>();
+            Details = new List<VatDetail>();
         }
 
-        public int id { get; set; }
-        public int cloudID { get; set; }
+        public int Id { get; set; }
+        public int CloudID { get; set; }
 
-        public string name { get; set; }
-        public List<VatDetail> details { get; set; }
+        public string Name { get; set; }
+        public List<VatDetail> Details { get; set; }
     }
 }

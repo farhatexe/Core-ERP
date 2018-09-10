@@ -3,12 +3,14 @@ namespace Core.Models.Inventories
 {
     public class Item
     {
-        
-        public string name { get; set; }
-        public string sku { get; set; }
-        public string barCode { get; set; }
+        public int Id { get; set; }
+        public int CloudID { get; set; }
 
-        public string currency { get; set; }
-        public decimal price { get; set; }
+        public string Name { get; set; }
+        public string Sku { get; set; }
+        public string BarCode { get; set; }
+
+        public string Currency { get; set; }
+        public decimal Price { get; set; }
     }
 }

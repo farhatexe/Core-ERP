@@ -7,14 +7,15 @@ namespace Core.Models.Inventories
         {
         }
 
-        public int id { get; set; }
+        public int Id { get; set; }
+        public int CloudID { get; set; }
 
-        public Item item { get; set; }
-        public DateTime date { get; set; }
+        public Item Item { get; set; }
+        public DateTime Date { get; set; }
 
-        public decimal debit { get; set; }
-        public decimal credit { get; set; }
+        public decimal Debit { get; set; }
+        public decimal Credit { get; set; }
 
-        public string comment { get; set; }
+        public string Comment { get; set; }
     }
 }

@@ -15,23 +15,23 @@ namespace Core.Models.Orders
             details = new List<OrderDetail>();
         }
 
-        public int id { get; set; }
-        public int cloudID { get; set; }
+        public int Id { get; set; }
+        public int CloudID { get; set; }
 
-        public Types orderType { get; set; }
+        public Types OrderType { get; set; }
 
-        public DateTime date { get; set; }
-        public Contact contact { get; set; }
-        public string invoiceNumber { get; set; }
-        public string invoiceCode { get; set; }
-        public int paymentCondition { get; set; }
+        public DateTime Date { get; set; }
+        public Contact Contact { get; set; }
+        public string InvoiceNumber { get; set; }
+        public string InvoiceCode { get; set; }
+        public int PaymentCondition { get; set; }
 
-        public string currency { get; set; }
-        public decimal currencyRate { get; set; }
+        public string Currency { get; set; }
+        public decimal CurrencyRate { get; set; }
 
-        public decimal total { get { return details.Sum(x => (x.quantity * x.price)); } }
+        public decimal Total { get { return Details.Sum(x => (x.quantity * x.price)); } }
 
-        public TimeSpan interval { get{ return date - DateTime.Now; } }
-        public List<OrderDetail> details { get; set; }
+        public TimeSpan interval { get{ return Date - DateTime.Now; } }
+        public List<OrderDetail> Details { get; set; }
     }
 }

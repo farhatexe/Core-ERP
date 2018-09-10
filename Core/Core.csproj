@@ -15,5 +15,10 @@
     <Folder Include="Models\Orders\" />
     <Folder Include="Models\Base\" />
     <Folder Include="Models\Inventories\" />
+    <Folder Include="ViewModels\Commercial\" />
+    <Folder Include="ViewModels\Inventory\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="ViewModels\Auth\Login.cs" />
   </ItemGroup>
 </Project>
