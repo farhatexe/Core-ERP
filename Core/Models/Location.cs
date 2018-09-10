@@ -1,20 +1,18 @@
 ﻿using System;
-namespace Core.Models.Orders
+namespace Core.Models
 {
-    public class Contact
+    public class Location
     {
-        public Contact()
-        {
-        }
+        public Location() { }
 
         public int Id { get; set; }
         public int CloudID { get; set; }
 
         public string Name { get; set; }
-        public string TaxID { get; set; }
-
         public string Address { get; set; }
-        public string Email { get; set; }
         public string Telephone { get; set; }
+        public string Email { get; set; }
+
+        public Vat Vat { get; set; }
     }
 }

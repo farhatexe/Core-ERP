@@ -1,13 +1,12 @@
 ﻿using System;
-namespace Core.Models.Base
+namespace Core.Models
 {
     public class Company
     {
-        public Company()
-        {
-            
-        }
-
+        /// <summary>
+        /// Local ID used for 
+        /// </summary>
+        /// <value>The identifier.</value>
         public int Id { get; set; }
         public string SlugCognitivo { get; set; }
 

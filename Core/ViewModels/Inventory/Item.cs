@@ -7,7 +7,6 @@ namespace Core.ViewModels.Inventory
     {
         List<Models.Inventories.Item> Items { get; set; }
 
-
         /// <summary>
         /// List of Items belonging to company.
         /// </summary>

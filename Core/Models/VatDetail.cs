@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Core.Models.Base
+namespace Core.Models
 {
     public class VatDetail
     {

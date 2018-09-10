@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Core.Models.Base
+namespace Core.Models
 {
     public class User
     {
@@ -13,7 +13,7 @@ namespace Core.Models.Base
         public string Name { get; set; }
         public string Email { get; set; }
 
-        public string Pin { get; set; }
+        public string Passcode { get; set; }
         public string ApiKey { get; set; }
     }
 }
