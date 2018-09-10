@@ -11,9 +11,9 @@ namespace Core.ViewModels.Commercial
         /// <value>Orders (Purchases or Sales)</value>
         List<Models.Order> Orders { get; set; }
 
-        public void List()
+        public List<Models.Order> List()
         {
-            return;
+            return Orders;
         }
 
         /// <summary>
