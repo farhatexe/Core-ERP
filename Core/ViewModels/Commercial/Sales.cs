@@ -11,6 +11,10 @@ namespace Core.ViewModels.Commercial
         /// <value>Orders (Purchases or Sales)</value>
         List<Models.Order> Orders { get; set; }
 
+        /// <summary>
+        /// List this instance.
+        /// </summary>
+        /// <returns>The list.</returns>
         public List<Models.Order> List()
         {
             return Orders;
@@ -31,21 +35,42 @@ namespace Core.ViewModels.Commercial
         /// <returns>The new.</returns>
         public Models.Order New() => new Models.Order();
 
+        /// <summary>
+        /// Save the specified Order.
+        /// </summary>
+        /// <returns>The save.</returns>
+        /// <param name="Order">Order.</param>
         public Boolean Save(Models.Order Order)
         {
             return true;
         }
 
+        /// <summary>
+        /// Approve the specified Order.
+        /// </summary>
+        /// <returns>The approve.</returns>
+        /// <param name="Order">Order.</param>
         public Boolean Approve(Models.Order Order)
         {
             return true;
         }
 
+        /// <summary>
+        /// Annull the specified Order.
+        /// </summary>
+        /// <returns>The annull.</returns>
+        /// <param name="Order">Order.</param>
         public Boolean Annull(Models.Order Order)
         {
             return true;
         }
 
+        /// <summary>
+        /// Delete the specified Order and Force.
+        /// </summary>
+        /// <returns>The delete.</returns>
+        /// <param name="Order">Order.</param>
+        /// <param name="Force">If set to <c>true</c> force.</param>
         public Boolean Delete(Models.Order Order, bool Force = false)
         {
             return true;
