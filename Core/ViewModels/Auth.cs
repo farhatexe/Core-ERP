@@ -3,17 +3,27 @@ using System.Collections.Generic;
 
 namespace Core.ViewModels
 {
-    public class Auth
+    public static class Auth
     {
-        public Models.Base.User User;
-        public Models.Base.Company Company;
+        public static Models.Base.User User;
+        public static Models.Base.Company Company;
 
-        public Auth(string User, string Pin)
+        /// <summary>
+        /// Upon initializing this class, we will check the user name and pin code against our local data. 
+        /// If no rows found, will check against online records.
+        /// </summary>
+        /// <param name="User">User's Name</param>
+        /// <param name="Pin">User's Security Pin.</param>
+        public static void LogIn(string User, string Pin)
         {  
             
         }
 
-        public List<Models.Base.Company> Companies()
+        /// <summary>
+        /// Function will call the list of companies associated with this user from Cognitivo.in.
+        /// </summary>
+        /// <returns>List of Companies</returns>
+        public static List<Models.Base.Company> Companies()
         {
             return null;
         }

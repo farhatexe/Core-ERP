@@ -10,9 +10,9 @@ namespace Core.Models.Orders
 
         public Order()
         {
-            date = DateTime.Now;
-            paymentCondition = 0;
-            details = new List<OrderDetail>();
+            Date = DateTime.Now;
+            PaymentCondition = 0;
+            Details = new List<OrderDetail>();
         }
 
         public int Id { get; set; }
@@ -29,7 +29,7 @@ namespace Core.Models.Orders
         public string Currency { get; set; }
         public decimal CurrencyRate { get; set; }
 
-        public decimal Total { get { return Details.Sum(x => (x.quantity * x.price)); } }
+        public decimal Total { get { return Details.Sum(x => (x.Quantity * x.Price)); } }
 
         public TimeSpan interval { get{ return Date - DateTime.Now; } }
         public List<OrderDetail> Details { get; set; }
