@@ -43,7 +43,7 @@ namespace Core.Models
         /// Gets or sets the end date.
         /// </summary>
         /// <value>The end date.</value>
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         /// <summary>
         /// Gets or sets the ending balance.
