@@ -11,7 +11,6 @@ namespace Core.Models
         public Order()
         {
             Date = DateTime.Now;
-            PaymentCondition = 0;
             Details = new List<OrderDetail>();
         }
 
@@ -46,10 +45,10 @@ namespace Core.Models
         public DateTime Date { get; set; }
 
         /// <summary>
-        /// Gets or sets the point of sale.
+        /// Gets or sets the session.
         /// </summary>
-        /// <value>The point of sale.</value>
-        public PointOfSale PointOfSale { get; set; }
+        /// <value>Session used during current order.</value>
+        public Session Session { get; set; }
 
         /// <summary>
         /// Gets or sets the contact.

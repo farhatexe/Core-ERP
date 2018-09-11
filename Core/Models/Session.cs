@@ -7,6 +7,12 @@ namespace Core.Models
 {
     public class Session
     {
+        public Session()
+        {
+            Movements = new List<AccountMovement>();
+            Orders = new List<Order>();
+        }
+
         public int Id { get; set; }
 
         /// <summary>
@@ -14,12 +20,6 @@ namespace Core.Models
         /// </summary>
         /// <value>The point of sale.</value>
         public PointOfSale PointOfSale { get; set; }
-
-        /// <summary>
-        /// Gets or sets the movements.
-        /// </summary>
-        /// <value>The movements.</value>
-        public List<AccountMovement> Movements { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
@@ -52,15 +52,21 @@ namespace Core.Models
         public decimal EndingBalance { get; set; }
 
         /// <summary>
+        /// Gets or sets the movements.
+        /// </summary>
+        /// <value>The movements.</value>
+        public List<AccountMovement> Movements { get; set; }
+
+        /// <summary>
         /// Gets or sets the transactions.
         /// </summary>
         /// <value>The transactions.</value>
-        public List<Order> Transactions { get; set; }
+        public List<Order> Orders { get; set; }
 
         [NotMapped]
         public decimal CurrentEndingBalance{
             get {
-                return StartingBalance + Transactions.Sum(x => x.Total * x.CurrencyRate);
+                return StartingBalance + Orders.Sum(x => x.Total * x.CurrencyRate);
             }
         }
     }

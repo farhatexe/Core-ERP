@@ -22,9 +22,12 @@ namespace Core.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<OrderTag> OrderTags { get; set; }
+        public DbSet<PaymentContract> PaymentContracts { get; set; }
+        public DbSet<PaymentContractDetail> PaymentContractDetails { get; set; }
         public DbSet<PaymentType> PaymentTypes { get; set; }
         public DbSet<PointOfSale> PointOfSales { get; set; }
         public DbSet<Range> Ranges { get; set; }
+        public DbSet<Session> Sessions { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Vat> Vats { get; set; }
