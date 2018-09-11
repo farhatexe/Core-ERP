@@ -1,11 +1,26 @@
 ﻿using System;
 namespace Core.Models
 {
+    /// <summary>
+    /// Item.
+    /// </summary>
     public class Item
     {
+        /// <summary>
+        /// Types.
+        /// </summary>
         public enum Types { Stockable, Service, MakeToOrder }
 
+        /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        /// <value>The identifier.</value>
         public int Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the cloud identifier.
+        /// </summary>
+        /// <value>The cloud identifier.</value>
         public int CloudID { get; set; }
 
         /// <summary>
@@ -62,6 +77,10 @@ namespace Core.Models
         /// <value>The cost.</value>
         public decimal Cost { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="T:Core.Models.Item"/> weigh with scale.
+        /// </summary>
+        /// <value><c>true</c> if weigh with scale; otherwise, <c>false</c>.</value>
         public bool WeighWithScale { get; set; }
 
         /// <summary>

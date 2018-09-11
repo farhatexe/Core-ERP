@@ -2,12 +2,10 @@
 namespace Core.Models
 {
     /// <summary>
-    /// Payment type.
+    /// Account.
     /// </summary>
-    public class PaymentType
+    public class Account
     {
-        public enum Types { Normal, Credit,  }
-
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
@@ -21,21 +19,15 @@ namespace Core.Models
         public int CloudID { get; set; }
 
         /// <summary>
-        /// Gets or sets the company.
-        /// </summary>
-        /// <value>The company.</value>
-        public Company Company { get; set; }
-
-        /// <summary>
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the icon.
+        /// Gets or sets the number.
         /// </summary>
-        /// <value>The icon.</value>
-        public string Icon { get; set; }
+        /// <value>The number.</value>
+        public string Number { get; set; }
     }
 }
