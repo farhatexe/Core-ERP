@@ -10,10 +10,10 @@ namespace Core.Models
         public int CloudID { get; set; }
 
         /// <summary>
-        /// Gets or sets the point of sale.
+        /// Gets or sets the session.
         /// </summary>
-        /// <value>The point of sale.</value>
-        public PointOfSale PointOfSale { get; set; }
+        /// <value>The session.</value>
+        public Session Session { get; set; }
 
         /// <summary>
         /// Gets or sets the account.
@@ -38,6 +38,18 @@ namespace Core.Models
         /// </summary>
         /// <value>The credit.</value>
         public decimal Credit { get; set; }
+
+        /// <summary>
+        /// Gets or sets the currency.
+        /// </summary>
+        /// <value>The currency.</value>
+        public string Currency { get; set; }
+
+        /// <summary>
+        /// Gets or sets the rate.
+        /// </summary>
+        /// <value>The rate.</value>
+        public decimal Rate { get; set; }
 
         /// <summary>
         /// Gets or sets the comment.

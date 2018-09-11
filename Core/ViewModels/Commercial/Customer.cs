@@ -58,14 +58,14 @@ namespace Core.ViewModels.Commercial
         {
             using (Models.Context ctx = new Models.Context())
             {
-                Customers = ctx.Contacts.Local
-                               .Where(x => 
-                                      x.Name.Contains(Query) || 
-                                      x.TaxID.Contains(Query) || 
-                                      x.Telephone.Contains(Query) ||
-                                      x.Email.Contains(Query) ||
-                                     x.Address.Contains(Query))
-                               .ToList();
+                //Customers = ctx.Contacts.Local
+                               //.Where(x => 
+                               //       x.Name.Contains(Query) || 
+                               //       x.TaxID.Contains(Query) || 
+                               //       x.Telephone.Contains(Query) ||
+                               //       x.Email.Contains(Query) ||
+                               //      x.Address.Contains(Query))
+                               //.ToList();
             }
         }
 

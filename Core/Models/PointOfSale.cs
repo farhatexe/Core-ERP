@@ -72,5 +72,11 @@ namespace Core.Models
         /// </summary>
         /// <value><c>true</c> if has cash control; otherwise, <c>false</c>.</value>
         public bool HasCashControl { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="T:Core.Models.PointOfSale"/> default payment condition.
+        /// </summary>
+        /// <value><c>true</c> if default payment condition; otherwise, <c>false</c>.</value>
+        public bool DefaultPaymentCondition { get; set; }
     }
 }

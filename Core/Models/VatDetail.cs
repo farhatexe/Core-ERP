@@ -3,10 +3,6 @@ namespace Core.Models
 {
     public class VatDetail
     {
-        public VatDetail()
-        {
-        }
-
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
