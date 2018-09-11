@@ -58,7 +58,7 @@ namespace Core.Models
         public List<Order> Transactions { get; set; }
 
         [NotMapped]
-        public decimal TheoreticalEndingBalance{
+        public decimal CurrentEndingBalance{
             get {
                 return StartingBalance + Transactions.Sum(x => x.Total * x.CurrencyRate);
             }

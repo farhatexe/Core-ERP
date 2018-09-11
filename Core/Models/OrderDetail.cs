@@ -50,6 +50,12 @@ namespace Core.Models
         }
 
         /// <summary>
+        /// Gets or sets the cost.
+        /// </summary>
+        /// <value>The cost.</value>
+        public decimal Cost { get; set; }
+
+        /// <summary>
         /// Gets or sets the quantity.
         /// </summary>
         /// <value>The quantity.</value>

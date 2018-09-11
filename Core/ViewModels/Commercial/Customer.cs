@@ -23,14 +23,15 @@ namespace Core.ViewModels.Commercial
             using (Models.Context ctx = new Models.Context())
             {
 
-                IQueryable<Models.Contact> customers = ctx.GetQueryableProducts();
-                var productsOver25 = products.Where(p => p.Cost >= 25.00);
+                //IQueryable<Models.Contact> customers = ctx.GetQueryableProducts();
+                Customers = ctx.Contacts.Where(p => p.IsCustomer);
 
+                //outside
+                Customers.Where(x => x.IsSupplier).Take(Take).AsQueryable();
 
                 ctx.Contacts.Where(x => x.IsCustomer)
                                      .Take(Take)
-                                     .Skip(Skip)
-                                     .();
+                   .Skip(Skip);
             }
         }
 
@@ -38,11 +39,11 @@ namespace Core.ViewModels.Commercial
         /// Search the specified Query.
         /// </summary>
         /// <param name="Query">Query.</param>
-        public IQueryable<Models.Contact> Search(string Query)
+        public void Search(string Query)
         {
             using (Models.Context ctx = new Models.Context())
             {
-                return ctx.Contacts
+                Customers = ctx.Contacts
                                .Where(x => x.IsCustomer &&  (
                                           x.Name.Contains(Query) || 
                                           x.TaxID.Contains(Query))

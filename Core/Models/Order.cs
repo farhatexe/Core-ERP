@@ -15,7 +15,16 @@ namespace Core.Models
             Details = new List<OrderDetail>();
         }
 
+        /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        /// <value>The identifier.</value>
         public int Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the cloud identifier.
+        /// </summary>
+        /// <value>The cloud identifier.</value>
         public int CloudID { get; set; }
 
         /// <summary>
@@ -43,16 +52,16 @@ namespace Core.Models
         public PointOfSale PointOfSale { get; set; }
 
         /// <summary>
-        /// Gets or sets the range.
-        /// </summary>
-        /// <value>The range.</value>
-        public Range Range { get; set; }
-
-        /// <summary>
         /// Gets or sets the contact.
         /// </summary>
         /// <value>The contact.</value>
         public Contact Contact { get; set; }
+
+        /// <summary>
+        /// Gets or sets the payment contract.
+        /// </summary>
+        /// <value>The payment contract.</value>
+        public PaymentContract PaymentContract { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice number.
@@ -64,13 +73,13 @@ namespace Core.Models
         /// Gets or sets the invoice code.
         /// </summary>
         /// <value>The invoice code.</value>
-        public string InvoiceCode { get; set; }
+        public string Code { get; set; }
 
         /// <summary>
-        /// Gets or sets the payment condition.
+        /// Gets or sets the code expiry.
         /// </summary>
-        /// <value>The payment condition.</value>
-        public int PaymentCondition { get; set; }
+        /// <value>The code expiry.</value>
+        public DateTime CodeExpiry { get; set; }
 
         /// <summary>
         /// Gets or sets the currency.

@@ -48,15 +48,15 @@ namespace Core.Models
         public string Mask { get; set; }
 
         /// <summary>
-        /// Gets or sets the code.
+        /// Gets or sets the code. Certain countries or companies may require each range to be signed by an identifier code.
         /// </summary>
         /// <value>The code.</value>
         public string Code { get; set; }
 
         /// <summary>
-        /// Gets or sets the expiry date.
+        /// Gets or sets the expiry date. Null value equals to no expiration date.
         /// </summary>
         /// <value>The expiry date.</value>
-        public DateTime ExpiryDate { get; set; }
+        public DateTime? ExpiryDate { get; set; }
     }
 }

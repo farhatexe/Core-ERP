@@ -1,10 +1,7 @@
 ﻿using System;
 namespace Core.Models
 {
-    /// <summary>
-    /// Account.
-    /// </summary>
-    public class Account
+    public class PaymentContractDetail
     {
         /// <summary>
         /// Gets or sets the identifier.
@@ -19,21 +16,21 @@ namespace Core.Models
         public int CloudID { get; set; }
 
         /// <summary>
-        /// Gets or sets the name.
+        /// Gets or sets the contract.
         /// </summary>
-        /// <value>The name.</value>
-        public string Name { get; set; }
+        /// <value>The contract.</value>
+        public PaymentContract PaymentContract { get; set; }
 
         /// <summary>
-        /// Gets or sets the number.
+        /// Gets or sets the coefficient.
         /// </summary>
-        /// <value>The number.</value>
-        public string Number { get; set; }
+        /// <value>The coefficient.</value>
+        public decimal Coefficient { get; set; }
 
         /// <summary>
-        /// Gets or sets the default currency.
+        /// Gets or sets the percentage.
         /// </summary>
-        /// <value>The currency.</value>
-        public string Currency { get; set; }
+        /// <value>The percentage.</value>
+        public decimal Percentage { get; set; }
     }
 }
