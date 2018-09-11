@@ -3,6 +3,8 @@ namespace Core.Models
 {
     public class Item
     {
+        public enum Types { Stockable, Service, MakeToOrder }
+
         public int Id { get; set; }
         public int CloudID { get; set; }
 
@@ -31,6 +33,18 @@ namespace Core.Models
         public string BarCode { get; set; }
 
         /// <summary>
+        /// Gets or sets the category.
+        /// </summary>
+        /// <value>The category.</value>
+        public ItemCategory Category { get; set; }
+
+        /// <summary>
+        /// Gets or sets the vat.
+        /// </summary>
+        /// <value>The vat.</value>
+        public Vat Vat { get; set; }
+
+        /// <summary>
         /// Gets or sets the currency.
         /// </summary>
         /// <value>The currency.</value>
@@ -41,5 +55,25 @@ namespace Core.Models
         /// </summary>
         /// <value>The price.</value>
         public decimal Price { get; set; }
+
+        /// <summary>
+        /// Gets or sets the cost.
+        /// </summary>
+        /// <value>The cost.</value>
+        public decimal Cost { get; set; }
+
+        public bool WeighWithScale { get; set; }
+
+        /// <summary>
+        /// Gets or sets the weight.
+        /// </summary>
+        /// <value>The weight.</value>
+        public decimal Weight { get; set; }
+
+        /// <summary>
+        /// Gets or sets the volume.
+        /// </summary>
+        /// <value>The volume.</value>
+        public decimal Volume { get; set; }
     }
 }

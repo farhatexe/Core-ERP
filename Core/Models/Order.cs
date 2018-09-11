@@ -37,10 +37,16 @@ namespace Core.Models
         public DateTime Date { get; set; }
 
         /// <summary>
-        /// Gets or sets the location.
+        /// Gets or sets the point of sale.
         /// </summary>
-        /// <value>The location.</value>
-        public Location Location { get; set; }
+        /// <value>The point of sale.</value>
+        public PointOfSale PointOfSale { get; set; }
+
+        /// <summary>
+        /// Gets or sets the range.
+        /// </summary>
+        /// <value>The range.</value>
+        public Range Range { get; set; }
 
         /// <summary>
         /// Gets or sets the contact.
@@ -88,7 +94,7 @@ namespace Core.Models
         /// Gets the interval.
         /// </summary>
         /// <value>The interval.</value>
-        public TimeSpan interval { get{ return Date - DateTime.Now; } }
+        public TimeSpan Interval { get{ return Date - DateTime.Now; } }
 
         /// <summary>
         /// Gets or sets the details.

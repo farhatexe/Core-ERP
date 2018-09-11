@@ -13,7 +13,7 @@ namespace Core.ViewModels.Commercial
         /// Gets or sets the customers.
         /// </summary>
         /// <value>The customers.</value>
-        List<Models.Contact> Customers { get; set; }
+        IQueryable<Models.Contact> Customers { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Core.ViewModels.Commercial.Customer"/> class.
@@ -22,10 +22,15 @@ namespace Core.ViewModels.Commercial
         {
             using (Models.Context ctx = new Models.Context())
             {
+
+                IQueryable<Models.Contact> customers = ctx.GetQueryableProducts();
+                var productsOver25 = products.Where(p => p.Cost >= 25.00);
+
+
                 ctx.Contacts.Where(x => x.IsCustomer)
                                      .Take(Take)
                                      .Skip(Skip)
-                                     .ToList();
+                                     .();
             }
         }
 
@@ -33,15 +38,15 @@ namespace Core.ViewModels.Commercial
         /// Search the specified Query.
         /// </summary>
         /// <param name="Query">Query.</param>
-        public void Search(string Query)
+        public IQueryable<Models.Contact> Search(string Query)
         {
             using (Models.Context ctx = new Models.Context())
             {
-                Customers = ctx.Contacts
+                return ctx.Contacts
                                .Where(x => x.IsCustomer &&  (
                                           x.Name.Contains(Query) || 
                                           x.TaxID.Contains(Query))
-                                     ).ToList();
+                                     );
             }
         }
 
