@@ -17,6 +17,7 @@
     <Folder Include="ViewModels\" />
     <Folder Include="ViewModels\Commercial\" />
     <Folder Include="ViewModels\Inventory\" />
+    <Folder Include="ViewModels\API\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="ViewModels\Auth\Login.cs" />
