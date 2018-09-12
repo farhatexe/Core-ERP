@@ -5,6 +5,12 @@ namespace Core.Models
 {
     public class OrderDetail
     {
+        public enum ErrorMessages
+        {
+            OutOfStock,
+
+        }
+
         private Item _item;
 
         public OrderDetail()
@@ -46,8 +52,15 @@ namespace Core.Models
             {
                 _item = value;
                 Price = _item.Price;
+                ItemDescription = ItemDescription ?? _item.Name;
             } 
         }
+
+        /// <summary>
+        /// Gets or sets the item description.
+        /// </summary>
+        /// <value>The item description.</value>
+        public string ItemDescription { get; set; }
 
         /// <summary>
         /// Gets or sets the cost.
@@ -101,5 +114,12 @@ namespace Core.Models
                 return PriceVat * Quantity;
             }
         }
+
+        /// <summary>
+        /// Gets or sets the error message.
+        /// </summary>
+        /// <value>The error message.</value>
+        [NotMapped]
+        public ErrorMessages? ErrorMessage { get; set; }
     }
 }

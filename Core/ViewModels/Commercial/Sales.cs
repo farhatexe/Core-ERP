@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Core.ViewModels.Commercial
 {
@@ -46,13 +47,63 @@ namespace Core.ViewModels.Commercial
         }
 
         /// <summary>
-        /// Approve the specified Order.
+        /// Approve the specified Context, Order, RecalculatePrices and IgnoreErrors.
         /// </summary>
-        /// <returns>The approve.</returns>
-        /// <param name="Order">Order.</param>
-        public Boolean Approve(Models.Order Order)
+        /// <param name="Context">Reference your DbContext</param>
+        /// <param name="Order">Order</param>
+        /// <param name="RecalculatePrices">If set to <c>true</c> recalculate prices.</param>
+        /// <param name="IgnoreErrors">If set to <c>true</c> ignore errors.</param>
+        public void Approve(ref Models.Context Context, Models.Order Order, bool RecalculatePrices = false, bool IgnoreErrors = false)
         {
-            return true;
+
+            //Validate Stock Levels,
+            foreach (var detail in Order.Details.Where(x => x.Item.Type == Models.Item.Types.Stockable))
+            {
+                decimal InStock = Context.ItemMovements
+                                         .Where(x => x.Location == Order.Location && x.Item == detail.Item)
+                                         .Sum(y => y.Debit - y.Credit);
+                if (InStock <= 0)
+                { detail.ErrorMessage = Models.OrderDetail.ErrorMessages.OutOfStock; }
+            }
+
+            if (IgnoreErrors == false && Order.Details.Where(x => x.ErrorMessage == Models.OrderDetail.ErrorMessages.OutOfStock).Any())
+            {
+                //If IngoreErrors is set to false, and items are not InStock, then return without finishing work.
+                return;
+            }
+
+            //Insert into Stock
+            foreach (var detail in Order.Details.Where(x => x.Item.Type == Models.Item.Types.Stockable))
+            {
+                Models.ItemMovement Movement = new Models.ItemMovement()
+                {
+                    Item = detail.Item,
+                    Date = Order.Date,
+                    Debit = detail.Quantity,
+                    Location = Order.Location,
+                };
+
+                Context.ItemMovements.Add(Movement);
+            }
+
+            //Check Prices
+            if (RecalculatePrices)
+            {
+                //TODO: run promotions check again, simply call function.
+            }
+
+            //Insert into Schedual
+
+            //Change Status
+            Order.Status = Models.Order.Statuses.Approved;
+
+            //Generate Invoice Number
+            if (Order.InvoiceNumber == '')
+            {
+                //run method for invoice generation.
+            }
+
+            Context.SaveChanges();
         }
 
         /// <summary>

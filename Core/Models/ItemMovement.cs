@@ -17,6 +17,12 @@ namespace Core.Models
         public Company Company { get; set; }
 
         /// <summary>
+        /// Gets or sets the location.
+        /// </summary>
+        /// <value>The location.</value>
+        public Location Location { get; set; }
+
+        /// <summary>
         /// Gets or sets the item.
         /// </summary>
         /// <value>The item.</value>

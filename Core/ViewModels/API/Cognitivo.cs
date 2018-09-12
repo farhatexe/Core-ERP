@@ -5,6 +5,7 @@ namespace Core.ViewModels.API
     {
         public Cognitivo()
         {
+
         }
     }
 }

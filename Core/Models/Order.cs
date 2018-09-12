@@ -6,12 +6,41 @@ namespace Core.Models
 {
     public class Order
     {
+        /// <summary>
+        /// Types.
+        /// </summary>
         public enum Types { Sales, Purchase }
+
+        public enum ErrorMessage
+        {
+            OutOfStock,
+
+        }
+
+        /// <summary>
+        /// Statuses.
+        /// </summary>
+        public enum Statuses 
+        { 
+            /// <summary>
+            /// The pending.
+            /// </summary>
+            Pending, 
+            /// <summary>
+            /// The approved.
+            /// </summary>
+            Approved, 
+            /// <summary>
+            /// The annulled.
+            /// </summary>
+            Annulled
+        }
 
         public Order()
         {
             Date = DateTime.Now;
             Details = new List<OrderDetail>();
+            IsArchived = false;
         }
 
         /// <summary>
@@ -33,10 +62,22 @@ namespace Core.Models
         public Types OrderType { get; set; }
 
         /// <summary>
+        /// Gets or sets the status.
+        /// </summary>
+        /// <value>The status.</value>
+        public Statuses Status { get; set; }
+
+        /// <summary>
         /// Gets or sets the company.
         /// </summary>
         /// <value>The company.</value>
         public Company Company { get; set; }
+
+        /// <summary>
+        /// Gets or sets the location.
+        /// </summary>
+        /// <value>The location.</value>
+        public Location Location { get; set; }
 
         /// <summary>
         /// Gets or sets the date.
@@ -109,5 +150,11 @@ namespace Core.Models
         /// </summary>
         /// <value>The details.</value>
         public List<OrderDetail> Details { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="T:Core.Models.Order"/> is archived.
+        /// </summary>
+        /// <value><c>true</c> if is archived; otherwise, <c>false</c>.</value>
+        public bool IsArchived { get; set; }
     }
 }
