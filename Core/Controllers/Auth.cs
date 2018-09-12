@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Core.ViewModels
+namespace Core.Controllers
 {
     public static class Auth
     {

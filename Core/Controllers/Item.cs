@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Core.ViewModels.Inventory
+namespace Core.Controllers
 {
     public class Item
     {

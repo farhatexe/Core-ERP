@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Diagnostics.Contracts;
 
-namespace Core.ViewModels.Commercial
+namespace Core.Controllers
 {
     public class Customer
     {

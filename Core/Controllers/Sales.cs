@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Core.ViewModels.Commercial
+namespace Core.Controllers
 {
     public class Sales
     {
@@ -57,30 +57,33 @@ namespace Core.ViewModels.Commercial
         {
 
             //Validate Stock Levels,
-            foreach (var detail in Order.Details.Where(x => x.Item.Type == Models.Item.Types.Stockable))
+            foreach (var detail in Order.Details.Where(x => x.Item.Type == Enums.ItemTypes.Stockable))
             {
+                //Check stock levels of each item for that location.
                 decimal InStock = Context.ItemMovements
                                          .Where(x => x.Location == Order.Location && x.Item == detail.Item)
                                          .Sum(y => y.Debit - y.Credit);
-                if (InStock <= 0)
-                { detail.ErrorMessage = Models.OrderDetail.ErrorMessages.OutOfStock; }
+
+                //If Stock is less than or equal to 0, send message of OutOfStock
+                if (InStock <= 0) { detail.Message = Message.Warning.OutOfStock; }
             }
 
-            if (IgnoreErrors == false && Order.Details.Where(x => x.ErrorMessage == Models.OrderDetail.ErrorMessages.OutOfStock).Any())
+            if (IgnoreErrors == false && Order.Details.Any(x => x.Message == Message.Warning.OutOfStock))
             {
-                //If IngoreErrors is set to false, and items are not InStock, then return without finishing work.
+                //If stockable items are not in stock, and IgnoreErrors is set to false; exit code
                 return;
             }
 
-            //Insert into Stock
-            foreach (var detail in Order.Details.Where(x => x.Item.Type == Models.Item.Types.Stockable))
+            //Insert into Stock Movements
+            foreach (var detail in Order.Details.Where(x => x.Item.Type == Enums.ItemTypes.Stockable))
             {
                 Models.ItemMovement Movement = new Models.ItemMovement()
                 {
                     Item = detail.Item,
                     Date = Order.Date,
+                    Credit = 0,
                     Debit = detail.Quantity,
-                    Location = Order.Location,
+                    Location = Order.Location
                 };
 
                 Context.ItemMovements.Add(Movement);
@@ -94,11 +97,12 @@ namespace Core.ViewModels.Commercial
 
             //Insert into Schedual
 
+
             //Change Status
-            Order.Status = Models.Order.Statuses.Approved;
+            Order.Status = Enums.Status.Approved;
 
             //Generate Invoice Number
-            if (Order.InvoiceNumber == '')
+            if (Order.InvoiceNumber == "")
             {
                 //run method for invoice generation.
             }

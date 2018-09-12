@@ -6,10 +6,6 @@ namespace Core.Models
     /// </summary>
     public class Item
     {
-        /// <summary>
-        /// Types.
-        /// </summary>
-        public enum Types { Stockable, Service, MakeToOrder }
 
         /// <summary>
         /// Gets or sets the identifier.
@@ -51,7 +47,7 @@ namespace Core.Models
         /// Gets or sets the type.
         /// </summary>
         /// <value>The type.</value>
-        public Types Type { get; set; }
+        public Enums.ItemTypes Type { get; set; }
 
         /// <summary>
         /// Gets or sets the category.

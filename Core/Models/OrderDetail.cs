@@ -1,16 +1,11 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Models
 {
-    public class OrderDetail
+    public class OrderDetail : INotifyPropertyChanged
     {
-        public enum ErrorMessages
-        {
-            OutOfStock,
-
-        }
-
         private Item _item;
 
         public OrderDetail()
@@ -40,7 +35,7 @@ namespace Core.Models
         /// Gets or sets the vat.
         /// </summary>
         /// <value>The vat.</value>
-        public Vat Vat { get; set; }
+        public Vat Vat { get; set;  }
 
         /// <summary>
         /// Gets or sets the item.
@@ -116,10 +111,23 @@ namespace Core.Models
         }
 
         /// <summary>
-        /// Gets or sets the error message.
+        /// Gets or sets the message.
         /// </summary>
-        /// <value>The error message.</value>
-        [NotMapped]
-        public ErrorMessages? ErrorMessage { get; set; }
+        /// <value>The message.</value>
+        public Message.Warning Message { get; set; }
+
+
+        event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
+
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

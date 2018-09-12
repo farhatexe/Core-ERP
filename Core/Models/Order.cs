@@ -11,31 +11,6 @@ namespace Core.Models
         /// </summary>
         public enum Types { Sales, Purchase }
 
-        public enum ErrorMessage
-        {
-            OutOfStock,
-
-        }
-
-        /// <summary>
-        /// Statuses.
-        /// </summary>
-        public enum Statuses 
-        { 
-            /// <summary>
-            /// The pending.
-            /// </summary>
-            Pending, 
-            /// <summary>
-            /// The approved.
-            /// </summary>
-            Approved, 
-            /// <summary>
-            /// The annulled.
-            /// </summary>
-            Annulled
-        }
-
         public Order()
         {
             Date = DateTime.Now;
@@ -65,7 +40,7 @@ namespace Core.Models
         /// Gets or sets the status.
         /// </summary>
         /// <value>The status.</value>
-        public Statuses Status { get; set; }
+        public Enums.Status Status { get; set; }
 
         /// <summary>
         /// Gets or sets the company.
