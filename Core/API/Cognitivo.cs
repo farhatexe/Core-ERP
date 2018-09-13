@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Core.ViewModels.API
+namespace Core.API
 {
     public class Cognitivo
     {
