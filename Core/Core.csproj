@@ -19,5 +19,6 @@
     <Compile Remove="ViewModels\Auth\Login.cs" />
     <Compile Remove="Enums\ErrorMessage.cs" />
     <Compile Remove="Class1.cs" />
+    <Compile Remove="Class1.cs" />
   </ItemGroup>
 </Project>

@@ -18,6 +18,7 @@ namespace Core.Models
         public DbSet<ItemCategory> ItemCategories { get; set; }
         public DbSet<ItemMovement> ItemMovements { get; set; }
         public DbSet<ItemPriceList> ItemPriceLists { get; set; }
+        public DbSet<Inventory> Inventories { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
