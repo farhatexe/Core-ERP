@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace Core.Models
 {
     public class Inventory
@@ -9,6 +11,7 @@ namespace Core.Models
         public Inventory()
         {
             Date = DateTime.Now;
+            Details = new List<InventoryDetail>();
         }
 
         /// <summary>
@@ -30,39 +33,11 @@ namespace Core.Models
         public Location Location { get; set; }
 
         /// <summary>
-        /// Gets or sets the item.
+        /// Gets or sets the name.
         /// </summary>
-        /// <value>The item.</value>
-        public Item Item { get; set; }
+        /// <value>The name.</value>
+        public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets the quantity system in that location.
-        /// </summary>
-        /// <value>The qty system.</value>
-        public decimal QtySystem { get; set; }
-
-        /// <summary>
-        /// Gets or sets the quantity counted by the user in that location.
-        /// </summary>
-        /// <value>The qty counted.</value>
-        public decimal QtyCounted { get; set; }
-
-        /// <summary>
-        /// Gets the difference between Quantity System and Quantity Counted.
-        /// </summary>
-        /// <value>The difference.</value>
-        public decimal Difference { get => (QtySystem - QtyCounted); }
-
-        /// <summary>
-        /// Gets or sets the cost.
-        /// </summary>
-        /// <value>The cost.</value>
-        public decimal Cost { get; set; }
-
-        /// <summary>
-        /// Gets or sets the comment.
-        /// </summary>
-        /// <value>The comment.</value>
-        public string Comment { get; set; }
+        public List<Models.InventoryDetail> Details { get; set; }
     }
 }
