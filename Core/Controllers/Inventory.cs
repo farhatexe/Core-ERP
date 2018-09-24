@@ -17,9 +17,13 @@ namespace Core.Controllers
         /// <returns>The create.</returns>
         /// <param name="Context">Db Context.</param>
         /// <param name="location">Location for Inventory.</param>
-        public List<Models.Inventory> Create(ref Models.Context Context, Models.Location location)
+        public Models.Inventory Create(ref Models.Context Context, Models.Location location)
         {
-            List<Models.Inventory> inventories = new List<Models.Inventory>();
+
+            Models.Inventory inventory = new Models.Inventory(){
+                Date = DateTime.Now,
+                Location = location
+            };
 
             List<Models.Item> items = Context.Items.Where(x => x.Company.Id == location.Company.Id).ToList();
 
@@ -29,22 +33,18 @@ namespace Core.Controllers
 
             foreach (Models.Item item in items)
             {
-
-                Models.Inventory inventory = new Models.Inventory()
+                Models.InventoryDetail detail = new Models.InventoryDetail()
                 {
-                    Date = DateTime.Now,
-                    Location = location,
                     Item = item,
                     QtySystem = itemsWithStock.Sum(z => z.Where(x => x.Item.Id == item.Id).Sum(y => y.Credit) - z.Where(x => x.Item.Id == item.Id).Sum(y => y.Debit)),
                     QtyCounted = 0,
                     Cost = item.Cost,
                 };
-                inventories.Add(inventory);
+
+                inventory.Details.Add(detail);
             }
 
-            return inventories;
+            return inventory;
         }
-
-
     }
 }

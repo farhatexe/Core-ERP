@@ -10,7 +10,8 @@ namespace Core
 
         public enum Success
         {
-            Success
+            Success,
+            SuccessButNothingDone
         }
     }
 }
