@@ -5,10 +5,7 @@ namespace Core.Models
 {
     public class Context : DbContext
     {
-        public Context()
-        {
 
-        }
 
         public DbSet<Account> Accounts { get; set; }
         public DbSet<AccountMovement> AccountMovements { get; set; }
