@@ -6,7 +6,6 @@ namespace Core.Models
     /// </summary>
     public class Item
     {
-
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
