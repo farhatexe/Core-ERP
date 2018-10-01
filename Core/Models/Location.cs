@@ -1,10 +1,13 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace Core.Models
 {
     public class Location
     {
         public Location() { }
 
+        [Key]
         public int Id { get; set; }
         public int CloudID { get; set; }
 

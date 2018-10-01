@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace Core.Models
 {
     public class Range
@@ -7,7 +9,7 @@ namespace Core.Models
         {
             
         }
-
+        [Key]
         public int Id { get; set; }
         public int CloudID { get; set; }
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace Core.Models
 {
     public class VatDetail
@@ -7,6 +9,8 @@ namespace Core.Models
         /// Gets or sets the identifier.
         /// </summary>
         /// <value>The identifier.</value>
+        /// 
+        [Key]
         public int Id { get; set; }
 
         /// <summary>

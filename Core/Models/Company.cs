@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace Core.Models
 {
     public class Company
@@ -7,6 +9,8 @@ namespace Core.Models
         /// Local ID used for 
         /// </summary>
         /// <value>The identifier.</value>
+        /// 
+        [Key]
         public int Id { get; set; }
 
         /// <summary>

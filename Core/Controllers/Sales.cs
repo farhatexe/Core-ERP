@@ -57,7 +57,7 @@ namespace Core.Controllers
         {
 
             //Validate Stock Levels,
-            foreach (var detail in Order.Details.Where(x => x.Item.Type == Enums.ItemTypes.Stockable))
+            foreach (var detail in Order.Details.Where(x => x.Item.type == Enums.ItemTypes.Stockable))
             {
                 //Check stock levels of each item for that location.
                 decimal InStock = Context.ItemMovements
@@ -75,7 +75,7 @@ namespace Core.Controllers
             }
 
             //Insert into Stock Movements
-            foreach (var detail in Order.Details.Where(x => x.Item.Type == Enums.ItemTypes.Stockable))
+            foreach (var detail in Order.Details.Where(x => x.Item.type == Enums.ItemTypes.Stockable))
             {
                 Models.ItemMovement Movement = new Models.ItemMovement()
                 {

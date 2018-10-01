@@ -60,5 +60,19 @@ namespace Core
             /// </summary>
             MadeToOrder = 3
         }
+
+        /// <summary>
+        /// RowStatus
+        /// </summary>
+        public enum Action
+        {
+            CreatedOnCloud = 1,
+            UpdatedOnCloud = 2,
+            CreateOnLocal = 3,
+            UpdatedOnLocal = 4,
+            NoChanges = 5
+
+
+        }
     }
 }

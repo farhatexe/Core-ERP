@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Models
@@ -17,6 +18,8 @@ namespace Core.Models
         /// Gets or sets the identifier.
         /// </summary>
         /// <value>The identifier.</value>
+        /// 
+        [Key]
         public int Id { get; set; }
 
         /// <summary>
@@ -46,8 +49,8 @@ namespace Core.Models
             set 
             {
                 _item = value;
-                Price = _item.Price;
-                ItemDescription = ItemDescription ?? _item.Name;
+                Price = _item.price;
+                ItemDescription = ItemDescription ?? _item.name;
             } 
         }
 

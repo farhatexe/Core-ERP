@@ -1,8 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace Core.Models
 {
     public class PointOfSale
     {
+        [Key]
         public int Id { get; set; }
         public int CloudID { get; set; }
 
