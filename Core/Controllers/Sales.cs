@@ -1,11 +1,21 @@
-﻿using System;
+﻿using Core.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Core.Controllers
 {
     public class Sales
     {
+
+        private Context _db;
+
+        public Sales(Context db)
+        {
+            _db = db;
+        }
         /// <summary>
         /// All the Orders brought by the list.
         /// </summary>
@@ -16,9 +26,10 @@ namespace Core.Controllers
         /// List this instance.
         /// </summary>
         /// <returns>The list.</returns>
-        public List<Models.Order> List()
+        public ObservableCollection<Models.Order> List()
         {
-            return Orders;
+            _db.Orders.Load();
+            return _db.Orders.Local.ToObservableCollection();
         }
 
         /// <summary>
@@ -43,6 +54,7 @@ namespace Core.Controllers
         /// <param name="Order">Order.</param>
         public Boolean Save(Models.Order Order)
         {
+            _db.SaveChanges();
             return true;
         }
 
@@ -53,14 +65,14 @@ namespace Core.Controllers
         /// <param name="Order">Order</param>
         /// <param name="RecalculatePrices">If set to <c>true</c> recalculate prices.</param>
         /// <param name="IgnoreErrors">If set to <c>true</c> ignore errors.</param>
-        public void Approve(ref Models.Context Context, Models.Order Order, bool RecalculatePrices = false, bool IgnoreErrors = false)
+        public void Approve(Models.Order Order, bool RecalculatePrices = false, bool IgnoreErrors = false)
         {
 
             //Validate Stock Levels,
             foreach (var detail in Order.Details.Where(x => x.Item.type == Enums.ItemTypes.Stockable))
             {
                 //Check stock levels of each item for that location.
-                decimal InStock = Context.ItemMovements
+                decimal InStock = _db.ItemMovements
                                          .Where(x => x.Location == Order.Location && x.Item == detail.Item)
                                          .Sum(y => y.Debit - y.Credit);
 
@@ -86,7 +98,7 @@ namespace Core.Controllers
                     Location = Order.Location
                 };
 
-                Context.ItemMovements.Add(Movement);
+                _db.ItemMovements.Add(Movement);
             }
 
             //Check Prices
@@ -96,7 +108,12 @@ namespace Core.Controllers
             }
 
             //Insert into Schedual
-
+            PaymentSchedual paymentschedual = new PaymentSchedual();
+            paymentschedual.Credit = Order.Details.Sum(x => x.SubTotalVat);
+            paymentschedual.Debit = 0;
+            paymentschedual.Order = Order;
+            paymentschedual.Date = Order.Date;
+            _db.PaymentSchedual.Add(paymentschedual);
 
             //Change Status
             Order.Status = Enums.Status.Approved;
@@ -104,10 +121,13 @@ namespace Core.Controllers
             //Generate Invoice Number
             if (Order.InvoiceNumber == "")
             {
+                RangeRepository rangeRepository = new RangeRepository(_db);
+
+                rangeRepository.GenerateInvoiceNumber(Order.Range);
                 //run method for invoice generation.
             }
 
-            Context.SaveChanges();
+            _db.SaveChanges();
         }
 
         /// <summary>
@@ -128,6 +148,7 @@ namespace Core.Controllers
         /// <param name="Force">If set to <c>true</c> force.</param>
         public Boolean Delete(Models.Order Order, bool Force = false)
         {
+            _db.Orders.Remove(Order);
             return true;
         }
     }

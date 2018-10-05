@@ -70,6 +70,12 @@ namespace Core.Models
         public Session Session { get; set; }
 
         /// <summary>
+        /// Gets or sets the range.
+        /// </summary>
+        /// <value>Range used during current order.</value>
+        public Range Range { get; set; }
+
+        /// <summary>
         /// Gets or sets the contact.
         /// </summary>
         /// <value>The contact.</value>

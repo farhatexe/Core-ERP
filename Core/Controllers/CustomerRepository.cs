@@ -8,26 +8,26 @@ using System.Text;
 
 namespace Core
 {
-    public class Item
+    public class CustomerRepository
     {
         private Context _db;
 
-        public Item(Context db)
+        public CustomerRepository(Context db)
         {
             _db = db;
         }
-        public ObservableCollection<Models.Item> LIST()
+        public ObservableCollection<Contact> LIST()
         {
-            _db.Items.Load();
-            return _db.Items.Local.ToObservableCollection();
+            _db.Contacts.Load();
+            return _db.Contacts.Local.ToObservableCollection();
         }
-        public void Add(Models.Item Entity)
+        public void Add(Contact Entity)
         {
-            _db.Items.Add(Entity);
+            _db.Contacts.Add(Entity);
         }
-        public void Delete(Models.Item Entity)
+        public void Delete(Contact Entity)
         {
-            _db.Items.Remove(Entity);
+            _db.Contacts.Remove(Entity);
         }
         public void SaveChanges()
         {

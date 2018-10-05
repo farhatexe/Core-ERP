@@ -4,11 +4,21 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Diagnostics.Contracts;
+using Core.Models;
+using System.Collections.ObjectModel;
 
 namespace Core.Controllers
 {
     public class Customer
     {
+
+        private Context ctx;
+
+        public Customer(Context db)
+        {
+            ctx = db;
+        }
+
         /// <summary>
         /// Gets or sets the customers.
         /// </summary>
@@ -18,56 +28,49 @@ namespace Core.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Core.ViewModels.Commercial.Customer"/> class.
         /// </summary>
-        public Customer(int Take = 25, int Skip = 0)
+        public ObservableCollection<Contact> LIST(int Take = 25, int Skip = 0)
         {
-            using (Models.Context ctx = new Models.Context())
-            {
+            Customers = ctx.Contacts.Where(x => x.IsCustomer)
+                               .Take(Take).Skip(Skip);
 
-                //IQueryable<Models.Contact> customers = ctx.GetQueryableProducts();
-                Customers = ctx.Contacts.Where(p => p.IsCustomer);
+            return new ObservableCollection<Contact>(Customers);
 
-                //outside
-                Customers.Where(x => x.IsSupplier).Take(Take).AsQueryable();
-
-                ctx.Contacts.Where(x => x.IsCustomer)
-                                     .Take(Take)
-                   .Skip(Skip);
-            }
         }
 
         /// <summary>
         /// Search the specified Query.
         /// </summary>
         /// <param name="Query">Query.</param>
-        public void Search(string Query)
+        public ObservableCollection<Contact> Search(string Query)
         {
-            using (Models.Context ctx = new Models.Context())
-            {
-                Customers = ctx.Contacts
-                               .Where(x => x.IsCustomer &&  (
-                                          x.Name.Contains(Query) || 
-                                          x.TaxID.Contains(Query))
-                                     );
-            }
+
+            Customers = ctx.Contacts
+                           .Where(x => x.IsCustomer && (
+                                      x.Name.Contains(Query) ||
+                                      x.TaxID.Contains(Query))
+                                 );
+            return new ObservableCollection<Contact>(Customers);
+
         }
 
         /// <summary>
         /// Filters the Contacts list against local data.
         /// </summary>
         /// <param name="Query">Query.</param>
-        public void Filter(string Query)
+        public ObservableCollection<Contact> Filter(string Query)
         {
-            using (Models.Context ctx = new Models.Context())
-            {
-                //Customers = ctx.Contacts.Local
-                               //.Where(x => 
-                               //       x.Name.Contains(Query) || 
-                               //       x.TaxID.Contains(Query) || 
-                               //       x.Telephone.Contains(Query) ||
-                               //       x.Email.Contains(Query) ||
-                               //      x.Address.Contains(Query))
-                               //.ToList();
-            }
+
+            Customers = ctx.Contacts
+            .Where(x =>
+                   x.Name.Contains(Query) ||
+                   x.TaxID.Contains(Query) ||
+                   x.Telephone.Contains(Query) ||
+                   x.Email.Contains(Query) ||
+                  x.Address.Contains(Query));
+
+            return new ObservableCollection<Contact>(Customers);
+
+
         }
 
         /// <summary>
@@ -75,17 +78,18 @@ namespace Core.Controllers
         /// </summary>
         /// <returns>The last five sales.</returns>
         /// <param name="Contact">Customer (aka Contact).</param>
-        public void GetLastFiveSales(Models.Contact Contact, int Take = 25, int Skip = 0)
+        public List<Models.Order> GetLastFiveSales(Models.Contact Contact, int Take = 25, int Skip = 0)
         {
-            using (Models.Context ctx = new Models.Context())
-            {
-                ctx.Orders.Where(x => x.Contact.Id == Contact.Id)
-                               .Include(y => y.Details)
-                               .Include(z => z.Contact)
-                               .Take(Take)
-                               .Skip(Skip)
-                               .Load();
-            }
+
+            return ctx.Orders.Where(x => x.Contact.Id == Contact.Id)
+                                 .Include(y => y.Details)
+                                 .Include(z => z.Contact)
+                                 .Take(Take)
+                                 .Skip(Skip).ToList();
+
+
+
+
         }
 
         /// <summary>
@@ -95,12 +99,10 @@ namespace Core.Controllers
         /// <param name="Contact">Contact.</param>
         public Models.Contact Save(Models.Contact Contact)
         {
-            using (Models.Context ctx = new Models.Context())
-            {
-                ctx.Attach(Contact);
-                ctx.SaveChanges();
-                return Contact;
-            }
+
+            ctx.SaveChanges();
+            return Contact;
+
         }
 
         /// <summary>
@@ -110,13 +112,11 @@ namespace Core.Controllers
         /// <param name="Contact">Contact.</param>
         public bool Delete(Models.Contact Contact)
         {
-            using (Models.Context ctx = new Models.Context())
-            {
-                ctx.Attach(Contact);
-                ctx.Contacts.Remove(Contact);
-                ctx.SaveChanges();
-                return true;
-            }
+
+            ctx.Contacts.Remove(Contact);
+            ctx.SaveChanges();
+            return true;
+
         }
     }
 }
