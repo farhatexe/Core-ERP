@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 
 namespace Core.Models
@@ -10,13 +12,20 @@ namespace Core.Models
     [DataContract]
     public class Item
     {
-        public Item() { isPrivate = false; }
+        public Item()
+        {
+            isPrivate = false;
+            isActive = true;
+            action = Enums.Action.CreateOnLocal;
+            ItemMovements = new List<ItemMovement>();
+        }
 
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
         /// <value>The identifier.</value>
         [DataMember]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int localId { get; set; }
 
@@ -28,11 +37,18 @@ namespace Core.Models
         public int cloudId { get; set; }
 
         /// <summary>
+        /// Gets or sets the company identifier.
+        /// </summary>
+        /// <value>The company identifier.</value>
+        [DataMember]
+        public int companyId { get; set; }
+
+        /// <summary>
         /// Gets or sets the global item cloud identifier.
         /// </summary>
         /// <value>The global item cloud identifier.</value>
         [DataMember]
-        public int globalItemCloudId { get; set; }
+        public int? globalItemCloudId { get; set; }
 
         [DataMember]
         /// <summary>
@@ -85,12 +101,14 @@ namespace Core.Models
         public Enums.Action action { get; set; }
 
 
+
+
         [DataMember]
         /// <summary>
         /// Gets or sets the category.
         /// </summary>
         /// <value>The category.</value>
-        public int categoryCloudId { get; set; }
+        public int? categoryCloudId { get; set; }
 
         [DataMember]
         /// <summary>
@@ -132,14 +150,14 @@ namespace Core.Models
         /// Gets or sets the weight.
         /// </summary>
         /// <value>The weight.</value>
-        public decimal weight { get; set; }
+        public decimal? weight { get; set; }
 
         [DataMember]
         /// <summary>
         /// Gets or sets the volume.
         /// </summary>
         /// <value>The volume.</value>
-        public decimal volume { get; set; }
+        public decimal? volume { get; set; }
 
         /// <summary>
         /// Gets or sets the is private.
@@ -161,5 +179,8 @@ namespace Core.Models
         /// </summary>
         /// <value>The last updated on.</value>
         public DateTime updatedAt { get; set; }
+
+
+        public List<ItemMovement> ItemMovements { get; set; }
     }
 }

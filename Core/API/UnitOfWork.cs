@@ -8,54 +8,67 @@ namespace Core
 {
     public class UnitOfWork
     {
-        private Item _itemRepo;
-        private Customer _customerRepo;
-        private RangeRepository _rangeRepo;
-        private Context _db;
+        private Item itemRepo;
+        private Customer customerRepo;
+        private DocumentRange rangeRepo;
+        private Inventory inventoryRepo;
+        private Context Context;
 
         public UnitOfWork(Context db)
         {
-            _db = db;
+            Context = db;
         }
 
         public Item ItemRepo
         {
             get
             {
-                if (_itemRepo == null)
+                if (itemRepo == null)
                 {
-                    _itemRepo = new Item(_db);
+                    itemRepo = new Item(Context);
                 }
-                return _itemRepo;
+                return itemRepo;
             }
         }
         public Customer CustomerRepo
         {
             get
             {
-                if (_customerRepo == null)
+                if (customerRepo == null)
                 {
-                    _customerRepo = new Customer(_db);
+                    customerRepo = new Customer(Context);
                 }
-                return _customerRepo;
+                return customerRepo;
             }
         }
 
-        public RangeRepository RangeRepo
+        public DocumentRange RangeRepo
         {
             get
             {
-                if (_rangeRepo == null)
+                if (rangeRepo == null)
                 {
-                    _rangeRepo = new RangeRepository(_db);
+                    rangeRepo = new DocumentRange(Context);
                 }
-                return _rangeRepo;
+                return rangeRepo;
+            }
+        }
+
+        public Inventory InventoryRepo
+        {
+            get
+            {
+                if (inventoryRepo == null)
+                {
+                    inventoryRepo = new Inventory(Context);
+                }
+                return inventoryRepo;
             }
         }
 
         public void Save()
         {
-            _db.SaveChanges();
+            Context.SaveChanges();
         }
     }
 }

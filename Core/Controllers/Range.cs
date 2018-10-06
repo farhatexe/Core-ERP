@@ -8,11 +8,11 @@ using System.Text;
 
 namespace Core
 {
-    public class RangeRepository
+    public class DocumentRange
     {
         private Context _db;
 
-        public RangeRepository(Context db)
+        public DocumentRange(Context db)
         {
             _db = db;
         }
@@ -52,7 +52,7 @@ namespace Core
                     //Add Padding filler
                     range.CurrentValue += 1;
                     
-                    prefix = prefix.Replace("#Range", Prefix);
+                    prefix = prefix.Replace("#Range", prefix);
                 }
                 else
                 {

@@ -121,7 +121,7 @@ namespace Core.Controllers
             //Generate Invoice Number
             if (Order.InvoiceNumber == "")
             {
-                RangeRepository rangeRepository = new RangeRepository(_db);
+                DocumentRange rangeRepository = new DocumentRange(_db);
 
                 rangeRepository.GenerateInvoiceNumber(Order.Range);
                 //run method for invoice generation.

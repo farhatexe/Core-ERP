@@ -14,6 +14,7 @@ namespace Core.Models
             Orders = new List<Order>();
         }
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         /// <summary>
