@@ -1,7 +1,9 @@
 ﻿using Core.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Diagnostics.Contracts;
 
 namespace Core
 {
@@ -25,13 +27,13 @@ namespace Core
         /// </summary>
         /// <returns>The by location.</returns>
         /// <param name="location">Location.</param>
-        public dynamic StockByLocation(Models.Location location)
+        public dynamic StockByLocation(Models.Location location, bool LocalData = true, DateTime date = DateTime.Now)
         {
             //TODO: this is a right join. change into left join to bring items without stock.
             var query = from i in db.Items
                          join im in db.ItemMovements on i equals im.Item into joined
                                     from j in joined.DefaultIfEmpty()
-                         where j.Location == location
+                         where j.Location == location && j.Date >= date
                          select new
                          {
                              Item = i, //g.FirstOrDefault().Item,
@@ -60,6 +62,8 @@ namespace Core
 
             return query;
         }
+
+        //todo, make same calls but directly from cognitivo servers. This will get shared data.
 
         /// <summary>
         /// Add the specified Entity.
