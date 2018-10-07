@@ -1,12 +1,12 @@
 ﻿using Core.Models;
 using System;
 
-namespace Core
+namespace Core.Controllers
 {
     /// <summary>
     /// Inventory.
     /// </summary>
-    public class Inventory
+    public class InventoryController
     {
         private Context db;
 
@@ -14,7 +14,7 @@ namespace Core
         /// Initializes a new instance of the <see cref="T:Core.Inventory"/> class.
         /// </summary>
         /// <param name="ContextDb">Context db.</param>
-        public Inventory(Context ContextDb)
+        public InventoryController(Context ContextDb)
         {
             db = ContextDb;
         }
@@ -54,7 +54,7 @@ namespace Core
         public Models.Inventory CalculateDetail(Models.Location location)
         {
             //Get List of Items with Inventory
-            Item itemController = new Item(db);
+            ItemController itemController = new ItemController(db);
             var ListOfItemsWithStock = itemController.StockByLocation(location);
 
             Models.Inventory inventory = new Models.Inventory()

@@ -6,29 +6,33 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
-namespace Core
+namespace Core.Controllers
 {
-    public class DocumentRange
+    public class DocumentController
     {
         private Context _db;
 
-        public DocumentRange(Context db)
+        public DocumentController(Context db)
         {
             _db = db;
         }
+
         public ObservableCollection<Range> LIST()
         {
             _db.Ranges.Load();
             return _db.Ranges.Local.ToObservableCollection();
         }
+
         public void Add(Range Entity)
         {
             _db.Ranges.Add(Entity);
         }
+
         public void Delete(Range Entity)
         {
             _db.Ranges.Remove(Entity);
         }
+
         public void SaveChanges()
         {
             _db.SaveChanges();

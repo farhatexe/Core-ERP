@@ -8,10 +8,10 @@ namespace Core
 {
     public class UnitOfWork
     {
-        private Item itemRepo;
-        private Customer customerRepo;
-        private DocumentRange rangeRepo;
-        private Inventory inventoryRepo;
+        private ItemController itemRepository;
+        private CustomerController customerRepo;
+        private DocumentController rangeRepo;
+        private InventoryController inventoryRepo;
         private Context Context;
 
         public UnitOfWork(Context db)
@@ -19,48 +19,48 @@ namespace Core
             Context = db;
         }
 
-        public Item ItemRepo
+        public ItemController ItemRepo
         {
             get
             {
-                if (itemRepo == null)
+                if (itemRepository == null)
                 {
-                    itemRepo = new Item(Context);
+                    itemRepository = new ItemController(Context);
                 }
-                return itemRepo;
+                return itemRepository;
             }
         }
-        public Customer CustomerRepo
+        public CustomerController CustomerRepo
         {
             get
             {
                 if (customerRepo == null)
                 {
-                    customerRepo = new Customer(Context);
+                    customerRepo = new CustomerController(Context);
                 }
                 return customerRepo;
             }
         }
 
-        public DocumentRange RangeRepo
+        public DocumentController RangeRepo
         {
             get
             {
                 if (rangeRepo == null)
                 {
-                    rangeRepo = new DocumentRange(Context);
+                    rangeRepo = new DocumentController(Context);
                 }
                 return rangeRepo;
             }
         }
 
-        public Inventory InventoryRepo
+        public InventoryController InventoryRepo
         {
             get
             {
                 if (inventoryRepo == null)
                 {
-                    inventoryRepo = new Inventory(Context);
+                    inventoryRepo = new InventoryController(Context);
                 }
                 return inventoryRepo;
             }

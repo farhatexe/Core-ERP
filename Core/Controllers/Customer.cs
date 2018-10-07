@@ -9,12 +9,12 @@ using System.Collections.ObjectModel;
 
 namespace Core.Controllers
 {
-    public class Customer
+    public class CustomerController
     {
 
         private Context ctx;
 
-        public Customer(Context db)
+        public CustomerController(Context db)
         {
             ctx = db;
         }

@@ -71,7 +71,8 @@ namespace Core.Controllers
             //Validate Stock Levels,
             foreach (var detail in Order.Details.Where(x => x.Item.type == Enums.ItemTypes.Stockable))
             {
-                //Check stock levels of each item for that location.
+                // Check stock levels of each item for that location.
+                // TODO: place this code into item controller and re-use code from there. 
                 decimal InStock = _db.ItemMovements
                                          .Where(x => x.Location == Order.Location && x.Item == detail.Item)
                                          .Sum(y => y.Debit - y.Credit);
@@ -89,6 +90,7 @@ namespace Core.Controllers
             //Insert into Stock Movements
             foreach (var detail in Order.Details.Where(x => x.Item.type == Enums.ItemTypes.Stockable))
             {
+                //TODO: take this code to ItemMovement Unit Of Work.
                 Models.ItemMovement Movement = new Models.ItemMovement()
                 {
                     Item = detail.Item,
@@ -109,8 +111,7 @@ namespace Core.Controllers
 
             //Insert into Schedual
             PaymentSchedual paymentschedual = new PaymentSchedual();
-            paymentschedual.Credit = Order.Details.Sum(x => x.SubTotalVat);
-            paymentschedual.Debit = 0;
+            paymentschedual.AmountOwed = Order.Details.Sum(x => x.SubTotalVat);
             paymentschedual.Order = Order;
             paymentschedual.Date = Order.Date;
             _db.PaymentSchedual.Add(paymentschedual);

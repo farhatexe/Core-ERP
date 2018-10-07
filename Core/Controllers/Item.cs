@@ -5,13 +5,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Diagnostics.Contracts;
 
-namespace Core
+namespace Core.Controllers
 {
-    public class Item
+    public class ItemController
     {
         private Context db;
 
-        public Item(Context DB)
+        public ItemController(Context DB)
         {
             db = DB;
         }
@@ -23,10 +23,12 @@ namespace Core
         }
 
         /// <summary>
-        /// Stocks by location.
+        /// Stocks the by location.
         /// </summary>
         /// <returns>The by location.</returns>
         /// <param name="location">Location.</param>
+        /// <param name="LocalData">If set to <c>true</c> local data.</param>
+        /// <param name="date">Date.</param>
         public dynamic StockByLocation(Models.Location location, bool LocalData = true, DateTime date = DateTime.Now)
         {
             //TODO: this is a right join. change into left join to bring items without stock.
@@ -89,6 +91,33 @@ namespace Core
         public void SaveChanges()
         {
             db.SaveChanges();
+        }
+
+        /// <summary>
+        /// Checks the price.
+        /// </summary>
+        /// <param name="item">Item.</param>
+        public void CheckPrice(Models.Item item)
+        {
+
+        }
+
+        /// <summary>
+        /// Checks the price on sales.
+        /// </summary>
+        /// <param name="order">Order.</param>
+        public void CheckPriceOnSales(Models.Order order)
+        {
+
+        }
+
+        /// <summary>
+        /// Checks the stock.
+        /// </summary>
+        /// <param name="item">Item.</param>
+        public void CheckStock(Models.Item item)
+        {
+
         }
     }
 }
