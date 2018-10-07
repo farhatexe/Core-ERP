@@ -92,16 +92,12 @@ namespace Core.Models
         /// <value>The type.</value>
         public Enums.ItemTypes type { get; set; }
 
-
         [DataMember]
         /// <summary>
         /// Gets or sets the type.
         /// </summary>
         /// <value>The status.</value>
         public Enums.Action action { get; set; }
-
-
-
 
         [DataMember]
         /// <summary>

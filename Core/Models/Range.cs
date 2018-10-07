@@ -10,6 +10,7 @@ namespace Core.Models
         {
             
         }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -20,6 +21,24 @@ namespace Core.Models
         /// </summary>
         /// <value>The company.</value>
         public Company Company { get; set; }
+
+        /// <summary>
+        /// Gets or sets the module name to be used.
+        /// </summary>
+        /// <value>The module.</value>
+        public string Module { get; set; }
+
+        /// <summary>
+        /// Gets or sets the location.
+        /// </summary>
+        /// <value>The location.</value>
+        public Location Location { get; set; }
+
+        /// <summary>
+        /// Gets or sets the point of sale.
+        /// </summary>
+        /// <value>The point of sale.</value>
+        public PointOfSale PointOfSale { get; set; }
 
         /// <summary>
         /// Gets or sets the starting value.
