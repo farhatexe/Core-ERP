@@ -15,9 +15,11 @@ namespace Core.API
             Vat = 0,
             Item = 1,
         }
+
         public List<object> UploadData(String CompanySlug, string APIKey, List<object> SyncList, Modules Module)
         {
             send = new Cognitivo.API.Upload(APIKey, Cognitivo.API.Enums.SyncWith.Playground);
+
             if (Module == Modules.Vat)
             {
                 SyncList = send.Vats(CompanySlug, SyncList).OfType<object>().ToList();
@@ -44,11 +46,5 @@ namespace Core.API
 
             return SyncList;
         }
-
-
-
-
-
     }
-
 }

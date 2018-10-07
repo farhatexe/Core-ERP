@@ -39,7 +39,7 @@ namespace Core.Models
         /// Gets or sets the type of the order.
         /// </summary>
         /// <value>The type of the order.</value>
-        public Types OrderType { get; set; }
+        public Types Type { get; set; }
 
         /// <summary>
         /// Gets or sets the status.

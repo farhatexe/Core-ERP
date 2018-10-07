@@ -16,28 +16,24 @@ namespace Core.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int localId { get; set; }
+
         /// <summary>
         /// Gets or Sets the Order.
         /// </summary>
         /// <value>The Order</value>
         public Order Order { get; set; }
-        // <summary>
+
+        /// <summary>
         /// Gets or sets the date.
         /// </summary>
         /// <value>The date.</value>
         public DateTime Date { get; set; }
 
         /// <summary>
-        /// Gets or sets the debit.
+        /// Gets or sets the amount owed.
         /// </summary>
-        /// <value>The debit.</value>
-        public decimal Debit { get; set; }
-
-        /// <summary>
-        /// Gets or sets the credit.
-        /// </summary>
-        /// <value>The credit.</value>
-        public decimal Credit { get; set; }
+        /// <value>The amount owed.</value>
+        public decimal AmountOwed { get; set; }
 
         /// <summary>
         /// Gets or sets the comment.

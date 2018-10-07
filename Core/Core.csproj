@@ -14,7 +14,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Methods\" />
-    <Folder Include="UnitTesting\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Controllers\CustomerRepository.cs" />
@@ -23,6 +22,7 @@
     <Compile Remove="Class1.cs" />
     <Compile Remove="Class1.cs" />
     <Compile Remove="Models\OrderTag.cs" />
+    <Compile Remove="Controllers\GlobalFunction.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Cognitivo.API">

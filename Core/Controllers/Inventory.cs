@@ -1,41 +1,61 @@
-﻿using Core.Controllers;
-using Core.Models;
+﻿using Core.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Core
 {
+    /// <summary>
+    /// Inventory.
+    /// </summary>
     public class Inventory
     {
-        private Context Context;
+        private Context db;
 
-        public Inventory(Context db)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:Core.Inventory"/> class.
+        /// </summary>
+        /// <param name="ContextDb">Context db.</param>
+        public Inventory(Context ContextDb)
         {
-            Context = db;
-        }
-
-        public void Add(Models.Inventory Entity)
-        {
-            Context.Inventories.Add(Entity);
-        }
-        public void Delete(Models.Inventory Entity)
-        {
-            Context.Inventories.Remove(Entity);
-        }
-        public void SaveChanges()
-        {
-            Context.SaveChanges();
+            db = ContextDb;
         }
 
         /// <summary>
-        /// Create creates a list of Inventory based on your <paramref name="location"/>. This function willl return the full list of items from this location.
+        /// Add the specified Entity.
         /// </summary>
-        /// <returns>The create.</returns>
-        /// <param name="Context">Db Context.</param>
-        /// <param name="location">Location for Inventory.</param>
-        public Models.Inventory Create( Models.Location location)
+        /// <param name="Entity">Entity.</param>
+        public void Add(Models.Inventory Entity)
         {
+            db.Inventories.Add(Entity);
+        }
+
+        /// <summary>
+        /// Delete the specified Entity.
+        /// </summary>
+        /// <param name="Entity">Entity.</param>
+        public void Delete(Models.Inventory Entity)
+        {
+            db.Inventories.Remove(Entity);
+        }
+
+        /// <summary>
+        /// Saves the changes.
+        /// </summary>
+        public void SaveChanges()
+        {
+            db.SaveChanges();
+        }
+
+
+        /// <summary>
+        /// Calculates the inventory detail. Will return the stock levels of each product within specified location.
+        /// </summary>
+        /// <returns>List of Inventory Details.</returns>
+        /// <param name="location">Location to filter.</param>
+        public Models.Inventory CalculateDetail(Models.Location location)
+        {
+            //Get List of Items with Inventory
+            Item itemController = new Item(db);
+            var ListOfItemsWithStock = itemController.StockByLocation(location);
 
             Models.Inventory inventory = new Models.Inventory()
             {
@@ -43,21 +63,13 @@ namespace Core
                 Location = location
             };
 
-            //List<Models.Item> items = _db.Items.Where(x => x.companyId == location.Company.Id).ToList();
-
-
-            dynamic ItemsWithStock = GlobalFunction.FetchInventory(Context, location);
-
-
-
-            foreach (dynamic stock in ItemsWithStock)
+            foreach (dynamic item in ListOfItemsWithStock)
             {
                 Models.InventoryDetail detail = new Models.InventoryDetail()
                 {
-                    Item = stock.Item,
-                    QtySystem =stock.Balance,
-                    QtyCounted = 0,
-                    Cost = stock.Cost,
+                    Item = item.Item,
+                    QtySystem = item.Balance,
+                    Cost = item.Cost,
                 };
 
                 inventory.Details.Add(detail);

@@ -20,7 +20,6 @@ namespace Core.Models
         public DbSet<Location> Locations { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
-     //   public DbSet<OrderTag> OrderTags { get; set; }
         public DbSet<PaymentContract> PaymentContracts { get; set; }
         public DbSet<PaymentContractDetail> PaymentContractDetails { get; set; }
         public DbSet<PaymentSchedual> PaymentSchedual { get; set; }

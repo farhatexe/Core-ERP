@@ -33,13 +33,13 @@ namespace Core.Models
         /// Gets or sets the quantity counted by the user in that location.
         /// </summary>
         /// <value>The qty counted.</value>
-        public decimal QtyCounted { get; set; }
+        public decimal? QtyCounted { get; set; }
 
         /// <summary>
         /// Gets the difference between Quantity System and Quantity Counted.
         /// </summary>
         /// <value>The difference.</value>
-        public decimal Difference { get => (QtySystem - QtyCounted); }
+        public decimal Difference { get => (QtySystem - (decimal)QtyCounted); }
 
         /// <summary>
         /// Gets or sets the cost.
