@@ -118,5 +118,13 @@ namespace Core.Controllers
             return true;
 
         }
+        /// <summary>
+        /// Add the specified Entity.
+        /// </summary>
+        /// <param name="Entity">Entity.</param>
+        public void Add(Models.Contact Entity)
+        {
+            ctx.Contacts.Add(Entity);
+        }
     }
 }

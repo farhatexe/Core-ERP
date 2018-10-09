@@ -24,6 +24,7 @@ namespace Core.Models
         public DbSet<PaymentContractDetail> PaymentContractDetails { get; set; }
         public DbSet<PaymentSchedual> PaymentSchedual { get; set; }
         public DbSet<PaymentType> PaymentTypes { get; set; }
+        public DbSet<Payment> payments { get; set; }
         public DbSet<PointOfSale> PointOfSales { get; set; }
         public DbSet<Range> Ranges { get; set; }
         public DbSet<Session> Sessions { get; set; }

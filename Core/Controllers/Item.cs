@@ -4,6 +4,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Diagnostics.Contracts;
+using System.Collections.Generic;
 
 namespace Core.Controllers
 {
@@ -22,6 +23,26 @@ namespace Core.Controllers
             return db.Items.Local.ToObservableCollection();
         }
 
+        public dynamic ItemsWithStockByLocation(List<Models.Location> locationList, DateTime? date, bool LocalData = true)
+        {
+            date = !date.HasValue ? DateTime.Now : date;
+
+            //TODO: this is a right join. change into left join to bring items without stock.
+            var query = from i in db.Items
+                        join im in db.ItemMovements on i equals im.Item
+                        into joined
+                        from j in joined.DefaultIfEmpty()
+                        where locationList.Contains(j.Location) && j.Date >= date
+                        select new
+                        {
+                            Item = i, //g.FirstOrDefault().Item,
+                            j.Location,
+                            Balance = joined.Sum(x => (x.Credit - x.Debit))
+                        };
+
+            return query;
+        }
+
         /// <summary>
         /// Stocks the by location.
         /// </summary>
@@ -29,19 +50,21 @@ namespace Core.Controllers
         /// <param name="location">Location.</param>
         /// <param name="LocalData">If set to <c>true</c> local data.</param>
         /// <param name="date">Date.</param>
-        public dynamic StockByLocation(Models.Location location, bool LocalData = true, DateTime date = DateTime.Now)
+        public dynamic StockByLocation(List<Models.Location> locationList, DateTime? date, bool LocalData = true)
         {
+            date = !date.HasValue ? DateTime.Now : date;
+
             //TODO: this is a right join. change into left join to bring items without stock.
             var query = from i in db.Items
-                         join im in db.ItemMovements on i equals im.Item into joined
-                                    from j in joined.DefaultIfEmpty()
-                         where j.Location == location && j.Date >= date
-                         select new
-                         {
-                             Item = i, //g.FirstOrDefault().Item,
-                             j.Location,
-                             Balance = joined.Sum(x => (x.Credit - x.Debit))
-                         };
+                        join im in db.ItemMovements on i equals im.Item
+                        where locationList.Contains(im.Location) && im.Date >= date
+                        group im by im.Location into g
+                        select new
+                        {
+                            g.FirstOrDefault().Item, //g.FirstOrDefault().Item,
+                            g.FirstOrDefault().Location,
+                           Balance= g.Sum(x =>x.Credit -x.Debit)
+                        };
 
             return query;
         }
@@ -64,6 +87,13 @@ namespace Core.Controllers
 
             return query;
         }
+
+
+
+
+
+
+
 
         //todo, make same calls but directly from cognitivo servers. This will get shared data.
 

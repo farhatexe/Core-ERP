@@ -55,7 +55,7 @@ namespace Core.Controllers
         {
             //Get List of Items with Inventory
             ItemController itemController = new ItemController(db);
-            var ListOfItemsWithStock = itemController.StockByLocation(location);
+            var ListOfItemsWithStock = itemController.StockByLocation(location,null);
 
             Models.Inventory inventory = new Models.Inventory()
             {

@@ -110,11 +110,7 @@ namespace Core.Controllers
             }
 
             //Insert into Schedual
-            PaymentSchedual paymentschedual = new PaymentSchedual();
-            paymentschedual.AmountOwed = Order.Details.Sum(x => x.SubTotalVat);
-            paymentschedual.Order = Order;
-            paymentschedual.Date = Order.Date;
-            _db.PaymentSchedual.Add(paymentschedual);
+          
 
             //Change Status
             Order.Status = Enums.Status.Approved;
@@ -122,7 +118,7 @@ namespace Core.Controllers
             //Generate Invoice Number
             if (Order.InvoiceNumber == "")
             {
-                DocumentRange rangeRepository = new DocumentRange(_db);
+                Controllers.DocumentController rangeRepository = new Controllers.DocumentController(_db);
 
                 rangeRepository.GenerateInvoiceNumber(Order.Range);
                 //run method for invoice generation.
