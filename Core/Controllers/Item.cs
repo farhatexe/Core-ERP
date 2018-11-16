@@ -50,14 +50,14 @@ namespace Core.Controllers
         /// <param name="location">Location.</param>
         /// <param name="LocalData">If set to <c>true</c> local data.</param>
         /// <param name="date">Date.</param>
-        public dynamic StockByLocation(List<Models.Location> locationList, DateTime? date, bool LocalData = true)
+        public dynamic StockByLocation(Models.Location location, DateTime? date, bool LocalData = true)
         {
             date = !date.HasValue ? DateTime.Now : date;
 
             //TODO: this is a right join. change into left join to bring items without stock.
             var query = from i in db.Items
                         join im in db.ItemMovements on i equals im.Item
-                        where locationList.Contains(im.Location) && im.Date >= date
+                        where im.Location== location && im.Date >= date
                         group im by im.Location into g
                         select new
                         {

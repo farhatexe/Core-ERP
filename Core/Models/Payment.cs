@@ -26,6 +26,9 @@ namespace Core.Models
         /// <value>The date.</value>
         public DateTime Date { get; set; }
 
+
+
+        public int schedual_id { get; set; }
         /// <summary>
         /// Gets or sets the amount owed.
         /// </summary>
@@ -34,7 +37,7 @@ namespace Core.Models
 
         public PaymentType PaymentType { get; set; }
 
-        public PaymentSchedual PaymentSchedual { get; set; }
+     
 
         /// <summary>
         /// Gets or sets the comment.

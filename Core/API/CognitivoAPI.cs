@@ -26,7 +26,7 @@ namespace Core.API
             }
             else if (Module == Modules.Item)
             {
-                SyncList = send.Item(CompanySlug, SyncList).data.OfType<object>().ToList();
+                SyncList = send.Item(CompanySlug, SyncList).OfType<object>().ToList();
             }
 
             return SyncList;

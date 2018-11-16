@@ -29,6 +29,9 @@ namespace Core.Models
         /// <value>The date.</value>
         public DateTime Date { get; set; }
 
+        
+        
+
         /// <summary>
         /// Gets or sets the amount owed.
         /// </summary>

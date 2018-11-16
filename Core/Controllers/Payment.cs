@@ -27,7 +27,7 @@ namespace Core.Controllers
                 Payment.Order = Order;
                 Payment.Date = Order.Date;
                 Payment.PaymentType = paymenttype;
-                Payment.PaymentSchedual = schedual;
+                Payment.schedual_id = schedual.localId;
                 ctx.payments.Add(Payment);
             }
          
