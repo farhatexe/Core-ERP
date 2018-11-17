@@ -63,7 +63,7 @@ namespace Core.Controllers
                         {
                             g.FirstOrDefault().Item, //g.FirstOrDefault().Item,
                             g.FirstOrDefault().Location,
-                           Balance= g.Sum(x =>x.Credit -x.Debit)
+                            Balance= g.Sum(x =>x.Credit -x.Debit)
                         };
 
             return query;
