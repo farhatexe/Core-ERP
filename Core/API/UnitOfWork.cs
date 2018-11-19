@@ -12,6 +12,9 @@ namespace Core
         private CustomerController customerRepo;
         private DocumentController rangeRepo;
         private InventoryController inventoryRepo;
+        private VatController vatRepo;
+        private AccountController accountRepo;
+        private ItemCategoryController itemcategoryRepo;
         private Context Context;
 
         public UnitOfWork(Context db)
@@ -63,6 +66,41 @@ namespace Core
                     inventoryRepo = new InventoryController(Context);
                 }
                 return inventoryRepo;
+            }
+        }
+
+        public VatController VatRepo
+        {
+            get
+            {
+                if (vatRepo == null)
+                {
+                    vatRepo = new VatController(Context);
+                }
+                return vatRepo;
+            }
+        }
+        public AccountController AccountRepo
+        {
+            get
+            {
+                if (accountRepo == null)
+                {
+                    accountRepo = new AccountController(Context);
+                }
+                return accountRepo;
+            }
+        }
+
+        public ItemCategoryController ItemCategoryRepo
+        {
+            get
+            {
+                if (itemcategoryRepo == null)
+                {
+                    itemcategoryRepo = new ItemCategoryController(Context);
+                }
+                return itemcategoryRepo;
             }
         }
 

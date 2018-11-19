@@ -17,7 +17,7 @@ namespace Core.Controllers
             _db = db;
         }
 
-        public ObservableCollection<Range> LIST()
+        public ObservableCollection<Range> List()
         {
             _db.Ranges.Load();
             return _db.Ranges.Local.ToObservableCollection();
