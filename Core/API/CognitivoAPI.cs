@@ -14,6 +14,8 @@ namespace Core.API
         {
             Vat = 0,
             Item = 1,
+            Customer=2,
+            Account=3
         }
 
         public List<object> UploadData(String CompanySlug, string APIKey, List<object> SyncList, Modules Module)
@@ -34,7 +36,7 @@ namespace Core.API
         public List<object> DowloadData(String CompanySlug, string APIKey, Modules Module)
         {
             List<object> SyncList=null;
-            receive = new Cognitivo.API.Download(APIKey, Cognitivo.API.Enums.SyncWith.Playground);
+            receive = new Cognitivo.API.Download(APIKey, Cognitivo.API.Enums.SyncWith.Local);
             if (Module == Modules.Vat)
             {
                 SyncList = receive.Vat(CompanySlug , Cognitivo.API.Enums.TimeSpan.LastMonth).OfType<object>().ToList();
@@ -42,6 +44,14 @@ namespace Core.API
             else if (Module == Modules.Item)
             {
                 SyncList = receive.Item(CompanySlug,Cognitivo.API.Enums.TimeSpan.LastMonth).OfType<object>().ToList();
+            }
+            else if (Module == Modules.Customer)
+            {
+                SyncList = receive.Customer(CompanySlug, Cognitivo.API.Enums.TimeSpan.LastMonth).OfType<object>().ToList();
+            }
+            else if (Module == Modules.Account)
+            {
+                SyncList = receive.Account(CompanySlug, Cognitivo.API.Enums.TimeSpan.LastMonth).OfType<object>().ToList();
             }
 
             return SyncList;

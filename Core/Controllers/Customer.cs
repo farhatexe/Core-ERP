@@ -104,6 +104,11 @@ namespace Core.Controllers
             return Contact;
 
         }
+        public void SaveChanges()
+        {
+            ctx.SaveChanges();
+        }
+
 
         /// <summary>
         /// Delete the specified Contact.
