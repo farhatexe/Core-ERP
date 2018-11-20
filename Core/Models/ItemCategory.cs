@@ -2,25 +2,30 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace Core.Models
 {
+    /// <summary>
+    /// Item category.
+    /// </summary>
     public class ItemCategory
     {
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
         /// <value>The identifier.</value>
-        /// 
-        [Key]
+        [DataMember]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        [Key]
+        public int localId { get; set; }
 
         /// <summary>
         /// Gets or sets the cloud identifier.
         /// </summary>
         /// <value>The cloud identifier.</value>
-        public int CloudID { get; set; }
+        [DataMember]
+        public int cloudId { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
