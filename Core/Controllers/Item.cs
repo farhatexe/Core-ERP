@@ -23,9 +23,16 @@ namespace Core.Controllers
             return db.Items.Local.ToObservableCollection();
         }
 
+        /// <summary>
+        /// Itemses the with stock by location.
+        /// </summary>
+        /// <returns>The with stock by location.</returns>
+        /// <param name="locationList">Location list.</param>
+        /// <param name="date">Date.</param>
+        /// <param name="LocalData">If set to <c>true</c> local data.</param>
         public dynamic ItemsWithStockByLocation(List<Models.Location> locationList, DateTime? date, bool LocalData = true)
         {
-            date = !date.HasValue ? DateTime.Now : date;
+            date = date.HasValue ? date : DateTime.Now;
 
             //TODO: this is a right join. change into left join to bring items without stock.
             var query = from i in db.Items
@@ -57,13 +64,13 @@ namespace Core.Controllers
             //TODO: this is a right join. change into left join to bring items without stock.
             var query = from i in db.Items
                         join im in db.ItemMovements on i equals im.Item
-                        where im.Location== location && im.Date >= date
+                        where im.Location == location && im.Date >= date
                         group im by im.Location into g
                         select new
                         {
                             g.FirstOrDefault().Item, //g.FirstOrDefault().Item,
                             g.FirstOrDefault().Location,
-                            Balance= g.Sum(x =>x.Credit -x.Debit)
+                            Balance= g.Sum(x => x.Credit - x.Debit)
                         };
 
             return query;
@@ -87,13 +94,6 @@ namespace Core.Controllers
 
             return query;
         }
-
-
-
-
-
-
-
 
         //todo, make same calls but directly from cognitivo servers. This will get shared data.
 

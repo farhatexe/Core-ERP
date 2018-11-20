@@ -35,6 +35,12 @@ namespace Core.Models
         public ItemCategory Parent { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="T:Core.Models.ItemCategory"/> is grouping.
+        /// </summary>
+        /// <value><c>true</c> if is grouping; otherwise, <c>false</c>.</value>
+        public bool IsGrouping { get; set; }
+
+        /// <summary>
         /// Gets or sets the children.
         /// </summary>
         /// <value>The children.</value>
