@@ -38,6 +38,26 @@ namespace Core.Controllers
             _db.SaveChanges();
         }
 
-    
+        public void Download(string slug)
+        {
+            Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
+            List<object> AccountList = CognitivoAPI.DowloadData(slug, "", Core.API.CognitivoAPI.Modules.Account);
+            
+            foreach (dynamic data in AccountList)
+            {
+                Account account = new Core.Models.Account
+                {
+                    cloudId = data.cloudId,
+                    name = data.name,
+                    number = data.number,
+                    currency = data.currencyCode,
+
+                };
+                _db.Accounts.Add(account);
+
+            }
+          _db.SaveChanges();
+        }
+
     }
 }

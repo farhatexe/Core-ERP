@@ -9,7 +9,7 @@ namespace Core.Models
     {
         public PaymentContract()
         {
-            Details = new List<PaymentContractDetail>();
+            details = new List<PaymentContractDetail>();
         }
 
         /// <summary>
@@ -25,12 +25,12 @@ namespace Core.Models
         /// Gets or sets the cloud identifier.
         /// </summary>
         /// <value>The cloud identifier.</value>
-        public int CloudID { get; set; }
+        public int cloudId { get; set; }
 
         /// <summary>
         /// Gets or sets the details.
         /// </summary>
         /// <value>The details.</value>
-        public List<PaymentContractDetail> Details { get; set; }
+        public List<PaymentContractDetail> details { get; set; }
     }
 }

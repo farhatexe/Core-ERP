@@ -7,18 +7,18 @@ using System.Diagnostics.Contracts;
 
 namespace Core.Controllers
 {
-    public class ItemMovementController
+    public class ItemMovement
     {
         private Context db;
 
-        public ItemMovementController(Context DB)
+        public ItemMovement(Context DB)
         {
             db = DB;
         }
 
         public ObservableCollection<Models.ItemMovement> List()
         {
-            db.ItemMovements.Include(x=>x.Item).Load();
+            db.ItemMovements.Include(x=>x.item).Load();
             return db.ItemMovements.Local.ToObservableCollection();
         }
         /// <summary>
@@ -33,13 +33,13 @@ namespace Core.Controllers
 
             //TODO: this is a right join. change into left join to bring items without stock.
             var query = from im in db.ItemMovements
-                        where im.Date >= date
-                        group im by im.Location into g
+                        where im.date >= date
+                        group im by im.location into g
                         select new
                         {
-                            g.FirstOrDefault().Item, //g.FirstOrDefault().Item,
-                            g.FirstOrDefault().Location,
-                            Balance = g.Sum(x => x.Credit - x.Debit)
+                            g.FirstOrDefault().item, //g.FirstOrDefault().Item,
+                            g.FirstOrDefault().location,
+                            Balance = g.Sum(x => x.credit - x.debit)
                         };
 
             return query;

@@ -13,44 +13,44 @@ namespace Core.Models
         /// 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int localId { get; set; }
 
-        public Inventory Inventory { get; set; }
+        public Inventory inventory { get; set; }
 
         /// <summary>
         /// Gets or sets the item.
         /// </summary>
         /// <value>The item.</value>
-        public Item Item { get; set; }
+        public Item item { get; set; }
 
         /// <summary>
         /// Gets or sets the quantity system in that location.
         /// </summary>
         /// <value>The qty system.</value>
-        public decimal QtySystem { get; set; }
+        public decimal qtySystem { get; set; }
 
         /// <summary>
         /// Gets or sets the quantity counted by the user in that location.
         /// </summary>
         /// <value>The qty counted.</value>
-        public decimal? QtyCounted { get; set; }
+        public decimal? qtyCounted { get; set; }
 
         /// <summary>
         /// Gets the difference between Quantity System and Quantity Counted.
         /// </summary>
         /// <value>The difference.</value>
-        public decimal Difference { get => (QtySystem - (decimal)QtyCounted); }
+        public decimal difference { get => (qtySystem - (decimal)qtyCounted); }
 
         /// <summary>
         /// Gets or sets the cost.
         /// </summary>
         /// <value>The cost.</value>
-        public decimal Cost { get; set; }
+        public decimal cost { get; set; }
 
         /// <summary>
         /// Gets or sets the comment.
         /// </summary>
         /// <value>The comment.</value>
-        public string Comment { get; set; }
+        public string comment { get; set; }
     }
 }

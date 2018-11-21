@@ -69,35 +69,35 @@ namespace Core.Controllers
         {
 
             //Validate Stock Levels,
-            foreach (var detail in Order.Details.Where(x => x.Item.type == Enums.ItemTypes.Stockable))
+            foreach (var detail in Order.details.Where(x => x.item.type == Enums.ItemTypes.Stockable))
             {
                 // Check stock levels of each item for that location.
                 // TODO: place this code into item controller and re-use code from there. 
                 decimal InStock = _db.ItemMovements
-                                         .Where(x => x.Location == Order.Location && x.Item == detail.Item)
-                                         .Sum(y => y.Debit - y.Credit);
+                                         .Where(x => x.location == Order.location && x.item == detail.item)
+                                         .Sum(y => y.debit - y.credit);
 
                 //If Stock is less than or equal to 0, send message of OutOfStock
-                if (InStock <= 0) { detail.Message = Message.Warning.OutOfStock; }
+                if (InStock <= 0) { detail.message = Message.Warning.OutOfStock; }
             }
 
-            if (IgnoreErrors == false && Order.Details.Any(x => x.Message == Message.Warning.OutOfStock))
+            if (IgnoreErrors == false && Order.details.Any(x => x.message == Message.Warning.OutOfStock))
             {
                 //If stockable items are not in stock, and IgnoreErrors is set to false; exit code
                 return;
             }
 
             //Insert into Stock Movements
-            foreach (var detail in Order.Details.Where(x => x.Item.type == Enums.ItemTypes.Stockable))
+            foreach (var detail in Order.details.Where(x => x.item.type == Enums.ItemTypes.Stockable))
             {
                 //TODO: take this code to ItemMovement Unit Of Work.
                 Models.ItemMovement Movement = new Models.ItemMovement()
                 {
-                    Item = detail.Item,
-                    Date = Order.Date,
-                    Credit = 0,
-                    Debit = detail.Quantity,
-                    Location = Order.Location
+                    item = detail.item,
+                    date = Order.date,
+                    credit = 0,
+                    debit = detail.quantity,
+                    location = Order.location
                 };
 
                 _db.ItemMovements.Add(Movement);
@@ -113,14 +113,14 @@ namespace Core.Controllers
           
 
             //Change Status
-            Order.Status = Enums.Status.Approved;
+            Order.status = Enums.Status.Approved;
 
             //Generate Invoice Number
-            if (Order.InvoiceNumber == "")
+            if (Order.invoiceNumber == "")
             {
                 Controllers.DocumentController rangeRepository = new Controllers.DocumentController(_db);
 
-                rangeRepository.GenerateInvoiceNumber(Order.Range);
+                rangeRepository.GenerateInvoiceNumber(Order.range);
                 //run method for invoice generation.
             }
 

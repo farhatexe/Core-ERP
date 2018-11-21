@@ -13,30 +13,30 @@ namespace Core.Models
         /// 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int localId { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>
-        public string Name { get; set; }
+        public string name { get; set; }
 
         /// <summary>
         /// Gets or sets the email.
         /// </summary>
         /// <value>The email.</value>
-        public string Email { get; set; }
+        public string email { get; set; }
 
         /// <summary>
         /// Gets or sets the passcode.
         /// </summary>
         /// <value>The passcode.</value>
-        public string Passcode { get; set; }
+        public string passcode { get; set; }
 
         /// <summary>
         /// Gets or sets the API key.
         /// </summary>
         /// <value>The API key.</value>
-        public string ApiKey { get; set; }
+        public string apiKey { get; set; }
     }
 }

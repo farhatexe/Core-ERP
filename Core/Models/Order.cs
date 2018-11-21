@@ -15,9 +15,9 @@ namespace Core.Models
 
         public Order()
         {
-            Date = DateTime.Now;
-            Details = new List<OrderDetail>();
-            IsArchived = false;
+            date = DateTime.Now;
+            details = new List<OrderDetail>();
+            isArchived = false;
         }
 
         /// <summary>
@@ -27,120 +27,120 @@ namespace Core.Models
         /// 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int localId { get; set; }
 
         /// <summary>
         /// Gets or sets the cloud identifier.
         /// </summary>
         /// <value>The cloud identifier.</value>
-        public int CloudID { get; set; }
+        public int cloudId { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the order.
         /// </summary>
         /// <value>The type of the order.</value>
-        public Types Type { get; set; }
+        public Types type { get; set; }
 
         /// <summary>
         /// Gets or sets the status.
         /// </summary>
         /// <value>The status.</value>
-        public Enums.Status Status { get; set; }
+        public Enums.Status status { get; set; }
 
         /// <summary>
         /// Gets or sets the company.
         /// </summary>
         /// <value>The company.</value>
-        public Company Company { get; set; }
+        public Company company { get; set; }
 
         /// <summary>
         /// Gets or sets the location.
         /// </summary>
         /// <value>The location.</value>
-        public Location Location { get; set; }
+        public Location location { get; set; }
 
         /// <summary>
         /// Gets or sets the date.
         /// </summary>
         /// <value>The date.</value>
-        public DateTime Date { get; set; }
+        public DateTime date { get; set; }
 
         /// <summary>
         /// Gets or sets the session.
         /// </summary>
         /// <value>Session used during current order.</value>
-        public Session Session { get; set; }
+        public Session session { get; set; }
 
         /// <summary>
         /// Gets or sets the range.
         /// </summary>
         /// <value>Range used during current order.</value>
-        public Range Range { get; set; }
+        public Range range { get; set; }
 
         /// <summary>
         /// Gets or sets the contact.
         /// </summary>
         /// <value>The contact.</value>
-        public Contact Contact { get; set; }
+        public Contact contact { get; set; }
 
         /// <summary>
         /// Gets or sets the payment contract.
         /// </summary>
         /// <value>The payment contract.</value>
-        public PaymentContract PaymentContract { get; set; }
+        public PaymentContract paymentContract { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice number.
         /// </summary>
         /// <value>The invoice number.</value>
-        public string InvoiceNumber { get; set; }
+        public string invoiceNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice code.
         /// </summary>
         /// <value>The invoice code.</value>
-        public string Code { get; set; }
+        public string code { get; set; }
 
         /// <summary>
         /// Gets or sets the code expiry.
         /// </summary>
         /// <value>The code expiry.</value>
-        public DateTime CodeExpiry { get; set; }
+        public DateTime codeExpiry { get; set; }
 
         /// <summary>
         /// Gets or sets the currency.
         /// </summary>
         /// <value>The currency.</value>
-        public string Currency { get; set; }
+        public string currency { get; set; }
 
         /// <summary>
         /// Gets or sets the currency rate.
         /// </summary>
         /// <value>The currency rate.</value>
-        public decimal CurrencyRate { get; set; }
+        public decimal currencyRate { get; set; }
 
         /// <summary>
         /// Gets the total.
         /// </summary>
         /// <value>The total.</value>
-        public decimal Total { get { return Details.Sum(x => x.SubTotalVat); } }
+        public decimal total { get { return details.Sum(x => x.subTotalVat); } }
 
         /// <summary>
         /// Gets the interval.
         /// </summary>
         /// <value>The interval.</value>
-        public TimeSpan Interval { get{ return Date - DateTime.Now; } }
+        public TimeSpan interval { get{ return date - DateTime.Now; } }
 
         /// <summary>
         /// Gets or sets the details.
         /// </summary>
         /// <value>The details.</value>
-        public List<OrderDetail> Details { get; set; }
+        public List<OrderDetail> details { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="T:Core.Models.Order"/> is archived.
         /// </summary>
         /// <value><c>true</c> if is archived; otherwise, <c>false</c>.</value>
-        public bool IsArchived { get; set; }
+        public bool isArchived { get; set; }
     }
 }

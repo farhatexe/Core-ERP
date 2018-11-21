@@ -60,20 +60,20 @@ namespace Core.Controllers
 
             Models.Inventory inventory = new Models.Inventory()
             {
-                Date = DateTime.Now,
-                Location = location
+                date = DateTime.Now,
+                location = location
             };
 
             foreach (dynamic item in ListOfItemsWithStock)
             {
                 Models.InventoryDetail detail = new Models.InventoryDetail()
                 {
-                    Item = item.Item,
-                    QtySystem = item.Balance,
-                    Cost = item.Cost,
+                    item = item.Item,
+                    qtySystem = item.Balance,
+                    cost = item.Cost,
                 };
 
-                inventory.Details.Add(detail);
+                inventory.details.Add(detail);
             }
 
             return inventory;

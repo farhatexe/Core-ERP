@@ -10,12 +10,12 @@ namespace Core.Models
     {
         public Session()
         {
-            Movements = new List<AccountMovement>();
-            Orders = new List<Order>();
+            movements = new List<AccountMovement>();
+            orders = new List<Order>();
         }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int localId { get; set; }
 
         /// <summary>
         /// Gets or sets the point of sale.
@@ -27,48 +27,48 @@ namespace Core.Models
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>
-        public string Name { get; set; }
+        public string name { get; set; }
 
         /// <summary>
         /// Gets or sets the start date.
         /// </summary>
         /// <value>The start date.</value>
-        public DateTime StartDate { get; set; }
+        public DateTime startDate { get; set; }
 
         /// <summary>
         /// Gets or sets the starting balance.
         /// </summary>
         /// <value>The starting balance.</value>
-        public decimal StartingBalance { get; set; }
+        public decimal startingBalance { get; set; }
 
         /// <summary>
         /// Gets or sets the end date.
         /// </summary>
         /// <value>The end date.</value>
-        public DateTime? EndDate { get; set; }
+        public DateTime? endDate { get; set; }
 
         /// <summary>
         /// Gets or sets the ending balance.
         /// </summary>
         /// <value>The ending balance.</value>
-        public decimal EndingBalance { get; set; }
+        public decimal endingBalance { get; set; }
 
         /// <summary>
         /// Gets or sets the movements.
         /// </summary>
         /// <value>The movements.</value>
-        public List<AccountMovement> Movements { get; set; }
+        public List<AccountMovement> movements { get; set; }
 
         /// <summary>
         /// Gets or sets the transactions.
         /// </summary>
         /// <value>The transactions.</value>
-        public List<Order> Orders { get; set; }
+        public List<Order> orders { get; set; }
 
         [NotMapped]
         public decimal CurrentEndingBalance{
             get {
-                return StartingBalance + Orders.Sum(x => x.Total * x.CurrencyRate);
+                return startingBalance + orders.Sum(x => x.total * x.currencyRate);
             }
         }
     }

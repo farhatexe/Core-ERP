@@ -40,11 +40,11 @@ namespace Core.Controllers
 
         public string GenerateInvoiceNumber(Range range)
         {
-            int current_value = range.CurrentValue;
-            int end_value = range.EndingValue;
+            int current_value = range.currentValue;
+            int end_value = range.endingValue;
 
             string prefix = string.Empty;
-            prefix = range.Template;
+            prefix = range.template;
             prefix = return_Prefix(prefix);
 
             if (prefix != null & current_value <= end_value)
@@ -54,13 +54,13 @@ namespace Core.Controllers
                 if (prefix.Contains("#Range"))
                 {
                     //Add Padding filler
-                    range.CurrentValue += 1;
+                    range.currentValue += 1;
                     
                     prefix = prefix.Replace("#Range", prefix);
                 }
                 else
                 {
-                    range.CurrentValue += 1;
+                    range.currentValue += 1;
 
                 }
             }
@@ -86,5 +86,34 @@ namespace Core.Controllers
             //Range will be calculated later on, as there is extra business logic to be handled
             return prefix;
         }
+
+        public void Download(string slug)
+        {
+            Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
+            List<object> RangeList = CognitivoAPI.DowloadData(slug, "", Core.API.CognitivoAPI.Modules.DocumentRange);
+
+            foreach (dynamic data in RangeList)
+            {
+                Range range = new Range
+                {
+                    cloudId = data.cloudId,
+                    startingValue = data.name,
+                    currentValue = data.group,
+                    endingValue=data.endingValue,
+                    template=data.template,
+                    mask = data.mask,
+                    code = data.code,
+                    expiryDate = data.expiryDate,
+
+
+                };
+
+                _db.Ranges.Add(range);
+
+            }
+            _db.SaveChanges();
+        }
+
+      
     }
 }

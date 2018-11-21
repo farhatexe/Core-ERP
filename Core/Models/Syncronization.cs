@@ -10,8 +10,8 @@ namespace Core.Models
 
         public Syncronization()
         {
-            Date = DateTime.Now;
-            SyncType = SyncTypes.Upload;
+            date = DateTime.Now;
+            syncType = SyncTypes.Upload;
         }
 
         /// <summary>
@@ -21,19 +21,19 @@ namespace Core.Models
         /// 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int localId { get; set; }
 
         /// <summary>
         /// Gets or sets the date.
         /// </summary>
         /// <value>The date.</value>
-        public DateTime Date { get; set; }
+        public DateTime date { get; set; }
 
         /// <summary>
         /// Gets or sets the type.
         /// </summary>
         /// <value>The type.</value>
-        public SyncTypes SyncType { get; set; }
+        public SyncTypes syncType { get; set; }
 
         /// <summary>
         /// Gets or sets the object.

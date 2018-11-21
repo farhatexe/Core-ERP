@@ -36,15 +36,15 @@ namespace Core.Controllers
 
             //TODO: this is a right join. change into left join to bring items without stock.
             var query = from i in db.Items
-                        join im in db.ItemMovements on i equals im.Item
+                        join im in db.ItemMovements on i equals im.item
                         into joined
                         from j in joined.DefaultIfEmpty()
-                        where locationList.Contains(j.Location) && j.Date >= date
+                        where locationList.Contains(j.location) && j.date >= date
                         select new
                         {
                             Item = i, //g.FirstOrDefault().Item,
-                            j.Location,
-                            Balance = joined.Sum(x => (x.Credit - x.Debit))
+                            j.location,
+                            Balance = joined.Sum(x => (x.credit - x.debit))
                         };
 
             return query;
@@ -63,14 +63,14 @@ namespace Core.Controllers
 
             //TODO: this is a right join. change into left join to bring items without stock.
             var query = from i in db.Items
-                        join im in db.ItemMovements on i equals im.Item
-                        where im.Location == location && im.Date >= date
-                        group im by im.Location into g
+                        join im in db.ItemMovements on i equals im.item
+                        where im.location == location && im.date >= date
+                        group im by im.location into g
                         select new
                         {
-                            g.FirstOrDefault().Item, //g.FirstOrDefault().Item,
-                            g.FirstOrDefault().Location,
-                            Balance= g.Sum(x => x.Credit - x.Debit)
+                            g.FirstOrDefault().item, //g.FirstOrDefault().Item,
+                            g.FirstOrDefault().location,
+                            Balance = g.Sum(x => x.credit - x.debit)
                         };
 
             return query;
@@ -83,13 +83,13 @@ namespace Core.Controllers
         public dynamic Stock()
         {
             var query = from i in db.Items
-                        join im in db.ItemMovements on i equals im.Item
-                        group im by im.Item into g
+                        join im in db.ItemMovements on i equals im.item
+                        group im by im.item into g
                         select new
                         {
-                            g.FirstOrDefault().Item,
-                            g.FirstOrDefault().Location,
-                            StockLevel = g.Sum(x => (x.Credit - x.Debit))
+                            g.FirstOrDefault().item,
+                            g.FirstOrDefault().location,
+                            StockLevel = g.Sum(x => (x.credit - x.debit))
                         };
 
             return query;
@@ -148,6 +148,39 @@ namespace Core.Controllers
         public void CheckStock(Models.Item item)
         {
 
+        }
+
+        public void Download(string slug)
+        {
+            Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
+            List<object> ItemList = CognitivoAPI.DowloadData(slug, "", Core.API.CognitivoAPI.Modules.Item);
+
+            foreach (dynamic data in ItemList)
+            {
+                Item item = new Core.Models.Item
+                {
+                    cloudId = data.cloudId,
+                    globalItemCloudId = data.globalItem != null ? (int)data.globalItem : 0,
+                    shortDescription = data.shortDescription,
+                    longDescription = data.longDescription,
+                    type = (Core.Enums.ItemTypes)data.type,
+                    action = (Core.Enums.Action)data.action,
+                    categoryCloudId = data.categoryCloudId,
+                    barCode = data.barCode,
+                    cost = data.cost != null ? data.cost : 0,
+                    currencyCode = data.currencyCode,
+                    price = data.price != null ? data.price : 0,
+                    sku = data.sku,
+                    weighWithScale = data.weighWithScale != null ? data.weighWithScale : 0,
+                    weight = data.weight != null ? data.weight : 0,
+                    volume = data.volume,
+                    isPrivate = data.isPrivate,
+                    isActive = data.isActive,
+                };
+                db.Items.Add(item);
+
+            }
+            db.SaveChanges();
         }
     }
 }

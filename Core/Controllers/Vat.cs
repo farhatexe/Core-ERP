@@ -19,7 +19,7 @@ namespace Core.Controllers
 
         public ObservableCollection<Vat> List()
         {
-            _db.Vats.Include(x=>x.Details).Load();
+            _db.Vats.Include(x=>x.details).Load();
             return _db.Vats.Local.ToObservableCollection();
         }
 
@@ -37,7 +37,35 @@ namespace Core.Controllers
         {
             _db.SaveChanges();
         }
+        public void Download(string slug)
+        {
+            Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
+            List<object> TaxList = CognitivoAPI.DowloadData(slug, "", Core.API.CognitivoAPI.Modules.Vat);
+            
+            foreach (dynamic data in TaxList)
+            {
+                Vat tax = new Core.Models.Vat
+                {
+                    cloudId = data.cloudId,
+                    name = data.name,
+                };
+                foreach (var detail in data.details)
+                {
+                    VatDetail vatdetail = new VatDetail
+                    {
+                        cloudId = detail.cloudId,
+                        name = detail.name,
+                        coefficient = detail.coefficient,
+                        percentage = detail.percentage
+                    };
+                    tax.details.Add(vatdetail);
+                }
 
-    
+                _db.Vats.Add(tax);
+
+            }
+            _db.SaveChanges();
+        }
+
     }
 }

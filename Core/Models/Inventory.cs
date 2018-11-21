@@ -12,8 +12,8 @@ namespace Core.Models
         /// </summary>
         public Inventory()
         {
-            Date = DateTime.Now;
-            Details = new List<InventoryDetail>();
+            date = DateTime.Now;
+            details = new List<InventoryDetail>();
         }
 
         /// <summary>
@@ -23,26 +23,26 @@ namespace Core.Models
         /// 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int localId { get; set; }
 
         /// <summary>
         /// Gets or sets the date.
         /// </summary>
         /// <value>The date.</value>
-        public DateTime Date { get; set; }
+        public DateTime date { get; set; }
 
         /// <summary>
         /// Gets or sets the location.
         /// </summary>
         /// <value>The location.</value>
-        public Location Location { get; set; }
+        public Location location { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>
-        public string Name { get; set; }
+        public string name { get; set; }
 
-        public List<Models.InventoryDetail> Details { get; set; }
+        public List<Models.InventoryDetail> details { get; set; }
     }
 }

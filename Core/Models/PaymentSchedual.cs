@@ -21,13 +21,13 @@ namespace Core.Models
         /// Gets or Sets the Order.
         /// </summary>
         /// <value>The Order</value>
-        public Order Order { get; set; }
+        public Order order { get; set; }
 
         /// <summary>
         /// Gets or sets the date.
         /// </summary>
         /// <value>The date.</value>
-        public DateTime Date { get; set; }
+        public DateTime date { get; set; }
 
         
         
@@ -36,12 +36,12 @@ namespace Core.Models
         /// Gets or sets the amount owed.
         /// </summary>
         /// <value>The amount owed.</value>
-        public decimal AmountOwed { get; set; }
+        public decimal amountOwed { get; set; }
 
         /// <summary>
         /// Gets or sets the comment.
         /// </summary>
         /// <value>The comment.</value>
-        public string Comment { get; set; }
+        public string comment { get; set; }
     }
 }

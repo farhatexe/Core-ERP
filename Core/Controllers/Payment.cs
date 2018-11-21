@@ -17,17 +17,17 @@ namespace Core.Controllers
 
    
 
-        public void ReceivePayment(Order Order,PaymentType paymenttype)
+        public void ReceivePayment(Models.Order Order,PaymentType paymenttype)
         {
-            List<PaymentSchedual> PaymentSchedualList = ctx.PaymentSchedual.Where(x => x.Order == Order).ToList();
-            foreach (PaymentSchedual schedual in PaymentSchedualList)
+            List<Models.PaymentSchedual> PaymentSchedualList = ctx.PaymentSchedual.Where(x => x.order == Order).ToList();
+            foreach (Models.PaymentSchedual schedual in PaymentSchedualList)
             {
                 Payment Payment = new Payment();
-                Payment.AmountOwed = schedual.AmountOwed;
-                Payment.Order = Order;
-                Payment.Date = Order.Date;
-                Payment.PaymentType = paymenttype;
-                Payment.schedual_id = schedual.localId;
+                Payment.amountOwed = schedual.amountOwed;
+                Payment.order = Order;
+                Payment.date = Order.date;
+                Payment.paymentType = paymenttype;
+                Payment.schedualId = schedual.localId;
                 ctx.payments.Add(Payment);
             }
          

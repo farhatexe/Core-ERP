@@ -11,7 +11,7 @@ namespace Core.Models
 
         public OrderDetail()
         {
-            Quantity = 1;
+            quantity = 1;
         }
 
         /// <summary>
@@ -21,37 +21,37 @@ namespace Core.Models
         /// 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int localId { get; set; }
 
         /// <summary>
         /// Gets or sets the cloud identifier.
         /// </summary>
         /// <value>The cloud identifier.</value>
-        public int CloudID { get; set; }
+        public int cloudId { get; set; }
 
         /// <summary>
         /// Gets or sets the order.
         /// </summary>
         /// <value>The order.</value>
-        public Order Order { get; set; }
+        public Order order { get; set; }
 
         /// <summary>
         /// Gets or sets the vat.
         /// </summary>
         /// <value>The vat.</value>
-        public Vat Vat { get; set;  }
+        public Vat vat { get; set;  }
 
         /// <summary>
         /// Gets or sets the item.
         /// </summary>
         /// <value>The item.</value>
-        public Item Item { 
+        public Item item { 
             get => _item; 
             set 
             {
                 _item = value;
-                Price = _item.price;
-                ItemDescription = ItemDescription ?? _item.name;
+                price = _item.price;
+                itemDescription = itemDescription ?? _item.name;
             } 
         }
 
@@ -59,36 +59,36 @@ namespace Core.Models
         /// Gets or sets the item description.
         /// </summary>
         /// <value>The item description.</value>
-        public string ItemDescription { get; set; }
+        public string itemDescription { get; set; }
 
         /// <summary>
         /// Gets or sets the cost.
         /// </summary>
         /// <value>The cost.</value>
-        public decimal Cost { get; set; }
+        public decimal cost { get; set; }
 
         /// <summary>
         /// Gets or sets the quantity.
         /// </summary>
         /// <value>The quantity.</value>
-        public decimal Quantity { get; set; }
+        public decimal quantity { get; set; }
 
         /// <summary>
         /// Gets or sets the price.
         /// </summary>
         /// <value>The price.</value>
-        public decimal Price { get; set; }
+        public decimal price { get; set; }
 
         /// <summary>
         /// Gets the price vat.
         /// </summary>
         /// <value>The price vat.</value>
         [NotMapped]
-        public decimal PriceVat
+        public decimal priceVat
         {
             get
             {
-                return Price * Vat.Coefficient;
+                return price * vat.coefficient;
             }
         }
 
@@ -97,9 +97,9 @@ namespace Core.Models
         /// </summary>
         /// <value>The sub total.</value>
         [NotMapped]
-        public decimal SubTotal {
+        public decimal subTotal {
             get {
-                return Price * Quantity;
+                return price * quantity;
             }
         }
 
@@ -108,9 +108,9 @@ namespace Core.Models
         /// </summary>
         /// <value>The sub total vat.</value>
         [NotMapped]
-        public decimal SubTotalVat {
+        public decimal subTotalVat {
             get {
-                return PriceVat * Quantity;
+                return priceVat * quantity;
             }
         }
 
@@ -118,7 +118,7 @@ namespace Core.Models
         /// Gets or sets the message.
         /// </summary>
         /// <value>The message.</value>
-        public Message.Warning Message { get; set; }
+        public Message.Warning message { get; set; }
 
 
         event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged

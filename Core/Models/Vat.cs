@@ -10,7 +10,7 @@ namespace Core.Models
     {
         public Vat()
         {
-            Details = new List<VatDetail>();
+            details = new List<VatDetail>();
         }
 
         /// <summary>
@@ -20,34 +20,34 @@ namespace Core.Models
         /// 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int localId { get; set; }
 
         /// <summary>
         /// Gets or sets the cloud identifier.
         /// </summary>
         /// <value>The cloud identifier.</value>
-        public int CloudID { get; set; }
+        public int cloudId { get; set; }
 
         /// <summary>
         /// Gets or sets the company.
         /// </summary>
         /// <value>The company.</value>
-        public Company Company { get; set; }
+        public Company company { get; set; }
 
         /// <summary>
         /// Name for easy recognition.
         /// </summary>
         /// <value>The name.</value>
-        public string Name { get; set; }
+        public string name { get; set; }
 
         /// <summary>
         /// Read only property that calculates the prorated coeficient from the details, ex= Details.Sum(x => x.Coeficient * x.Percentage).
         /// </summary>
         /// <value>Coeficient of the details</value>
         [NotMapped]
-        public decimal Coefficient {
+        public decimal coefficient {
             get {
-                return Details.Sum(x => x.Coefficient * x.Percentage);
+                return details.Sum(x => x.coefficient * x.percentage);
             }
         }
 
@@ -55,6 +55,6 @@ namespace Core.Models
         /// List of Details 
         /// </summary>
         /// <value>The details.</value>
-        public List<VatDetail> Details { get; set; }
+        public List<VatDetail> details { get; set; }
     }
 }

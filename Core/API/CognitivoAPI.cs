@@ -15,7 +15,8 @@ namespace Core.API
             Vat = 0,
             Item = 1,
             Customer=2,
-            Account=3
+            Account=3,
+            ItemCategory=4
         }
 
         public List<object> UploadData(String CompanySlug, string APIKey, List<object> SyncList, Modules Module)
@@ -40,6 +41,7 @@ namespace Core.API
             if (Module == Modules.Vat)
             {
                 SyncList = receive.Vat(CompanySlug , Cognitivo.API.Enums.TimeSpan.LastMonth).OfType<object>().ToList();
+
             }
             else if (Module == Modules.Item)
             {

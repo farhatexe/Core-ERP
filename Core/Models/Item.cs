@@ -178,5 +178,6 @@ namespace Core.Models
 
 
         public List<ItemMovement> ItemMovements { get; set; }
+        public List<OrderDetail> orderDetails { get; set; }
     }
 }

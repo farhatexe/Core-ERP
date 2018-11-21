@@ -13,30 +13,30 @@ namespace Core.Models
         /// 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int localId { get; set; }
 
         /// <summary>
         /// Gets or sets the cloud identifier.
         /// </summary>
         /// <value>The cloud identifier.</value>
-        public int CloudID { get; set; }
+        public int cloudId { get; set; }
 
         /// <summary>
         /// Gets or sets the contract.
         /// </summary>
         /// <value>The contract.</value>
-        public PaymentContract PaymentContract { get; set; }
+        public PaymentContract paymentContract { get; set; }
 
         /// <summary>
         /// Gets or sets the coefficient.
         /// </summary>
         /// <value>The coefficient.</value>
-        public decimal Coefficient { get; set; }
+        public decimal coefficient { get; set; }
 
         /// <summary>
         /// Gets or sets the percentage.
         /// </summary>
         /// <value>The percentage.</value>
-        public decimal Percentage { get; set; }
+        public decimal percentage { get; set; }
     }
 }

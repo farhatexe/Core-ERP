@@ -16,60 +16,60 @@ namespace Core.Models
         /// 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int localId { get; set; }
 
         /// <summary>
         /// Gets or sets the cloud identifier.
         /// </summary>
         /// <value>The cloud identifier.</value>
-        public int CloudID { get; set; }
+        public int cloudId { get; set; }
 
         /// <summary>
         /// Gets or sets the session.
         /// </summary>
         /// <value>The session.</value>
-        public Session Session { get; set; }
+        public Session session { get; set; }
 
         /// <summary>
         /// Gets or sets the account.
         /// </summary>
         /// <value>The account.</value>
-        public Account Account { get; set; }
+        public Account account { get; set; }
 
         /// <summary>
         /// Gets or sets the date.
         /// </summary>
         /// <value>The date.</value>
-        public DateTime Date { get; set; }
+        public DateTime date { get; set; }
 
         /// <summary>
         /// Gets or sets the debit.
         /// </summary>
         /// <value>The debit.</value>
-        public decimal Debit { get; set; }
+        public decimal debit { get; set; }
 
         /// <summary>
         /// Gets or sets the credit.
         /// </summary>
         /// <value>The credit.</value>
-        public decimal Credit { get; set; }
+        public decimal credit { get; set; }
 
         /// <summary>
         /// Gets or sets the currency.
         /// </summary>
         /// <value>The currency.</value>
-        public string Currency { get; set; }
+        public string currency { get; set; }
 
         /// <summary>
         /// Gets or sets the rate.
         /// </summary>
         /// <value>The rate.</value>
-        public decimal Rate { get; set; }
+        public decimal rate { get; set; }
 
         /// <summary>
         /// Gets or sets the comment.
         /// </summary>
         /// <value>The comment.</value>
-        public string Comment { get; set; }
+        public string comment { get; set; }
     }
 }

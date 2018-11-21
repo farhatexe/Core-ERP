@@ -30,7 +30,7 @@ namespace Core.Controllers
         /// </summary>
         public ObservableCollection<Contact> LIST(int Take = 25, int Skip = 0)
         {
-            Customers = ctx.Contacts.Where(x => x.IsCustomer)
+            Customers = ctx.Contacts.Where(x => x.isCustomer)
                                .Take(Take).Skip(Skip);
 
             return new ObservableCollection<Contact>(Customers);
@@ -45,9 +45,9 @@ namespace Core.Controllers
         {
 
             Customers = ctx.Contacts
-                           .Where(x => x.IsCustomer && (
-                                      x.Name.Contains(Query) ||
-                                      x.TaxID.Contains(Query))
+                           .Where(x => x.isCustomer && (
+                                      x.name.Contains(Query) ||
+                                      x.taxID.Contains(Query))
                                  );
             return new ObservableCollection<Contact>(Customers);
 
@@ -62,11 +62,11 @@ namespace Core.Controllers
 
             Customers = ctx.Contacts
             .Where(x =>
-                   x.Name.Contains(Query) ||
-                   x.TaxID.Contains(Query) ||
-                   x.Telephone.Contains(Query) ||
-                   x.Email.Contains(Query) ||
-                  x.Address.Contains(Query));
+                   x.name.Contains(Query) ||
+                   x.taxID.Contains(Query) ||
+                   x.telephone.Contains(Query) ||
+                   x.email.Contains(Query) ||
+                  x.address.Contains(Query));
 
             return new ObservableCollection<Contact>(Customers);
 
@@ -81,9 +81,9 @@ namespace Core.Controllers
         public List<Models.Order> GetLastFiveSales(Models.Contact Contact, int Take = 25, int Skip = 0)
         {
 
-            return ctx.Orders.Where(x => x.Contact.Id == Contact.Id)
-                                 .Include(y => y.Details)
-                                 .Include(z => z.Contact)
+            return ctx.Orders.Where(x => x.contact.localId == Contact.localId)
+                                 .Include(y => y.details)
+                                 .Include(z => z.contact)
                                  .Take(Take)
                                  .Skip(Skip).ToList();
 
@@ -130,6 +130,31 @@ namespace Core.Controllers
         public void Add(Models.Contact Entity)
         {
             ctx.Contacts.Add(Entity);
+        }
+
+        public void Customer(string slug)
+        {
+            Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
+            List<object> CustomerList = CognitivoAPI.DowloadData(slug, "", Core.API.CognitivoAPI.Modules.Customer);
+            foreach (dynamic data in CustomerList)
+            {
+                Contact contact = new Core.Models.Contact
+                {
+                    cloudId = data.cloudId,
+                    isCustomer = true,
+                    isSupplier = false,
+                    name = data.name,
+                    taxID = data.taxid,
+                    address = data.address,
+                    email = data.email,
+                    telephone = data.telephone,
+                    leadTime = data.leadTime,
+                    creditLimit = data.creditLimit != null ? (int)data.creditLimit : 0
+                };
+                ctx.Contacts.Add(contact);
+
+            }
+            ctx.SaveChanges();
         }
     }
 }
