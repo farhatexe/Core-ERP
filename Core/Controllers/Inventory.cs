@@ -73,10 +73,34 @@ namespace Core.Controllers
                     cost = item.Cost,
                 };
 
-                inventory.details.Add(detail);
+                //inventory.details.Add(detail);
             }
 
             return inventory;
+        }
+
+        public void Download(string slug)
+        {
+            Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
+            List<object> InventoryList = CognitivoAPI.DowloadData(slug, "", Core.API.CognitivoAPI.Modules.Inventory);
+
+            foreach (dynamic data in InventoryList)
+            {
+                Inventory inventory = new Inventory
+                {
+                    cloudId = data.cloudId,
+                    cost = data.cost,
+                    systemQuantity = data.quantiy_system,
+                    actualQuantity = data.quantiy_actual,
+                    comment = data.comment,
+
+
+                };
+
+                db.Inventories.Add(inventory);
+
+            }
+            db.SaveChanges();
         }
     }
 }

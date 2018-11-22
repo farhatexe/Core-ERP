@@ -13,7 +13,7 @@ namespace Core.Models
         public Inventory()
         {
             date = DateTime.Now;
-            details = new List<InventoryDetail>();
+           
         }
 
         /// <summary>
@@ -24,6 +24,7 @@ namespace Core.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int localId { get; set; }
+        public int cloudId { get; set; }
 
         /// <summary>
         /// Gets or sets the date.
@@ -37,12 +38,22 @@ namespace Core.Models
         /// <value>The location.</value>
         public Location location { get; set; }
 
+        public Item item { get; set; }
+
+        public decimal cost { get; set; }
+
+        public decimal systemQuantity { get; set; }
+
+        public decimal actualQuantity { get; set; }
+
+        public string comment { get; set; }
+
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>
         public string name { get; set; }
 
-        public List<Models.InventoryDetail> details { get; set; }
+       
     }
 }

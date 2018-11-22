@@ -16,7 +16,10 @@ namespace Core.API
             Item = 1,
             Customer=2,
             Account=3,
-            ItemCategory=4
+            ItemCategory=4,
+            DocumentRange=5,
+            Inventory=6
+
         }
 
         public List<object> UploadData(String CompanySlug, string APIKey, List<object> SyncList, Modules Module)
@@ -54,6 +57,14 @@ namespace Core.API
             else if (Module == Modules.Account)
             {
                 SyncList = receive.Account(CompanySlug, Cognitivo.API.Enums.TimeSpan.LastMonth).OfType<object>().ToList();
+            }
+            else if (Module == Modules.DocumentRange)
+            {
+                SyncList = receive.Range(CompanySlug, Cognitivo.API.Enums.TimeSpan.LastMonth).OfType<object>().ToList();
+            }
+            else if (Module == Modules.Inventory)
+            {
+                SyncList = receive.Inventory(CompanySlug, Cognitivo.API.Enums.TimeSpan.LastMonth).OfType<object>().ToList();
             }
 
             return SyncList;
