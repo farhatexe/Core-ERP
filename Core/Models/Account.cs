@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace Core.Models
 {
@@ -26,24 +27,56 @@ namespace Core.Models
         /// </summary>
         /// <value>The cloud identifier.</value>
         public int cloudId { get; set; }
-
+        [DataMember]
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>
         public string name { get; set; }
 
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the currency.
+        /// </summary>
+        /// <value>The currency.</value>
+        public string currency { get; set; }
+
+        [DataMember]
         /// <summary>
         /// Gets or sets the number.
         /// </summary>
         /// <value>The number.</value>
         public string number { get; set; }
 
+
         /// <summary>
-        /// Gets or sets the default currency.
+        /// Gets or sets a value indicating whether this <see cref="T:Cognitivo.API.Models.Item"/> is active.
         /// </summary>
-        /// <value>The currency.</value>
-        public string currency { get; set; }
+        /// <value><c>true</c> if is active; otherwise, <c>false</c>.</value>
+        [DataMember]
+        public bool isActive { get; set; }
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        [DataMember]
+        public string createdAt { get; set; }
+
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        [DataMember]
+        public string updatedAt { get; set; }
+
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        [DataMember]
+        public string deletedAt { get; set; }
+
+
 
         public List<AccountMovement> accountMovements { get; set; }
     }

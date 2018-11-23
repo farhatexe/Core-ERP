@@ -24,7 +24,7 @@ namespace Core.API
 
         public List<object> UploadData(String CompanySlug, string APIKey, List<object> SyncList, Modules Module)
         {
-            send = new Cognitivo.API.Upload(APIKey, Cognitivo.API.Enums.SyncWith.Playground);
+            send = new Cognitivo.API.Upload(APIKey, Cognitivo.API.Enums.SyncWith.Local);
 
             if (Module == Modules.Vat)
             {

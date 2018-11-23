@@ -1,10 +1,8 @@
 ﻿using Core.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 
 namespace Core.Controllers
 {
@@ -49,7 +47,7 @@ namespace Core.Controllers
                 {
                     cloudId = data.cloudId,
                     name = data.name,
-                    isGrouping=data.group
+                    group=data.group
 
                 };
 
@@ -57,6 +55,13 @@ namespace Core.Controllers
 
             }
             _db.SaveChanges();
+        }
+        public void Upload(string slug)
+        {
+            Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
+            List<object> CatgoryList = _db.ItemCategories.Cast<object>().ToList();
+            CognitivoAPI.UploadData(slug, "", CatgoryList, Core.API.CognitivoAPI.Modules.ItemCategory);
+
         }
 
     }

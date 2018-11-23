@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace Core.Models
 {
@@ -20,6 +21,7 @@ namespace Core.Models
         /// <value>The company.</value>
         public Company company { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
@@ -43,6 +45,12 @@ namespace Core.Models
         /// </summary>
         /// <value>The email.</value>
         public string email { get; set; }
+
+        /// <summary>
+        /// Gets or sets the currencyCode.
+        /// </summary>
+        /// <value>The currencyCode.</value>
+        public string currencyCode { get; set; }
 
         /// <summary>
         /// Gets or sets the vat.

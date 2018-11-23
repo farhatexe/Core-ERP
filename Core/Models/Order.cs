@@ -81,7 +81,7 @@ namespace Core.Models
         /// Gets or sets the contact.
         /// </summary>
         /// <value>The contact.</value>
-        public Contact contact { get; set; }
+        public Customer contact { get; set; }
 
         /// <summary>
         /// Gets or sets the payment contract.

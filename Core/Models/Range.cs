@@ -23,29 +23,9 @@ namespace Core.Models
         /// <value>The company.</value>
         public Company company { get; set; }
 
-        /// <summary>
-        /// Gets or sets the module name to be used.
-        /// </summary>
-        /// <value>The module.</value>
-        public string module { get; set; }
+ 
 
-        /// <summary>
-        /// Gets or sets the location.
-        /// </summary>
-        /// <value>The location.</value>
-        public Location location { get; set; }
-
-        /// <summary>
-        /// Gets or sets the point of sale.
-        /// </summary>
-        /// <value>The point of sale.</value>
-        public PointOfSale pointOfSale { get; set; }
-
-        /// <summary>
-        /// Gets or sets the starting value.
-        /// </summary>
-        /// <value>The starting value.</value>
-        public int startingValue { get; set; }
+       
 
         /// <summary>
         /// Gets or sets the current value.
@@ -57,20 +37,9 @@ namespace Core.Models
         /// Gets or sets the ending value.
         /// </summary>
         /// <value>The ending value.</value>
-        public int endingValue { get; set; }
+        public int endValue { get; set; }
 
-        /// <summary>
-        /// Gets or sets the template.
-        /// </summary>
-        /// <value>The template.</value>
-        public string template { get; set; }
-
-        /// <summary>
-        /// Gets or sets the mask.
-        /// </summary>
-        /// <value>The mask.</value>
-        public string mask { get; set; }
-
+     
         /// <summary>
         /// Gets or sets the code. Certain countries or companies may require each range to be signed by an identifier code.
         /// </summary>
@@ -82,6 +51,36 @@ namespace Core.Models
         /// </summary>
         /// <value>The expiry date.</value>
         public DateTime? expiryDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the expiry date. Null value equals to no expiration date.
+        /// </summary>
+        /// <value>The expiry date.</value>
+        public DateTime? startDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        public string createdAt { get; set; }
+
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        public string updatedAt { get; set; }
+
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        public string deletedAt { get; set; }
+
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        public int action { get; set; }
 
         public List<Order> orders { get; set; }
     }

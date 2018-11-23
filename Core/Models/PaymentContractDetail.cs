@@ -22,6 +22,14 @@ namespace Core.Models
         public int cloudId { get; set; }
 
         /// <summary>
+        /// Gets or sets the payment cloud identifier.
+        /// </summary>
+        /// <value>The payment cloud identifier.</value>
+        public int paymentContractCloudId { get; set; }
+
+        
+
+        /// <summary>
         /// Gets or sets the contract.
         /// </summary>
         /// <value>The contract.</value>
@@ -38,5 +46,29 @@ namespace Core.Models
         /// </summary>
         /// <value>The percentage.</value>
         public decimal percentage { get; set; }
+
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        public string createdAt { get; set; }
+
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        public string updatedAt { get; set; }
+
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        public string deletedAt { get; set; }
+
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        public int action { get; set; }
     }
 }

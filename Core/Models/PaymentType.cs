@@ -65,13 +65,20 @@ namespace Core.Models
         /// <value>The name.</value>
         public string name { get; set; }
 
+
+        /// <summary>
+        /// Gets or sets the country.
+        /// </summary>
+        /// <value>The country.</value>
+        public string country { get; set; }
+
         /// <summary>
         /// Gets or sets the icon.
         /// </summary>
         /// <value>The icon.</value>
         public string icon { get; set; }
 
-        public List<Payment> payments { get; set; }
+       
         public List<PointOfSale> pointOfSales { get; set; }
     }
 }

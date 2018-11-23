@@ -160,7 +160,7 @@ namespace Core.Controllers
                 Item item = new Core.Models.Item
                 {
                     cloudId = data.cloudId,
-                    globalItemCloudId = data.globalItem != null ? (int)data.globalItem : 0,
+                    globalId = data.globalItem != null ? (int)data.globalItem : 0,
                     shortDescription = data.shortDescription,
                     longDescription = data.longDescription,
                     type = (Core.Enums.ItemTypes)data.type,
@@ -181,6 +181,23 @@ namespace Core.Controllers
 
             }
             db.SaveChanges();
+        }
+
+        public void Upload(string slug)
+        {
+            Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
+            List<object> syncList = new List<object>();
+           
+            foreach (Core.Models.Item item in db.Items.ToList())
+            {
+                item.createdAt = item.createdAt.ToUniversalTime();
+                item.updatedAt = item.createdAt.ToUniversalTime();
+                syncList.Add(item);
+            }
+
+            List<object> ItemList = db.Items.Cast<object>().ToList();
+            CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Item);
+
         }
     }
 }

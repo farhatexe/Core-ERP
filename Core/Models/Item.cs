@@ -48,7 +48,13 @@ namespace Core.Models
         /// </summary>
         /// <value>The global item cloud identifier.</value>
         [DataMember]
-        public int? globalItemCloudId { get; set; }
+        public int? globalId { get; set; }
+        /// <summary>
+        /// Gets or sets the vat cloud identifier.
+        /// </summary>
+        /// <value>The vat cloud identifier.</value>
+        [DataMember]
+        public int? vatCloudId { get; set; }
 
         [DataMember]
         /// <summary>
@@ -163,19 +169,40 @@ namespace Core.Models
         public bool isPrivate { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="T:Cognitivo.API.Models.Item"/> is stockable.
+        /// </summary>
+        /// <value><c>true</c> if is stockable; otherwise, <c>false</c>.</value>
+        [DataMember]
+        public bool isStockable { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether this <see cref="T:Cognitivo.API.Models.Item"/> is active.
         /// </summary>
         /// <value><c>true</c> if is active; otherwise, <c>false</c>.</value>
         [DataMember]
         public bool isActive { get; set; }
-
-        [DataMember]
         /// <summary>
-        /// Gets or sets the last updated on.
+        /// Gets or sets the create date.
         /// </summary>
-        /// <value>The last updated on.</value>
+        /// <value>The create date.</value>
+        [DataMember]
+        public DateTime createdAt { get; set; }
+
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        [DataMember]
         public DateTime updatedAt { get; set; }
 
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        [DataMember]
+        public DateTime deletedAt { get; set; }
+
+      
 
         public List<ItemMovement> ItemMovements { get; set; }
         public List<OrderDetail> orderDetails { get; set; }

@@ -120,7 +120,7 @@ namespace Core.Controllers
             {
                 Controllers.DocumentController rangeRepository = new Controllers.DocumentController(_db);
 
-                rangeRepository.GenerateInvoiceNumber(Order.range);
+               // rangeRepository.GenerateInvoiceNumber(Order.range);
                 //run method for invoice generation.
             }
 

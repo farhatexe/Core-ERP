@@ -10,7 +10,7 @@ namespace Core.Models
         public DbSet<Account> Accounts { get; set; }
         public DbSet<AccountMovement> AccountMovements { get; set; }
         public DbSet<Company> Companies { get; set; }
-        public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Customer> Contacts { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<ItemCategory> ItemCategories { get; set; }
         public DbSet<ItemMovement> ItemMovements { get; set; }
@@ -24,7 +24,6 @@ namespace Core.Models
         public DbSet<PaymentContractDetail> PaymentContractDetails { get; set; }
         public DbSet<PaymentSchedual> PaymentSchedual { get; set; }
         public DbSet<PaymentType> PaymentTypes { get; set; }
-        public DbSet<Payment> payments { get; set; }
         public DbSet<PointOfSale> PointOfSales { get; set; }
         public DbSet<Range> Ranges { get; set; }
         public DbSet<Session> Sessions { get; set; }

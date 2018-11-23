@@ -6,33 +6,26 @@ using System.Runtime.Serialization;
 
 namespace Core.Models
 {
-    public class Inventory
+    public class Document
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:Core.Models.InventoryDetail"/> class.
-        /// </summary>
-        public Inventory()
+        public Document()
         {
-            date = DateTime.Now;
-           
+            
         }
 
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
-        /// <value>The identifier.</value>
-        /// 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int localId { get; set; }
         [DataMember]
         public int cloudId { get; set; }
-        [DataMember]
+
         /// <summary>
-        /// Gets or sets the date.
+        /// Gets or sets the company.
         /// </summary>
-        /// <value>The date.</value>
-        public DateTime date { get; set; }
+        /// <value>The company.</value>
+        public Company company { get; set; }
+
+
         [DataMember]
         /// <summary>
         /// Gets or sets the location.
@@ -41,52 +34,50 @@ namespace Core.Models
         public Location location { get; set; }
         [DataMember]
         /// <summary>
-        /// Gets or sets the item.
+        /// Gets or sets the point of sale.
         /// </summary>
-        /// <value>The item.</value>
-        public Item item { get; set; }
-        [DataMember]
-        /// <summary>
-        /// Gets or sets the locationId.
-        /// </summary>
-        /// <value>The locationId.</value>
-        public int locationId { get; set; }
-        [DataMember]
-        /// <summary>
-        /// Gets or sets the itemId.
-        /// </summary>
-        /// <value>The itemId.</value>
-        public int itemId { get; set; }
+        /// <value>The point of sale.</value>
+        public PointOfSale pointOfSale { get; set; }
+
 
         [DataMember]
         /// <summary>
-        /// Gets or sets the cost.
+        /// Gets or sets the name.
         /// </summary>
-        /// <value>The cost.</value>
-        public decimal cost { get; set; }
+        /// <value>The name.</value>
+        public int name { get; set; }
         [DataMember]
         /// <summary>
-        /// Gets or sets the systemQuantity.
+        /// Gets or sets the module.
         /// </summary>
-        /// <value>The systemQuantity.</value>
-
-        public decimal systemQuantity { get; set; }
+        /// <value>The module.</value>
+        public int module { get; set; }
         [DataMember]
         /// <summary>
-        /// Gets or sets the actualQuantity.
+        /// Gets or sets the type. 
         /// </summary>
-        /// <value>The actualQuantity.</value>
-
-        public decimal actualQuantity { get; set; }
+        /// <value>The type.</value>
+        public string type { get; set; }
         [DataMember]
         /// <summary>
-        /// Gets or sets the comment.
+        /// Gets or sets the designUrl. 
         /// </summary>
-        /// <value>The comment.</value>
-
-        public string comment { get; set; }
+        /// <value>The designUrl.</value>
+        public string designUrl { get; set; }
         [DataMember]
+        /// <summary>
+        /// Gets or sets the codeTemplate. 
+        /// </summary>
+        /// <value>The codeTemplate.</value>
+        public string codeTemplate { get; set; }
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the mask. 
+        /// </summary>
+        /// <value>The mask.</value>
+        public string mask { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the create date.
         /// </summary>
@@ -111,7 +102,6 @@ namespace Core.Models
         /// <value>The create date.</value>
         public int action { get; set; }
 
-
-
+        public List<Range> details { get; set; }
     }
 }

@@ -59,5 +59,13 @@ namespace Core.Controllers
           _db.SaveChanges();
         }
 
+        public void Upload(string slug)
+        {
+            Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
+            List<object> AccountList = _db.Contacts.Cast<object>().ToList();
+            CognitivoAPI.UploadData(slug, "", AccountList, Core.API.CognitivoAPI.Modules.Account );
+
+        }
+
     }
 }

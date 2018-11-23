@@ -27,23 +27,51 @@ namespace Core.Models
         [DataMember]
         public int cloudId { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>
         public string name { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the parent.
         /// </summary>
         /// <value>The parent.</value>
         public ItemCategory parent { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="T:Core.Models.ItemCategory"/> is grouping.
         /// </summary>
         /// <value><c>true</c> if is grouping; otherwise, <c>false</c>.</value>
-        public bool isGrouping { get; set; }
+        public bool group { get; set; }
+
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        public string createdAt { get; set; }
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        public string updatedAt { get; set; }
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        public string deletedAt { get; set; }
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        public int action { get; set; }
 
         /// <summary>
         /// Gets or sets the children.

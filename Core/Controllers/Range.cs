@@ -38,35 +38,35 @@ namespace Core.Controllers
             _db.SaveChanges();
         }
 
-        public string GenerateInvoiceNumber(Range range)
-        {
-            int current_value = range.currentValue;
-            int end_value = range.endingValue;
+        //public string GenerateInvoiceNumber(Range range)
+        //{
+        //    int current_value = range.currentValue;
+        //    int end_value = range.endingValue;
 
-            string prefix = string.Empty;
-            prefix = range.template;
-            prefix = return_Prefix(prefix);
+        //    string prefix = string.Empty;
+        //    prefix = range.template;
+        //    prefix = return_Prefix(prefix);
 
-            if (prefix != null & current_value <= end_value)
-            {
+        //    if (prefix != null & current_value <= end_value)
+        //    {
 
-                //Range
-                if (prefix.Contains("#Range"))
-                {
-                    //Add Padding filler
-                    range.currentValue += 1;
+        //        //Range
+        //        if (prefix.Contains("#Range"))
+        //        {
+        //            //Add Padding filler
+        //            range.currentValue += 1;
                     
-                    prefix = prefix.Replace("#Range", prefix);
-                }
-                else
-                {
-                    range.currentValue += 1;
+        //            prefix = prefix.Replace("#Range", prefix);
+        //        }
+        //        else
+        //        {
+        //            range.currentValue += 1;
 
-                }
-            }
-            return prefix;
+        //        }
+        //    }
+        //    return prefix;
 
-        }
+        //}
 
         private static string return_Prefix(string prefix)
         {
@@ -97,11 +97,8 @@ namespace Core.Controllers
                 Range range = new Range
                 {
                     cloudId = data.cloudId,
-                    startingValue = data.name,
                     currentValue = data.group,
-                    endingValue=data.endingValue,
-                    template=data.template,
-                    mask = data.mask,
+                    endValue=data.endingValue,
                     code = data.code,
                     expiryDate = data.expiryDate,
 
@@ -113,7 +110,13 @@ namespace Core.Controllers
             }
             _db.SaveChanges();
         }
+        public void Upload(string slug)
+        {
+            Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
+            List<object> RangeList = _db.Ranges.Cast<object>().ToList();
+            CognitivoAPI.UploadData(slug, "", RangeList, Core.API.CognitivoAPI.Modules.DocumentRange);
 
-      
+        }
+
     }
 }
