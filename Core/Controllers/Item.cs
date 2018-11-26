@@ -199,5 +199,7 @@ namespace Core.Controllers
             CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Item);
 
         }
+      
     }
+
 }

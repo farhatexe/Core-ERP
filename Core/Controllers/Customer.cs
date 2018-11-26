@@ -158,8 +158,15 @@ namespace Core.Controllers
         public void Upload(string slug)
         {
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
-            List<object> CustomerList = ctx.Contacts.Cast<object>().ToList();
-            CognitivoAPI.UploadData(slug, "", CustomerList, Core.API.CognitivoAPI.Modules.Customer);
+            List<object> syncList = new List<object>();
+
+            foreach (Core.Models.Customer item in ctx.Contacts.ToList())
+            {
+                item.createdAt = item.createdAt.ToUniversalTime();
+                item.updatedAt = item.createdAt.ToUniversalTime();
+                syncList.Add(item);
+            }
+            CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Customer);
 
         }
     }

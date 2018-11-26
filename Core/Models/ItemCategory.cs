@@ -25,7 +25,7 @@ namespace Core.Models
         /// </summary>
         /// <value>The cloud identifier.</value>
         [DataMember]
-        public int cloudId { get; set; }
+        public int? cloudId { get; set; }
 
         [DataMember]
         /// <summary>
@@ -53,19 +53,14 @@ namespace Core.Models
         /// Gets or sets the create date.
         /// </summary>
         /// <value>The create date.</value>
-        public string createdAt { get; set; }
+        public DateTime createdAt { get; set; }
         [DataMember]
         /// <summary>
         /// Gets or sets the create date.
         /// </summary>
         /// <value>The create date.</value>
-        public string updatedAt { get; set; }
-        [DataMember]
-        /// <summary>
-        /// Gets or sets the create date.
-        /// </summary>
-        /// <value>The create date.</value>
-        public string deletedAt { get; set; }
+        public DateTime updatedAt { get; set; }
+   
         [DataMember]
         /// <summary>
         /// Gets or sets the create date.

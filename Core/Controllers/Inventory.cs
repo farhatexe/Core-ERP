@@ -1,6 +1,7 @@
 ﻿using Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Core.Controllers
 {
@@ -101,6 +102,13 @@ namespace Core.Controllers
 
             }
             db.SaveChanges();
+        }
+        public void Upload(string slug)
+        {
+            Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
+            List<object> InventoryList = db.Inventories.Cast<object>().ToList();
+            CognitivoAPI.UploadData(slug, "", InventoryList, Core.API.CognitivoAPI.Modules.Inventory);
+
         }
     }
 }

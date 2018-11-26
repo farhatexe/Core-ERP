@@ -19,7 +19,7 @@ namespace Core.Controllers
 
         public ObservableCollection<Vat> List()
         {
-            _db.Vats.Include(x=>x.details).Load();
+            _db.Vats.Include(x => x.details).Load();
             return _db.Vats.Local.ToObservableCollection();
         }
 
@@ -41,7 +41,7 @@ namespace Core.Controllers
         {
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
             List<object> TaxList = CognitivoAPI.DowloadData(slug, "", Core.API.CognitivoAPI.Modules.Vat);
-            
+
             foreach (dynamic data in TaxList)
             {
                 Vat tax = new Core.Models.Vat
@@ -70,8 +70,16 @@ namespace Core.Controllers
         public void Upload(string slug)
         {
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
-            List<object> VatList = _db.Vats.Cast<object>().ToList();
-            CognitivoAPI.UploadData(slug, "", VatList, Core.API.CognitivoAPI.Modules.Vat);
+            List<object> syncList = new List<object>();
+
+            foreach (Core.Models.Vat vat in _db.Vats.ToList())
+            {
+                vat.createdAt = vat.createdAt.ToUniversalTime();
+                vat.updatedAt = vat.createdAt.ToUniversalTime();
+                syncList.Add(vat);
+            }
+
+            CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Vat);
 
         }
     }

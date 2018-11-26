@@ -34,7 +34,22 @@ namespace Core.API
             {
                 SyncList = send.Item(CompanySlug, SyncList).OfType<object>().ToList();
             }
-
+            else if (Module == Modules.Customer)
+            {
+                SyncList = send.Customer(CompanySlug, SyncList).OfType<object>().ToList();
+            }
+            //else if (Module == Modules.Account)
+            //{
+            //    SyncList = send.Account(CompanySlug, Cognitivo.API.Enums.TimeSpan.LastMonth).OfType<object>().ToList();
+            //}
+            else if (Module == Modules.DocumentRange)
+            {
+                SyncList = send.Ranges(CompanySlug, SyncList).OfType<object>().ToList();
+            }
+            //else if (Module == Modules.Inventory)
+            //{
+            //    SyncList = send.Inventory(CompanySlug, Cognitivo.API.Enums.TimeSpan.LastMonth).OfType<object>().ToList();
+            //}
             return SyncList;
         }
         public List<object> DowloadData(String CompanySlug, string APIKey, Modules Module)

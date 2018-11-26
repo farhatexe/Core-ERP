@@ -10,7 +10,7 @@ namespace Core.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int localId { get; set; }
-        public int cloudId { get; set; }
+        public int? cloudId { get; set; }
 
         /// <summary>
         /// Gets or sets the company.

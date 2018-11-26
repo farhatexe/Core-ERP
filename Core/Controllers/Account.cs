@@ -8,27 +8,27 @@ using System.Text;
 
 namespace Core.Controllers
 {
-    public class AccountController
+    public class Account
     {
         private Context _db;
 
-        public AccountController(Context db)
+        public Account(Context db)
         {
             _db = db;
         }
 
-        public ObservableCollection<Account> List()
+        public ObservableCollection<Models.Account> List()
         {
             _db.Accounts.Load();
             return _db.Accounts.Local.ToObservableCollection();
         }
 
-        public void Add(Account Entity)
+        public void Add(Models.Account Entity)
         {
             _db.Accounts.Add(Entity);
         }
 
-        public void Delete(Account Entity)
+        public void Delete(Models.Account Entity)
         {
             _db.Accounts.Remove(Entity);
         }
@@ -45,7 +45,7 @@ namespace Core.Controllers
             
             foreach (dynamic data in AccountList)
             {
-                Account account = new Core.Models.Account
+                Models.Account account = new Core.Models.Account
                 {
                     cloudId = data.cloudId,
                     name = data.name,
@@ -62,7 +62,7 @@ namespace Core.Controllers
         public void Upload(string slug)
         {
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
-            List<object> AccountList = _db.Contacts.Cast<object>().ToList();
+            List<object> AccountList = _db.Accounts.Cast<object>().ToList();
             CognitivoAPI.UploadData(slug, "", AccountList, Core.API.CognitivoAPI.Modules.Account );
 
         }

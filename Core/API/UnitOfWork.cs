@@ -13,7 +13,7 @@ namespace Core
         private DocumentController rangeRepo;
         private InventoryController inventoryRepo;
         private VatController vatRepo;
-        private AccountController accountRepo;
+        private Controllers.Account accountRepo;
         private ItemCategoryController itemcategoryRepo;
         private Context Context;
 
@@ -80,13 +80,13 @@ namespace Core
                 return vatRepo;
             }
         }
-        public AccountController AccountRepo
+        public Controllers.Account AccountRepo
         {
             get
             {
                 if (accountRepo == null)
                 {
-                    accountRepo = new AccountController(Context);
+                    accountRepo = new Controllers.Account(Context);
                 }
                 return accountRepo;
             }

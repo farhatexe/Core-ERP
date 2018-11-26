@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Core.Models
 {
@@ -26,7 +27,7 @@ namespace Core.Models
         /// Gets or sets the cloud identifier.
         /// </summary>
         /// <value>The cloud identifier.</value>
-        public int cloudId { get; set; }
+        public int? cloudId { get; set; }
 
         /// <summary>
         /// Gets or sets the company.
@@ -39,6 +40,20 @@ namespace Core.Models
         /// </summary>
         /// <value>The name.</value>
         public string name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        [DataMember]
+        public DateTime createdAt { get; set; }
+
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        [DataMember]
+        public DateTime updatedAt { get; set; }
 
         /// <summary>
         /// Read only property that calculates the prorated coeficient from the details, ex= Details.Sum(x => x.Coeficient * x.Percentage).

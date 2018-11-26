@@ -27,7 +27,7 @@ namespace Core.Models
         /// Gets or sets the date.
         /// </summary>
         /// <value>The date.</value>
-        public DateTime date { get; set; }
+        public DateTime? date { get; set; }
 
         
         
