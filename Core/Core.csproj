@@ -4,10 +4,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Cognitivo.Core</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Cognitivo.API" Version="1.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.3" />
@@ -23,10 +24,5 @@
     <Compile Remove="Class1.cs" />
     <Compile Remove="Models\OrderTag.cs" />
     <Compile Remove="Controllers\GlobalFunction.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Cognitivo.API">
-      <HintPath>..\..\Cognitivo.API\Cognitivo.API\bin\Debug\netstandard2.0\Cognitivo.API.dll</HintPath>
-    </Reference>
   </ItemGroup>
 </Project>

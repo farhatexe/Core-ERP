@@ -62,19 +62,14 @@ namespace Core.Models
         /// Gets or sets the create date.
         /// </summary>
         /// <value>The create date.</value>
-        public string createdAt { get; set; }
+        public DateTime createdAt { get; set; }
 
         /// <summary>
         /// Gets or sets the create date.
         /// </summary>
         /// <value>The create date.</value>
-        public string updatedAt { get; set; }
+        public DateTime updatedAt { get; set; }
 
-        /// <summary>
-        /// Gets or sets the create date.
-        /// </summary>
-        /// <value>The create date.</value>
-        public string deletedAt { get; set; }
 
         /// <summary>
         /// Gets or sets the create date.
