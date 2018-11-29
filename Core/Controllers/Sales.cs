@@ -16,6 +16,7 @@ namespace Core.Controllers
         {
             _db = db;
         }
+
         /// <summary>
         /// All the Orders brought by the list.
         /// </summary>
@@ -26,19 +27,37 @@ namespace Core.Controllers
         /// List this instance.
         /// </summary>
         /// <returns>The list.</returns>
-        public ObservableCollection<Models.Order> List()
+        public ObservableCollection<Models.Order> List(int take = 25, int skip = 0, bool includeArchived = false)
         {
-            _db.Orders.Load();
+            if (includeArchived)
+            {
+                _db.Orders.Take(take).Skip(skip).Load();
+            }
+            else
+            {
+                _db.Orders.Where(x => x.isArchived == false)
+                    .Take(take)
+                    .Skip(skip)
+                    .Load();
+            }
+
             return _db.Orders.Local.ToObservableCollection();
         }
 
         /// <summary>
-        /// Search the specified Query.
+        /// Search the specified query, take and skip.
         /// </summary>
-        /// <param name="Query">Search Query.</param>
-        public void Search(string Query)
+        /// <returns>The search.</returns>
+        /// <param name="query">Query.</param>
+        /// <param name="take">Take.</param>
+        /// <param name="skip">Skip.</param>
+        public ObservableCollection<Models.Order> Search(string query, int take = 25, int skip = 0)
         {
-            return;
+            _db.Orders.Where(x => x.invoiceNumber.Contains(query) || x.customer.alias.Contains(query))
+               .Take(take)
+               .Skip(skip)
+               .Load();
+            return _db.Orders.Local.ToObservableCollection();
         }
 
         /// <summary>
@@ -59,15 +78,15 @@ namespace Core.Controllers
         }
 
         /// <summary>
-        /// Approve the specified Context, Order, RecalculatePrices and IgnoreErrors.
+        /// Approve the specified Order, RecalculatePrices and IgnoreErrors.
+        /// If successful function will return Order (Saved) and allow you to use this to print physical Invoice.
         /// </summary>
-        /// <param name="Context">Reference your DbContext</param>
         /// <param name="Order">Order</param>
         /// <param name="RecalculatePrices">If set to <c>true</c> recalculate prices.</param>
         /// <param name="IgnoreErrors">If set to <c>true</c> ignore errors.</param>
-        public void Approve(Models.Order Order, bool RecalculatePrices = false, bool IgnoreErrors = false)
+        public Models.Order Approve(Models.Order Order, bool RecalculatePrices = false, bool IgnoreErrors = false)
         {
-
+           
             //Validate Stock Levels,
             foreach (var detail in Order.details.Where(x => x.item.type == Enums.ItemTypes.Stockable))
             {
@@ -78,13 +97,30 @@ namespace Core.Controllers
                                          .Sum(y => y.debit - y.credit);
 
                 //If Stock is less than or equal to 0, send message of OutOfStock
-                if (InStock <= 0) { detail.message = Message.Warning.OutOfStock; }
+                if (InStock <= 0)
+                {
+                    detail.message = Message.Warning.OutOfStock;
+                    Order.message = Message.Warning.OutOfStock;
+                }
             }
 
-            if (IgnoreErrors == false && Order.details.Any(x => x.message == Message.Warning.OutOfStock))
+            //Check if Order Range exist and is out of range.
+            if (Order.range != null)
             {
-                //If stockable items are not in stock, and IgnoreErrors is set to false; exit code
-                return;
+                if (Order.range.expiryDate != null && Order.range.expiryDate < Order.date)
+                {
+                    Order.message = Message.Warning.OutOfDocumentRange;
+                }
+                else if(Order.range.endValue <= Order.range.currentValue)
+                {
+                    Order.message = Message.Warning.OutOfDocumentRange;
+                }
+            }
+
+            //If IgnoreErrors is False and Error message shows up, return without doing any work.
+            if (IgnoreErrors == false && Order.message != null)
+            {
+                return null;
             }
 
             //Insert into Stock Movements
@@ -109,8 +145,36 @@ namespace Core.Controllers
                 //TODO: run promotions check again, simply call function.
             }
 
-            //Insert into Schedual
-          
+            //Insert into Payment Schedual
+            if (Order.paymentContract != null)
+            {
+                //Loop through PaymentContract Detail to break down payment requirement.
+                foreach (var paymentDetail in Order.paymentContract.details.Where(x => x.forOrders == false))
+                {
+                    Models.PaymentSchedual schedual = new Models.PaymentSchedual()
+                    {
+                        order = Order,
+                        date = Order.date.AddDays(paymentDetail.offset),
+                        amountOwed = Order.details.Sum(x => x.subTotalVat) * paymentDetail.percentage,
+                        comment = Order.invoiceNumber
+                    };
+
+                    _db.PaymentSchedual.Add(schedual);
+                }
+            }
+            else
+            {
+                //Incase Payment Contract is not established.
+                Models.PaymentSchedual schedual = new Models.PaymentSchedual()
+                {
+                    order = Order,
+                    date = Order.date,
+                    amountOwed = Order.details.Sum(x => x.subTotalVat),
+                    comment = Order.invoiceNumber
+                };
+
+                _db.PaymentSchedual.Add(schedual);
+            }
 
             //Change Status
             Order.status = Enums.Status.Approved;
@@ -118,13 +182,14 @@ namespace Core.Controllers
             //Generate Invoice Number
             if (Order.invoiceNumber == "")
             {
-                Controllers.DocumentController rangeRepository = new Controllers.DocumentController(_db);
-
-               // rangeRepository.GenerateInvoiceNumber(Order.range);
-                //run method for invoice generation.
+                Order.invoiceNumber = new Controllers
+                    .DocumentController(_db)
+                    .GenerateInvoiceNumber(Order.range);
             }
 
             _db.SaveChanges();
+
+            return Order;
         }
 
         /// <summary>

@@ -30,26 +30,30 @@ namespace Core.Controllers
         /// <param name="locationList">Location list.</param>
         /// <param name="date">Date.</param>
         /// <param name="LocalData">If set to <c>true</c> local data.</param>
-        public dynamic ItemsWithStockByLocation(List<Models.Location> locationList, DateTime? date, bool LocalData = true)
+        public dynamic ItemsWithStockByLocation(Models.Location location, DateTime? date, bool LocalData = true)
         {
             date = date.HasValue ? date : DateTime.Now;
 
-            //TODO: this is a right join. change into left join to bring items without stock.
-            var query = from i in db.Items
-                        join im in db.ItemMovements on i equals im.item
-                        into joined
-                        from j in joined.DefaultIfEmpty()
-                        where locationList.Contains(j.location) && j.date >= date
+            //example of left join.
+            //var query = from person in people
+                        //join pet in pets on person equals pet.Owner into gj
+                        //from subpet in gj.DefaultIfEmpty()
+                        //select new { person.FirstName, PetName = subpet?.Name ?? String.Empty };
+
+            var query = from Item in db.Items
+                        join Movements in db.ItemMovements on Item equals movements.item into itemStock
+                        join Location in db.Locations on Movements equals Movements.location into locationStock
+                        from j in itemStock.DefaultIfEmpty()
+                        where location.localId = j.location && j.date >= date
                         select new
                         {
-                            Item = i, //g.FirstOrDefault().Item,
-                            j.location,
-                            Balance = joined.Sum(x => (x.credit - x.debit))
+                            Item,
+                            locationStock.Location,
+                            Balance = j.Sum(x => (x.credit - x.debit))
                         };
 
             return query;
         }
-
         /// <summary>
         /// Stocks the by location.
         /// </summary>
@@ -167,19 +171,21 @@ namespace Core.Controllers
                     action = (Core.Enums.Action)data.action,
                     categoryCloudId = data.categoryCloudId,
                     barCode = data.barCode,
-                    cost = data.cost != null ? data.cost : 0,
+                    cost = data.cost ?? 0,
                     currencyCode = data.currencyCode,
-                    price = data.price != null ? data.price : 0,
+                    price = data.price ?? 0,
                     sku = data.sku,
-                    weighWithScale = data.weighWithScale != null ? data.weighWithScale : 0,
-                    weight = data.weight != null ? data.weight : 0,
+                    weighWithScale = data.weighWithScale ?? 0,
+                    weight = data.weight ?? 0,
                     volume = data.volume,
                     isPrivate = data.isPrivate,
                     isActive = data.isActive,
                 };
+
                 db.Items.Add(item);
 
             }
+
             db.SaveChanges();
         }
 
@@ -187,7 +193,7 @@ namespace Core.Controllers
         {
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
             List<object> syncList = new List<object>();
-           
+
             foreach (Core.Models.Item item in db.Items.ToList())
             {
                 item.createdAt = item.createdAt.ToUniversalTime();
@@ -199,7 +205,5 @@ namespace Core.Controllers
             CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Item);
 
         }
-      
     }
-
 }

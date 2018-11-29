@@ -36,11 +36,9 @@ namespace Core.Models
         public SyncTypes syncType { get; set; }
 
         /// <summary>
-        /// Gets or sets the object.
+        /// Gets or sets the model.
         /// </summary>
-        /// <value>The object.</value>
-        public string Object { get; set; }
-
-
+        /// <value>The model.</value>
+        public string model { get; set; }
     }
 }

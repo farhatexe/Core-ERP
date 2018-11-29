@@ -41,19 +41,33 @@ namespace Core.Models
         /// <value>The name.</value>
         public string name { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the create date.
         /// </summary>
         /// <value>The create date.</value>
-        [DataMember]
-        public DateTime createdAt { get; set; }
+        public DateTime? createdAt { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the create date.
         /// </summary>
         /// <value>The create date.</value>
+        public DateTime? updatedAt { get; set; }
+
         [DataMember]
-        public DateTime updatedAt { get; set; }
+        /// <summary>
+        /// Gets or sets the deleted at.
+        /// </summary>
+        /// <value>The deleted at.</value>
+        public DateTime? deletedAt { get; set; }
+
+        [NotMapped]
+        /// <summary>
+        /// Gets or sets the action.
+        /// </summary>
+        /// <value>The action.</value>
+        public int action { get; set; }
 
         /// <summary>
         /// Read only property that calculates the prorated coeficient from the details, ex= Details.Sum(x => x.Coeficient * x.Percentage).

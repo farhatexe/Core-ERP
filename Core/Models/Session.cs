@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 using System.Linq;
 
 namespace Core.Models
@@ -53,16 +54,46 @@ namespace Core.Models
         /// <value>The ending balance.</value>
         public decimal endingBalance { get; set; }
 
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        public DateTime? createdAt { get; set; }
+
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        public DateTime? updatedAt { get; set; }
+
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the deleted at.
+        /// </summary>
+        /// <value>The deleted at.</value>
+        public DateTime? deletedAt { get; set; }
+
+        [NotMapped]
+        /// <summary>
+        /// Gets or sets the action.
+        /// </summary>
+        /// <value>The action.</value>
+        public int action { get; set; }
+
         /// <summary>
         /// Gets or sets the movements.
         /// </summary>
         /// <value>The movements.</value>
+        [DataMember]
         public List<AccountMovement> movements { get; set; }
 
         /// <summary>
         /// Gets or sets the transactions.
         /// </summary>
         /// <value>The transactions.</value>
+        [DataMember]
         public List<Order> orders { get; set; }
 
         [NotMapped]

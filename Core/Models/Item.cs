@@ -93,24 +93,17 @@ namespace Core.Models
 
         [DataMember]
         /// <summary>
-        /// Gets or sets the type.
+        /// Gets or sets the category.
         /// </summary>
-        /// <value>The type.</value>
-        public Enums.ItemTypes type { get; set; }
-
-        [DataMember]
-        /// <summary>
-        /// Gets or sets the type.
-        /// </summary>
-        /// <value>The status.</value>
-        public Enums.Action action { get; set; }
+        /// <value>The category.</value>
+        public int? categoryCloudId { get; set; }
 
         [DataMember]
         /// <summary>
         /// Gets or sets the category.
         /// </summary>
         /// <value>The category.</value>
-        public int? categoryCloudId { get; set; }
+        public ItemCategory category { get; set; }
 
         [DataMember]
         /// <summary>
@@ -185,18 +178,34 @@ namespace Core.Models
         /// Gets or sets the create date.
         /// </summary>
         /// <value>The create date.</value>
-        [DataMember]
-        public DateTime createdAt { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the create date.
         /// </summary>
         /// <value>The create date.</value>
+        public DateTime? createdAt { get; set; }
+
         [DataMember]
-        public DateTime updatedAt { get; set; }
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        public DateTime? updatedAt { get; set; }
 
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the deleted at.
+        /// </summary>
+        /// <value>The deleted at.</value>
+        public DateTime? deletedAt { get; set; }
 
-      
+        [NotMapped]
+        /// <summary>
+        /// Gets or sets the action.
+        /// </summary>
+        /// <value>The action.</value>
+        public int action { get; set; }
 
         public List<ItemMovement> ItemMovements { get; set; }
         public List<OrderDetail> orderDetails { get; set; }

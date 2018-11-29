@@ -58,10 +58,42 @@ namespace Core.Models
         /// <value>The vat.</value>
         public Vat vat { get; set; }
 
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        public DateTime? createdAt { get; set; }
+
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        public DateTime? updatedAt { get; set; }
+
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the deleted at.
+        /// </summary>
+        /// <value>The deleted at.</value>
+        public DateTime? deletedAt { get; set; }
+
+        [NotMapped]
+        /// <summary>
+        /// Gets or sets the action.
+        /// </summary>
+        /// <value>The action.</value>
+        public int action { get; set; }
+
         public List<PointOfSale> pointOfSales { get; set; }
+
         public List<Order> orders { get; set; }
-        public List<Inventory> inventorys { get; set; }
+
+        public List<Inventory> inventories { get; set; }
+
         public List<Range> ranges { get; set; }
+
         public List<ItemMovement> itemMovements { get; set; }
     }
 }

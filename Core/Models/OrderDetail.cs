@@ -5,6 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Models
 {
+    /// <summary>
+    /// Order detail handle's item, quantity, and price of what is being bought or sold.
+    /// </summary>
     public class OrderDetail : INotifyPropertyChanged
     {
         private Item _item;
@@ -14,11 +17,6 @@ namespace Core.Models
             quantity = 1;
         }
 
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
-        /// <value>The identifier.</value>
-        /// 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int localId { get; set; }
@@ -118,8 +116,8 @@ namespace Core.Models
         /// Gets or sets the message.
         /// </summary>
         /// <value>The message.</value>
-        public Message.Warning message { get; set; }
-
+        [NotMapped]
+        public Message.Warning? message { get; set; }
 
         event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
         {

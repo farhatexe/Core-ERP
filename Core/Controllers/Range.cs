@@ -38,35 +38,36 @@ namespace Core.Controllers
             _db.SaveChanges();
         }
 
-        //public string GenerateInvoiceNumber(Range range)
-        //{
-        //    int current_value = range.currentValue;
-        //    int end_value = range.endingValue;
+        public string GenerateInvoiceNumber(Range range)
+        {
+            int current_value = range.currentValue;
+            int end_value = range.endValue;
 
-        //    string prefix = string.Empty;
-        //    prefix = range.template;
-        //    prefix = return_Prefix(prefix);
+            string prefix = string.Empty;
+            prefix = range.;
+            prefix = return_Prefix(prefix);
 
-        //    if (prefix != null & current_value <= end_value)
-        //    {
+            if (prefix != null & current_value <= end_value)
+            {
 
-        //        //Range
-        //        if (prefix.Contains("#Range"))
-        //        {
-        //            //Add Padding filler
-        //            range.currentValue += 1;
+                //Range
+                if (prefix.Contains("#Range"))
+                {
+                    //Add Padding filler
+                    range.currentValue += 1;
                     
-        //            prefix = prefix.Replace("#Range", prefix);
-        //        }
-        //        else
-        //        {
-        //            range.currentValue += 1;
+                    prefix = prefix.Replace("#Range", prefix);
+                }
+                else
+                {
+                    range.currentValue += 1;
 
-        //        }
-        //    }
-        //    return prefix;
+                }
+            }
 
-        //}
+            return prefix;
+
+        }
 
         private static string return_Prefix(string prefix)
         {

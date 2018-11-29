@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace Core.Models
 {
@@ -84,6 +85,34 @@ namespace Core.Models
         /// </summary>
         /// <value><c>true</c> if default payment condition; otherwise, <c>false</c>.</value>
         public bool defaultPaymentCondition { get; set; }
+
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        public DateTime? createdAt { get; set; }
+
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        public DateTime? updatedAt { get; set; }
+
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the deleted at.
+        /// </summary>
+        /// <value>The deleted at.</value>
+        public DateTime? deletedAt { get; set; }
+
+        [NotMapped]
+        /// <summary>
+        /// Gets or sets the action.
+        /// </summary>
+        /// <value>The action.</value>
+        public int action { get; set; }
 
         public List<Session> sessions { get; set; }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 using System.Linq;
 
 namespace Core.Models
@@ -78,10 +79,10 @@ namespace Core.Models
         public Range range { get; set; }
 
         /// <summary>
-        /// Gets or sets the contact.
+        /// Gets or sets the customer.
         /// </summary>
-        /// <value>The contact.</value>
-        public Customer contact { get; set; }
+        /// <value>The customer.</value>
+        public Contact customer { get; set; }
 
         /// <summary>
         /// Gets or sets the payment contract.
@@ -142,5 +143,40 @@ namespace Core.Models
         /// </summary>
         /// <value><c>true</c> if is archived; otherwise, <c>false</c>.</value>
         public bool isArchived { get; set; }
+
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        public DateTime? createdAt { get; set; }
+
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the create date.
+        /// </summary>
+        /// <value>The create date.</value>
+        public DateTime? updatedAt { get; set; }
+
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the deleted at.
+        /// </summary>
+        /// <value>The deleted at.</value>
+        public DateTime? deletedAt { get; set; }
+
+        [NotMapped]
+        /// <summary>
+        /// Gets or sets the action.
+        /// </summary>
+        /// <value>The action.</value>
+        public int action { get; set; }
+
+        /// <summary>
+        /// Gets or sets the message.
+        /// </summary>
+        /// <value>The message.</value>
+        [NotMapped]
+        public Message.Warning? message { get; set; }
     }
 }

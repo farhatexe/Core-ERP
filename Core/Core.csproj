@@ -24,5 +24,6 @@
     <Compile Remove="Class1.cs" />
     <Compile Remove="Models\OrderTag.cs" />
     <Compile Remove="Controllers\GlobalFunction.cs" />
+    <Compile Remove="Models\InventoryDetail.cs" />
   </ItemGroup>
 </Project>

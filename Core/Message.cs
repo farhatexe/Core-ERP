@@ -5,7 +5,9 @@ namespace Core
     {
         public enum Warning
         {
-            OutOfStock
+            OutOfStock,
+            OutOfDocumentRange,
+            ExceedesCreditLimit
         }
 
         public enum Success

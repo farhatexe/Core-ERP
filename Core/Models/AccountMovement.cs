@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 namespace Core.Models
 {
     /// <summary>
-    /// Account movement.
+    /// All money account movements such as inflows and outflows are registered in this table.
     /// </summary>
     public class AccountMovement
     {
@@ -24,24 +24,28 @@ namespace Core.Models
         /// </summary>
         /// <value>The cloud identifier.</value>
         public int? cloudId { get; set; }
+
         [DataMember]
         /// <summary>
         /// Gets or sets the account cloud identifier.
         /// </summary>
         /// <value>The  account cloud identifie.</value>
         public int accountCloudId { get; set; }
+
         [DataMember]
         /// <summary>
         /// Gets or sets the account.
         /// </summary>
         /// <value>The account.</value>
         public Account account { get; set; }
+
         [DataMember]
         /// <summary>
         /// Gets or sets the date.
         /// </summary>
         /// <value>The date.</value>
         public DateTime date { get; set; }
+
         [DataMember]
         /// <summary>
         /// Gets or sets the debit.
@@ -49,11 +53,13 @@ namespace Core.Models
         /// <value>The debit.</value>
         public decimal debit { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the credit.
         /// </summary>
         /// <value>The credit.</value>
         public decimal credit { get; set; }
+
         [DataMember]
         /// <summary>
         /// Gets or sets the currency.
@@ -63,7 +69,7 @@ namespace Core.Models
 
         [DataMember]
         /// <summary>
-        /// Gets or sets the rate.
+        /// Gets or sets the rate against the default currency
         /// </summary>
         /// <value>The rate.</value>
         public decimal currencyRate { get; set; }
@@ -80,23 +86,27 @@ namespace Core.Models
         /// Gets or sets the create date.
         /// </summary>
         /// <value>The create date.</value>
-        public DateTime createdAt { get; set; }
-
-        /// <summary>
-        /// Gets or sets the create date.
-        /// </summary>
-        /// <value>The create date.</value>
-        public DateTime updatedAt { get; set; }
-
-  
+        public DateTime? createdAt { get; set; }
 
         [DataMember]
         /// <summary>
         /// Gets or sets the create date.
         /// </summary>
         /// <value>The create date.</value>
+        public DateTime? updatedAt { get; set; }
+
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the deleted at.
+        /// </summary>
+        /// <value>The deleted at.</value>
+        public DateTime? deletedAt { get; set; }
+
+        [NotMapped]
+        /// <summary>
+        /// Gets or sets the action.
+        /// </summary>
+        /// <value>The action.</value>
         public int action { get; set; }
-
-
     }
 }

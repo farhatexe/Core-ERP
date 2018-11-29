@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Diagnostics.Contracts;
 
 namespace Core.Controllers
 {
@@ -18,9 +17,10 @@ namespace Core.Controllers
 
         public ObservableCollection<Models.ItemMovement> List()
         {
-            db.ItemMovements.Include(x=>x.item).Load();
+            db.ItemMovements.Include(x => x.item).Load();
             return db.ItemMovements.Local.ToObservableCollection();
         }
+
         /// <summary>
         /// Stocks the per item.
         /// </summary>
@@ -44,8 +44,5 @@ namespace Core.Controllers
 
             return query;
         }
-
-
-
     }
 }
