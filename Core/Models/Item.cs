@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace Core.Models
 {
     /// <summary>
-    /// Item.
+    /// Items are products or services you commercialize.
     /// </summary>
     [DataContract]
     public class Item
@@ -16,14 +16,9 @@ namespace Core.Models
         {
             isPrivate = false;
             isActive = true;
-            action = Enums.Action.CreateOnLocal;
             ItemMovements = new List<ItemMovement>();
         }
 
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
-        /// <value>The identifier.</value>
         [DataMember]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
@@ -49,6 +44,7 @@ namespace Core.Models
         /// <value>The global item cloud identifier.</value>
         [DataMember]
         public int? globalId { get; set; }
+
         /// <summary>
         /// Gets or sets the vat cloud identifier.
         /// </summary>
@@ -56,40 +52,12 @@ namespace Core.Models
         [DataMember]
         public int? vatCloudId { get; set; }
 
-        [DataMember]
         /// <summary>
-        /// Gets or sets the name.
+        /// Gets or sets the vat.
         /// </summary>
-        /// <value>The name.</value>
-        public string name { get; set; }
-
+        /// <value>The vat.</value>
         [DataMember]
-        /// <summary>
-        /// Gets or sets the short description.
-        /// </summary>
-        /// <value>The short description.</value>
-        public string shortDescription { get; set; }
-
-        [DataMember]
-        /// <summary>
-        /// Gets or sets the long description.
-        /// </summary>
-        /// <value>The long description.</value>
-        public string longDescription { get; set; }
-
-        [DataMember]
-        /// <summary>
-        /// Gets or sets the sku.
-        /// </summary>
-        /// <value>The sku.</value>
-        public string sku { get; set; }
-
-        [DataMember]
-        /// <summary>
-        /// Gets or sets the bar code.
-        /// </summary>
-        /// <value>The bar code.</value>
-        public string barCode { get; set; }
+        public Vat vat { get; set; }
 
         [DataMember]
         /// <summary>
@@ -107,10 +75,38 @@ namespace Core.Models
 
         [DataMember]
         /// <summary>
-        /// Gets or sets the vat.
+        /// Gets or sets the name.
         /// </summary>
-        /// <value>The vat.</value>
-        public int? vatId { get; set; }
+        /// <value>The name.</value>
+        public string name { get; set; }
+
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the sku.
+        /// </summary>
+        /// <value>The sku.</value>
+        public string sku { get; set; }
+
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the bar code.
+        /// </summary>
+        /// <value>The bar code.</value>
+        public string barCode { get; set; }
+
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the short description.
+        /// </summary>
+        /// <value>The short description.</value>
+        public string shortDescription { get; set; }
+
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the long description.
+        /// </summary>
+        /// <value>The long description.</value>
+        public string longDescription { get; set; }
 
         [DataMember]
         /// <summary>
@@ -205,10 +201,12 @@ namespace Core.Models
         /// Gets or sets the action.
         /// </summary>
         /// <value>The action.</value>
-        public int action { get; set; }
+        public Enums.Action action { get; set; }
 
         public List<ItemMovement> ItemMovements { get; set; }
+
         public List<OrderDetail> orderDetails { get; set; }
+
         public List<Inventory> Inventory { get; set; }
     }
 }

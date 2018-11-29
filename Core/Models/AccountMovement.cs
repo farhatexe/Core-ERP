@@ -10,11 +10,6 @@ namespace Core.Models
     /// </summary>
     public class AccountMovement
     {
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
-        /// <value>The identifier.</value>
-        /// 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int localId { get; set; }
@@ -95,12 +90,12 @@ namespace Core.Models
         /// <value>The create date.</value>
         public DateTime? updatedAt { get; set; }
 
-        [DataMember]
-        /// <summary>
-        /// Gets or sets the deleted at.
-        /// </summary>
-        /// <value>The deleted at.</value>
-        public DateTime? deletedAt { get; set; }
+        //[DataMember]
+        // <summary>
+        // Gets or sets the deleted at.
+        // </summary>
+        // <value>The deleted at.</value>
+        //public DateTime? deletedAt { get; set; }
 
         [NotMapped]
         /// <summary>

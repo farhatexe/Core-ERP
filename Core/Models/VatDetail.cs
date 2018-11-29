@@ -26,24 +26,28 @@ namespace Core.Models
         /// Gets or sets the vat.
         /// </summary>
         /// <value>The vat.</value>
+        [DataMember]
         public Vat vat { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>
+        [DataMember]
         public string name { get; set; }
 
         /// <summary>
         /// Gets or sets the coefficient.
         /// </summary>
         /// <value>The coefficient.</value>
+        [DataMember]
         public decimal coefficient { get; set; }
 
         /// <summary>
         /// Gets or sets the percentage.
         /// </summary>
         /// <value>The percentage.</value>
+        [DataMember]
         public decimal percentage { get; set; }
 
         [DataMember]
