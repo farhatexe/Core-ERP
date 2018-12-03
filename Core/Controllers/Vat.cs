@@ -74,8 +74,8 @@ namespace Core.Controllers
 
             foreach (Core.Models.Vat vat in _db.Vats.ToList())
             {
-                vat.createdAt = vat.createdAt.ToUniversalTime();
-                vat.updatedAt = vat.createdAt.ToUniversalTime();
+                vat.createdAt = vat.createdAt;
+                vat.updatedAt = vat.updatedAt;
                 syncList.Add(vat);
             }
 

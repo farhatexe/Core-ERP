@@ -5,11 +5,11 @@ using System.Runtime.Serialization;
 
 namespace Core.Models
 {
+    /// <summary>
+    /// Stores all item credits and debits of stockable items within a location.
+    /// </summary>
     public class ItemMovement
     {
-        public ItemMovement()
-        {
-        }
 
         /// <summary>
         /// Gets or sets the identifier.
@@ -102,13 +102,6 @@ namespace Core.Models
         /// Gets or sets the action.
         /// </summary>
         /// <value>The action.</value>
-        public int action { get; set; }
-
-        [DataMember]
-        /// <summary>
-        /// Gets or sets the create date.
-        /// </summary>
-        /// <value>The create date.</value>
         public int action { get; set; }
     }
 }

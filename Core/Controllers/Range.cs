@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 
 namespace Core.Controllers
 {
@@ -23,14 +22,14 @@ namespace Core.Controllers
             return _db.Ranges.Local.ToObservableCollection();
         }
 
-        public void Add(Range Entity)
+        public void Add(Range range)
         {
-            _db.Ranges.Add(Entity);
+            _db.Ranges.Add(range);
         }
 
-        public void Delete(Range Entity)
+        public void Delete(Range range)
         {
-            _db.Ranges.Remove(Entity);
+            _db.Ranges.Remove(range);
         }
 
         public void SaveChanges()
@@ -43,35 +42,32 @@ namespace Core.Controllers
             int current_value = range.currentValue;
             int end_value = range.endValue;
 
-            string prefix = string.Empty;
-            prefix = range.;
-            prefix = return_Prefix(prefix);
+            string number = return_Prefix(range.document.numberTemplate);
 
-            if (prefix != null & current_value <= end_value)
+            if (range.document.numberTemplate != null & current_value <= end_value)
             {
-
-                //Range
-                if (prefix.Contains("#Range"))
+                if (range.document.numberTemplate.Contains("#Range"))
                 {
-                    //Add Padding filler
+                    //Add value to currentValue to increment the range on each use.
                     range.currentValue += 1;
-                    
-                    prefix = prefix.Replace("#Range", prefix);
+
+                    //Add padding or mask to allow specific number of values before range.
+                    string finalRange = range.document.mask + range.currentValue.ToString();
+
+                    //Replace value of Range with final number.
+                    number = range.document.numberTemplate.Replace("#Range", finalRange);
                 }
                 else
                 {
                     range.currentValue += 1;
-
                 }
             }
 
-            return prefix;
-
+            return number;
         }
 
         private static string return_Prefix(string prefix)
         {
-
             //Year
             if (prefix.Contains("#Year"))
             { prefix = prefix.Replace("#Year", DateTime.Now.Year.ToString()); }
@@ -81,10 +77,9 @@ namespace Core.Controllers
             { prefix = prefix.Replace("#Month", DateTime.Now.Month.ToString()); }
 
             //Now
-            if (prefix.Contains("#Now"))
-            { prefix = prefix.Replace("#Now", DateTime.Now.Date.ToString()); }
+            if (prefix.Contains("#Date"))
+            { prefix = prefix.Replace("#Date", DateTime.Now.Date.ToString()); }
 
-            //Range will be calculated later on, as there is extra business logic to be handled
             return prefix;
         }
 
@@ -117,8 +112,8 @@ namespace Core.Controllers
             List<object> syncList = new List<object>();
             foreach (Core.Models.Range item in _db.Ranges.ToList())
             {
-                item.createdAt = item.createdAt.ToUniversalTime();
-                item.updatedAt = item.updatedAt.ToUniversalTime();
+                item.createdAt = item.createdAt;
+                item.updatedAt = item.updatedAt;
                 syncList.Add(item);
             }
             CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.ItemCategory);

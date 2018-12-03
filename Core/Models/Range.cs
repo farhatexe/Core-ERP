@@ -27,6 +27,13 @@ namespace Core.Models
         public Company company { get; set; }
 
         /// <summary>
+        /// Gets or sets the document.
+        /// </summary>
+        /// <value>The document.</value>
+        [DataMember]
+        public Document document { get; set; }
+
+        /// <summary>
         /// Gets or sets the current value.
         /// </summary>
         /// <value>The current value.</value>

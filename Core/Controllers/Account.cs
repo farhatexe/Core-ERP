@@ -50,7 +50,7 @@ namespace Core.Controllers
                     cloudId = data.cloudId,
                     name = data.name,
                     number = data.number,
-                    currency = data.currencyCode,
+                    currencyCode = data.currencyCode,
 
                 };
                 _db.Accounts.Add(account);
@@ -65,8 +65,8 @@ namespace Core.Controllers
             List<object> syncList = new List<object>();
             foreach (Core.Models.Account item in _db.Accounts.ToList())
             {
-                item.createdAt = item.createdAt.ToUniversalTime();
-                item.updatedAt = item.createdAt.ToUniversalTime();
+                item.createdAt = item.createdAt;
+                item.updatedAt = item.createdAt;
                 syncList.Add(item);
             }
             CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Account);

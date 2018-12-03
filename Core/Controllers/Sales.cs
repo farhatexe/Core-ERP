@@ -88,7 +88,7 @@ namespace Core.Controllers
         {
            
             //Validate Stock Levels,
-            foreach (var detail in Order.details.Where(x => x.item.type == Enums.ItemTypes.Stockable))
+            foreach (var detail in Order.details.Where(x => x.item.isStockable))
             {
                 // Check stock levels of each item for that location.
                 // TODO: place this code into item controller and re-use code from there. 
@@ -124,7 +124,7 @@ namespace Core.Controllers
             }
 
             //Insert into Stock Movements
-            foreach (var detail in Order.details.Where(x => x.item.type == Enums.ItemTypes.Stockable))
+            foreach (var detail in Order.details.Where(x => x.item.isStockable))
             {
                 //TODO: take this code to ItemMovement Unit Of Work.
                 Models.ItemMovement Movement = new Models.ItemMovement()

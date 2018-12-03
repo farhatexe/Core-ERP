@@ -36,23 +36,23 @@ namespace Core.Controllers
 
             //example of left join.
             //var query = from person in people
-                        //join pet in pets on person equals pet.Owner into gj
-                        //from subpet in gj.DefaultIfEmpty()
-                        //select new { person.FirstName, PetName = subpet?.Name ?? String.Empty };
+            //join pet in pets on person equals pet.Owner into gj
+            //from subpet in gj.DefaultIfEmpty()
+            //select new { person.FirstName, PetName = subpet?.Name ?? String.Empty };
 
-            var query = from Item in db.Items
-                        join Movements in db.ItemMovements on Item equals movements.item into itemStock
-                        join Location in db.Locations on Movements equals Movements.location into locationStock
-                        from j in itemStock.DefaultIfEmpty()
-                        where location.localId = j.location && j.date >= date
-                        select new
-                        {
-                            Item,
-                            locationStock.Location,
-                            Balance = j.Sum(x => (x.credit - x.debit))
-                        };
+            //var query = from Item in db.Items
+            //join Movements in db.ItemMovements on Item equals movements.item into itemStock
+            //join Location in db.Locations on Movements equals Movements.location into locationStock
+            //from j in itemStock.DefaultIfEmpty()
+            //where location.localId = j.location && j.date >= date
+            //select new
+            //{
+            //    Item,
+            //    locationStock.Location,
+            //    Balance = j.Sum(x => (x.credit - x.debit))
+            //};
 
-            return query;
+            return null; // query;
         }
         /// <summary>
         /// Stocks the by location.
@@ -167,7 +167,6 @@ namespace Core.Controllers
                     globalId = data.globalItem != null ? (int)data.globalItem : 0,
                     shortDescription = data.shortDescription,
                     longDescription = data.longDescription,
-                    type = (Core.Enums.ItemTypes)data.type,
                     action = (Core.Enums.Action)data.action,
                     categoryCloudId = data.categoryCloudId,
                     barCode = data.barCode,
@@ -196,8 +195,8 @@ namespace Core.Controllers
 
             foreach (Core.Models.Item item in db.Items.ToList())
             {
-                item.createdAt = item.createdAt.ToUniversalTime();
-                item.updatedAt = item.createdAt.ToUniversalTime();
+                item.createdAt = item.createdAt;
+                item.updatedAt = item.createdAt;
                 syncList.Add(item);
             }
 

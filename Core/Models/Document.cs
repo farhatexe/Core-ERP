@@ -66,12 +66,12 @@ namespace Core.Models
         /// <value>The designUrl.</value>
         public string designUrl { get; set; }
 
-        [DataMember]
         /// <summary>
-        /// Gets or sets the codeTemplate. 
+        /// Gets or sets the number template.
         /// </summary>
-        /// <value>The codeTemplate.</value>
-        public string codeTemplate { get; set; }
+        /// <value>The number template.</value>
+        [DataMember]
+        public string numberTemplate { get; set; }
 
         [DataMember]
         /// <summary>

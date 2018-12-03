@@ -2,8 +2,6 @@
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
-using System.Diagnostics.Contracts;
 using Core.Models;
 using System.Collections.ObjectModel;
 
@@ -23,17 +21,17 @@ namespace Core.Controllers
         /// Gets or sets the customers.
         /// </summary>
         /// <value>The customers.</value>
-        IQueryable<Models.Customer> Customers { get; set; }
+        IQueryable<Models.Contact> Customers { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Core.ViewModels.Commercial.Customer"/> class.
         /// </summary>
-        public ObservableCollection<Customer> LIST(int Take = 25, int Skip = 0)
+        public ObservableCollection<Contact> LIST(int Take = 25, int Skip = 0)
         {
             Customers = ctx.Contacts
                                .Take(Take).Skip(Skip);
 
-            return new ObservableCollection<Customer>(Customers);
+            return new ObservableCollection<Contact>(Customers);
 
         }
 
@@ -41,7 +39,7 @@ namespace Core.Controllers
         /// Search the specified Query.
         /// </summary>
         /// <param name="Query">Query.</param>
-        public ObservableCollection<Customer> Search(string Query)
+        public ObservableCollection<Contact> Search(string Query)
         {
 
             Customers = ctx.Contacts
@@ -49,7 +47,7 @@ namespace Core.Controllers
                                       x.alias.Contains(Query) ||
                                       x.taxId.Contains(Query))
                                  );
-            return new ObservableCollection<Customer>(Customers);
+            return new ObservableCollection<Contact>(Customers);
 
         }
 
@@ -57,20 +55,18 @@ namespace Core.Controllers
         /// Filters the Contacts list against local data.
         /// </summary>
         /// <param name="Query">Query.</param>
-        public ObservableCollection<Customer> Filter(string Query)
+        public ObservableCollection<Contact> Filter(string Query)
         {
-
             Customers = ctx.Contacts
             .Where(x =>
                    x.alias.Contains(Query) ||
                    x.taxId.Contains(Query) ||
                    x.telephone.Contains(Query) ||
                    x.email.Contains(Query) ||
-                  x.address.Contains(Query));
+                   x.address.Contains(Query)
+                   );
 
-            return new ObservableCollection<Customer>(Customers);
-
-
+            return new ObservableCollection<Contact>(Customers);
         }
 
         /// <summary>
@@ -78,18 +74,13 @@ namespace Core.Controllers
         /// </summary>
         /// <returns>The last five sales.</returns>
         /// <param name="Contact">Customer (aka Contact).</param>
-        public List<Models.Order> GetLastFiveSales(Models.Customer Contact, int Take = 25, int Skip = 0)
+        public List<Models.Order> GetLastFiveSales(Models.Contact Contact, int Take = 25, int Skip = 0)
         {
-
-            return ctx.Orders.Where(x => x.contact.localId == Contact.localId)
+            return ctx.Orders.Where(x => x.customer.localId == Contact.localId)
                                  .Include(y => y.details)
-                                 .Include(z => z.contact)
+                                 .Include(z => z.customer)
                                  .Take(Take)
                                  .Skip(Skip).ToList();
-
-
-
-
         }
 
         /// <summary>
@@ -97,37 +88,34 @@ namespace Core.Controllers
         /// </summary>
         /// <returns>The save.</returns>
         /// <param name="Contact">Contact.</param>
-        public Models.Customer Save(Models.Customer Contact)
+        public Models.Contact Save(Models.Contact Contact)
         {
-
             ctx.SaveChanges();
             return Contact;
-
         }
+
         public void SaveChanges()
         {
             ctx.SaveChanges();
         }
-
 
         /// <summary>
         /// Delete the specified Contact.
         /// </summary>
         /// <returns>The delete.</returns>
         /// <param name="Contact">Contact.</param>
-        public bool Delete(Models.Customer Contact)
+        public bool Delete(Models.Contact Contact)
         {
-
             ctx.Contacts.Remove(Contact);
             ctx.SaveChanges();
             return true;
-
         }
+
         /// <summary>
         /// Add the specified Entity.
         /// </summary>
         /// <param name="Entity">Entity.</param>
-        public void Add(Models.Customer Entity)
+        public void Add(Models.Contact Entity)
         {
             ctx.Contacts.Add(Entity);
         }
@@ -138,7 +126,7 @@ namespace Core.Controllers
             List<object> CustomerList = CognitivoAPI.DowloadData(slug, "", Core.API.CognitivoAPI.Modules.Customer);
             foreach (dynamic data in CustomerList)
             {
-                Customer contact = new Core.Models.Customer
+                Contact contact = new Core.Models.Contact
                 {
                     cloudId = data.cloudId,
                     alias = data.name,
@@ -160,13 +148,13 @@ namespace Core.Controllers
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
             List<object> syncList = new List<object>();
 
-            foreach (Core.Models.Customer item in ctx.Contacts.ToList())
+            foreach (Core.Models.Contact item in ctx.Contacts.ToList())
             {
-                item.createdAt = item.createdAt.ToUniversalTime();
-                item.updatedAt = item.createdAt.ToUniversalTime();
+                item.createdAt = item.createdAt;
+                item.updatedAt = item.createdAt;
                 syncList.Add(item);
             }
-            CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Customer);
+            CognitivoAPI.UploadData(slug, "", syncList, API.CognitivoAPI.Modules.Customer);
 
         }
     }
