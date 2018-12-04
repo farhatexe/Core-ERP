@@ -41,7 +41,7 @@ namespace Core.Models
         /// <value>The parent.</value>
         public ItemCategory parent { get; set; }
 
-        [DataMember]
+      //  [DataMember]
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="T:Core.Models.ItemCategory"/> is grouping.
         /// </summary>
@@ -76,10 +76,13 @@ namespace Core.Models
         /// <value>The action.</value>
         public int action { get; set; }
 
+        //[DataMember]
         /// <summary>
         /// Gets or sets the children.
         /// </summary>
         /// <value>The children.</value>
         public List<ItemCategory> children { get; set; }
+
+        public List<Item> items { get; set; }
     }
 }
