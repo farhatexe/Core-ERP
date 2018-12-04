@@ -14,7 +14,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.3" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Methods\" />
+    <Folder Include="Static\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Controllers\CustomerRepository.cs" />

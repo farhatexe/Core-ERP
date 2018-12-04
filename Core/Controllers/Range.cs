@@ -52,7 +52,10 @@ namespace Core.Controllers
                     range.currentValue += 1;
 
                     //Add padding or mask to allow specific number of values before range.
-                    string finalRange = range.document.mask + range.currentValue.ToString();
+                    int countPlaces = range.currentValue.ToString().Length;
+                    string finalMask = Helper.Truncate(range.document.mask, countPlaces);
+
+                    string finalRange = finalMask + range.currentValue.ToString();
 
                     //Replace value of Range with final number.
                     number = range.document.numberTemplate.Replace("#Range", finalRange);
@@ -106,6 +109,7 @@ namespace Core.Controllers
             }
             _db.SaveChanges();
         }
+
         public void Upload(string slug)
         {
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
@@ -120,5 +124,13 @@ namespace Core.Controllers
 
         }
 
+        private static string Truncate(string source, int length)
+        {
+            if (source.Length > length)
+            {
+                source = source.Substring(0, length);
+            }
+            return source;
+        }
     }
 }
