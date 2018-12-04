@@ -15,6 +15,7 @@ namespace Core.Models
         public DbSet<Item> Items { get; set; }
         public DbSet<ItemCategory> ItemCategories { get; set; }
         public DbSet<ItemMovement> ItemMovements { get; set; }
+        public DbSet<ItemTransfer> ItemTransfers { get; set; }
         public DbSet<ItemPromotion> ItemPromotions { get; set; }
         public DbSet<Inventory> Inventories { get; set; }
         public DbSet<Location> Locations { get; set; }
