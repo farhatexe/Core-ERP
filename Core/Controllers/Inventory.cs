@@ -1,6 +1,7 @@
 ﻿using Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Core.Controllers
@@ -52,13 +53,13 @@ namespace Core.Controllers
         /// </summary>
         /// <returns>List of Inventory Details.</returns>
         /// <param name="location">Location to filter.</param>
-        public List<Models.Inventory> Calculate(Models.Location location)
+        public ObservableCollection<Models.Inventory> Calculate(Models.Location location)
         {
             //Get List of Items with Inventory
             ItemController itemController = new ItemController(db);
             var ItemsWithStockByLocation = itemController.ItemsWithStockByLocation(location, DateTime.Now);
 
-            List<Models.Inventory> inventories = new List<Inventory>();
+            ObservableCollection<Models.Inventory> inventories = new ObservableCollection<Inventory>();
 
             foreach (dynamic item in ItemsWithStockByLocation)
             {

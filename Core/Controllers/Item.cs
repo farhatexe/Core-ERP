@@ -36,23 +36,39 @@ namespace Core.Controllers
 
             //example of left join.
             //var query = from person in people
-            //join pet in pets on person equals pet.Owner into gj
-            //from subpet in gj.DefaultIfEmpty()
-            //select new { person.FirstName, PetName = subpet?.Name ?? String.Empty };
+            //            join pet in pets on person equals pet.Owner into gj
+            //            from subpet in gj.DefaultIfEmpty()
+            //            select new { person.FirstName, PetName = subpet?.Name ?? String.Empty };
 
-            //var query = from Item in db.Items
-            //join Movements in db.ItemMovements on Item equals movements.item into itemStock
-            //join Location in db.Locations on Movements equals Movements.location into locationStock
-            //from j in itemStock.DefaultIfEmpty()
-            //where location.localId = j.location && j.date >= date
-            //select new
-            //{
-            //    Item,
-            //    locationStock.Location,
-            //    Balance = j.Sum(x => (x.credit - x.debit))
-            //};
+            try
+            {
+                IEnumerable<object> query = from Item in db.Items
+                                            join Movements in db.ItemMovements on Item equals Movements.item into itemStock
+                                            from Is in itemStock.DefaultIfEmpty()
+                                            group Is by Is.item into g
+                                            join Location in db.Locations on g.FirstOrDefault().location  equals location into locationStock
+                                            from j in locationStock
+                                            where location.localId == g.FirstOrDefault().location.localId 
+                                            select new
+                                            {
+                                                Item = g.Key,
 
-            return null; // query;
+                                                Balance = j.itemMovements.Sum(x => x.credit - x.debit),
+                                                Cost=g.Key.cost
+                                            };
+                return query; // query;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+           
+
+
+
+            
         }
         /// <summary>
         /// Stocks the by location.
@@ -72,9 +88,10 @@ namespace Core.Controllers
                         group im by im.location into g
                         select new
                         {
-                            g.FirstOrDefault().item, //g.FirstOrDefault().Item,
-                            g.FirstOrDefault().location,
+                            Item = g.FirstOrDefault().item, //g.FirstOrDefault().Item,
+                            Location = g.FirstOrDefault().location,
                             Balance = g.Sum(x => x.credit - x.debit)
+                            
                         };
 
             return query;
