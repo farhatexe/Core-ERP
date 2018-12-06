@@ -45,13 +45,13 @@ namespace Core.Models
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess = true)
         {
-            generateTimestamps();
+            //generateTimestamps();
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess = true, CancellationToken cancellationToken = default(CancellationToken))
         {
-            generateTimestamps();
+           // generateTimestamps();
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 

@@ -63,11 +63,13 @@ namespace Core.Controllers
 
             foreach (dynamic item in ItemsWithStockByLocation)
             {
+                int id = (int)item.Item;
+                Item Item = db.Items.Where(x => x.localId == id).FirstOrDefault();
                 Models.Inventory inventory = new Models.Inventory()
                 {
                     date = DateTime.Now,
                     location = location,
-                    item = item.Item,
+                    item = Item,
 
                     systemQuantity = item.Balance,
                     cost = item.Cost,
@@ -96,7 +98,7 @@ namespace Core.Controllers
 
                 Models.ItemMovement movements = new Models.ItemMovement()
                 {
-                    item = Inventory.item,
+                    item= Inventory.item,
                     location = Inventory.location,
                     debit = delta > 0 ? delta : 0,
                     credit = delta < 0 ? delta : 0,

@@ -18,7 +18,8 @@ namespace Core.API
             Account=3,
             ItemCategory=4,
             DocumentRange=5,
-            Inventory=6
+            Inventory=6,
+
 
         }
 

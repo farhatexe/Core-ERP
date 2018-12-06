@@ -51,8 +51,7 @@ namespace Core.Controllers
                                             where location.localId == g.FirstOrDefault().location.localId 
                                             select new
                                             {
-                                                Item = g.Key,
-
+                                                Item = g.Key.localId,
                                                 Balance = j.itemMovements.Sum(x => x.credit - x.debit),
                                                 Cost=g.Key.cost
                                             };
@@ -101,15 +100,15 @@ namespace Core.Controllers
         /// Stock this instance.
         /// </summary>
         /// <returns>The stock.</returns>
-        public dynamic Stock()
+        public IQueryable<object> Stock()
         {
             var query = from i in db.Items
                         join im in db.ItemMovements on i equals im.item
                         group im by im.item into g
                         select new
                         {
-                            g.FirstOrDefault().item,
-                            g.FirstOrDefault().location,
+                            Item=g.FirstOrDefault().item,
+                            Location=g.FirstOrDefault().location,
                             StockLevel = g.Sum(x => (x.credit - x.debit))
                         };
 
