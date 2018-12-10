@@ -44,6 +44,39 @@ namespace Core.Controllers
             return _db.Orders.Local.ToObservableCollection();
         }
 
+
+        public IEnumerable<object> ListItem()
+        {
+
+            IEnumerable<object> query = from Item in _db.Items.DefaultIfEmpty()
+                                        join Movements in _db.ItemMovements on Item equals Movements.item into itemStock
+                                        from Is in itemStock
+                                        group Is by Is.item into g
+                                        select new
+                                        {
+                                            Item = g.Key.localId,
+                                            Balance = g.Key.ItemMovements.Sum(x=>x.credit-x.debit),
+                                            Cost = g.Key.cost
+                                        };
+
+            return query;
+        }
+
+        /// <summary>
+        /// List this instance.
+        /// </summary>
+        /// <returns>The list.</returns>
+        public Core.Models.Order AddDetail(Core.Models.Order order,dynamic Item)
+        {
+            Models.OrderDetail OrderDetail = new OrderDetail();
+            OrderDetail.order = order;
+            OrderDetail.item =Item.Item;
+            OrderDetail.quantity = 1;
+            OrderDetail.price = OrderDetail.item.price;
+            order.details.Add(OrderDetail);
+            return order;
+        }
+
         /// <summary>
         /// Search the specified query, take and skip.
         /// </summary>

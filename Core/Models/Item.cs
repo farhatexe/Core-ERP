@@ -10,7 +10,7 @@ namespace Core.Models
     /// Items are products or services you commercialize.
     /// </summary>
     [DataContract]
-    public class Item
+    public class Item : BaseClass
     {
         public Item()
         {

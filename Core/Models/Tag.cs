@@ -8,7 +8,7 @@ namespace Core.Models
     /// <summary>
     /// Tag.
     /// </summary>
-    public class Tag
+    public class Tag : BaseClass
     {
         /// <summary>
         /// Gets or sets the identifier.

@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace Core.Models
 {
-    public class ItemPromotion
+    public class ItemPromotion : BaseClass
     {
         /// <summary>
         /// Core's logic will utilize Input Types, such as Category, Product, and Location 

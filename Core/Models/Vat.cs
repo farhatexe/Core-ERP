@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 
 namespace Core.Models
 {
-    public class Vat
+    public class Vat : BaseClass
     {
         public Vat()
         {

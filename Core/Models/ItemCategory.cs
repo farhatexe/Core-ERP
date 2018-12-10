@@ -9,7 +9,7 @@ namespace Core.Models
     /// <summary>
     /// Item category.
     /// </summary>
-    public class ItemCategory
+    public class ItemCategory : BaseClass
     {
         /// <summary>
         /// Gets or sets the identifier.

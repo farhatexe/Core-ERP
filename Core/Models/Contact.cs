@@ -9,7 +9,7 @@ namespace Core.Models
     /// <summary>
     /// Customers or Suppliers within System are stored here.
     /// </summary>
-    public class Contact
+    public class Contact : BaseClass
     {
         /// <summary>
         /// Gets or sets the identifier.

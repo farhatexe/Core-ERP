@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace Core.Models
 {
-    public class User
+    public class User : BaseClass
     {
         /// <summary>
         /// Gets or sets the identifier.

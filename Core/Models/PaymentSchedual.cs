@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Core.Models
 {
-   public class PaymentSchedual
+   public class PaymentSchedual : BaseClass
     {
         /// <summary>
         /// Getor Sers Id 

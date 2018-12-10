@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace Core.Models
 {
-    public class VatDetail
+    public class VatDetail : BaseClass
     {
         /// <summary>
         /// Gets or sets the identifier.

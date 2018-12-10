@@ -9,7 +9,7 @@ namespace Core.Models
     /// <summary>
     /// Gets the Profile
     /// </summary>
-    public class Company
+    public class Company : BaseClass
     { 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

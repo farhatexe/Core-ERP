@@ -3,13 +3,15 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+
 namespace Core.Models
 {
     /// <summary>
     /// Order detail handle's item, quantity, and price of what is being bought or sold.
     /// </summary>
-    public class OrderDetail : INotifyPropertyChanged
+    public class OrderDetail : BaseClass
     {
+
         private Item _item;
 
         public OrderDetail()
@@ -37,20 +39,21 @@ namespace Core.Models
         /// Gets or sets the vat.
         /// </summary>
         /// <value>The vat.</value>
-        public Vat vat { get; set;  }
+        public Vat vat { get; set; }
 
         /// <summary>
         /// Gets or sets the item.
         /// </summary>
         /// <value>The item.</value>
-        public Item item { 
-            get => _item; 
-            set 
+        public Item item
+        {
+            get => _item;
+            set
             {
                 _item = value;
                 price = _item.price;
                 itemDescription = itemDescription ?? _item.name;
-            } 
+            }
         }
 
         /// <summary>
@@ -69,24 +72,87 @@ namespace Core.Models
         /// Gets or sets the quantity.
         /// </summary>
         /// <value>The quantity.</value>
-        public decimal quantity { get; set; }
+        public decimal _quantity;
+        public decimal quantity
+        {
+            get => _quantity;
+            set
+            {
+                _quantity = value;
+                RaisePropertyChanged("subTotal");
+                RaisePropertyChanged("subTotalVat");
+            }
+        }
 
         /// <summary>
         /// Gets or sets the price.
         /// </summary>
         /// <value>The price.</value>
-        public decimal price { get; set; }
+        public decimal _price;
+        public decimal price
+        {
+            get => _price;
+            set
+            {
+
+                _price = value;
+                RaisePropertyChanged("priceVat");
+                RaisePropertyChanged("subTotal");
+                RaisePropertyChanged("subTotalVat");
+            }
+        }
+
 
         /// <summary>
         /// Gets the price vat.
         /// </summary>
         /// <value>The price vat.</value>
+        decimal _priceVat;
         [NotMapped]
         public decimal priceVat
         {
             get
             {
-                return price * vat.coefficient;
+                if (vat != null)
+                {
+                    return price * vat.coefficient;
+                     
+                }
+                else
+                {
+                    return price;
+                  
+                }
+
+            }
+            set
+            {
+                if (_priceVat != value)
+                {
+                    if (value == 0)
+                    {
+                        _priceVat = value;
+                        RaisePropertyChanged("priceVat");
+                    }
+                    else
+                    {
+                        _priceVat = value;
+                        RaisePropertyChanged("priceVat");
+                        if (vat != null)
+                        {
+                            price = value / vat.coefficient;
+                            RaisePropertyChanged("price");
+                        }
+                        else
+                        {
+                            price = value / 1;
+                            RaisePropertyChanged("price");
+                        }
+                        
+                    }
+                    
+                }
+                
             }
         }
 
@@ -94,10 +160,17 @@ namespace Core.Models
         /// Gets the sub total.
         /// </summary>
         /// <value>The sub total.</value>
+        decimal _subTotal;
         [NotMapped]
-        public decimal subTotal {
-            get {
+        public decimal subTotal
+        {
+            get
+            {
                 return price * quantity;
+            }
+            set
+            {
+                _subTotal = value;
             }
         }
 
@@ -105,10 +178,17 @@ namespace Core.Models
         /// Gets the sub total vat.
         /// </summary>
         /// <value>The sub total vat.</value>
+        decimal _subTotalVat;
         [NotMapped]
-        public decimal subTotalVat {
-            get {
+        public decimal subTotalVat
+        {
+            get
+            {
                 return priceVat * quantity;
+            }
+            set
+            {
+                _subTotalVat = value;
             }
         }
 
@@ -119,17 +199,6 @@ namespace Core.Models
         [NotMapped]
         public Message.Warning? message { get; set; }
 
-        event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
-        {
-            add
-            {
-                throw new NotImplementedException();
-            }
-
-            remove
-            {
-                throw new NotImplementedException();
-            }
-        }
+       
     }
 }

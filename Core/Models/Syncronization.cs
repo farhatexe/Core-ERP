@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Models
 {
-    public class Syncronization
+    public class Syncronization : BaseClass
     {
         public enum SyncTypes { Upload, Download }
 

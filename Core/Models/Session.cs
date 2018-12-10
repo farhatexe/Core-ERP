@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Core.Models
 {
-    public class Session
+    public class Session : BaseClass
     {
         public Session()
         {

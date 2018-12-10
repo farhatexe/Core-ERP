@@ -94,7 +94,7 @@ namespace Core.Controllers
         {
             if (Inventory.actualQuantity != null)
             {
-                decimal delta = Convert.ToDecimal(Inventory.actualQuantity) - Inventory.systemQuantity;
+                decimal delta = Convert.ToDecimal(Inventory.systemQuantity) - Convert.ToDecimal(Inventory.actualQuantity);
 
                 Models.ItemMovement movements = new Models.ItemMovement()
                 {

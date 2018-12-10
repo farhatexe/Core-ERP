@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace Core.Models
 {
-    public class PaymentContract
+    public class PaymentContract : BaseClass
     {
         public PaymentContract()
         {

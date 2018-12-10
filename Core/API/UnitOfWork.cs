@@ -15,6 +15,7 @@ namespace Core
         private VatController vatRepo;
         private Controllers.Account accountRepo;
         private ItemCategoryController itemcategoryRepo;
+        private Sales salesRepo;
         private Context Context;
 
         public UnitOfWork(Context db)
@@ -101,6 +102,17 @@ namespace Core
                     itemcategoryRepo = new ItemCategoryController(Context);
                 }
                 return itemcategoryRepo;
+            }
+        }
+        public Sales SaleRepo
+        {
+            get
+            {
+                if (salesRepo == null)
+                {
+                    salesRepo = new Sales(Context);
+                }
+                return salesRepo;
             }
         }
 

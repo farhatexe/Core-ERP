@@ -9,7 +9,7 @@ namespace Core.Models
     /// <summary>
     /// All Accounts that store money values, such as Bank or Cash Accounts.
     /// </summary>
-    public class Account
+    public class Account : BaseClass
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

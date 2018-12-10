@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace Core.Models
 {
-    public class ItemTransfer
+    public class ItemTransfer : BaseClass
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

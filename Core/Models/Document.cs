@@ -9,7 +9,7 @@ namespace Core.Models
     /// <summary>
     /// Documents are used to generate rages for Invoices or other internal documents
     /// </summary>
-    public class Document
+    public class Document : BaseClass
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

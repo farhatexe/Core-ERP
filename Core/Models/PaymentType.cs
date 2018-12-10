@@ -9,7 +9,7 @@ namespace Core.Models
     /// <summary>
     /// Payment type.
     /// </summary>
-    public class PaymentType
+    public class PaymentType : BaseClass
     {
         /// <summary>
         /// Core accepts different types of behaviours.

@@ -8,7 +8,7 @@ namespace Core.Models
     /// <summary>
     /// Stores all item credits and debits of stockable items within a location.
     /// </summary>
-    public class ItemMovement
+    public class ItemMovement : BaseClass
     {
 
         /// <summary>

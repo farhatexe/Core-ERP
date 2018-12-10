@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace Core.Models
 {
-    public class Location
+    public class Location : BaseClass
     {
         public Location() { }
 

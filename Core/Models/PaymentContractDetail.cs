@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace Core.Models
 {
-    public class PaymentContractDetail
+    public class PaymentContractDetail : BaseClass
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

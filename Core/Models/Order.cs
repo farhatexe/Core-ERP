@@ -4,10 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace Core.Models
 {
-    public class Order
+    public class Order : BaseClass
     {
         /// <summary>
         /// Types.
@@ -17,7 +18,7 @@ namespace Core.Models
         public Order()
         {
             date = DateTime.Now;
-            details = new List<OrderDetail>();
+            details = new ObservableCollection<OrderDetail>();
             isArchived = false;
         }
 
@@ -136,7 +137,7 @@ namespace Core.Models
         /// Gets or sets the details.
         /// </summary>
         /// <value>The details.</value>
-        public List<OrderDetail> details { get; set; }
+        public ObservableCollection<OrderDetail> details { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="T:Core.Models.Order"/> is archived.

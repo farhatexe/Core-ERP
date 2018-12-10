@@ -9,7 +9,7 @@ namespace Core.Models
     /// <summary>
     /// Inventory adjust your stock credits and debits (balance) to reflect reality.
     /// </summary>
-    public class Inventory
+    public class Inventory : BaseClass
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Core.Models.InventoryDetail"/> class.

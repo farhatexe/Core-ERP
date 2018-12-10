@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace Core.Models
 {
-    public class Range
+    public class Range : BaseClass
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

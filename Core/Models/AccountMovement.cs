@@ -8,7 +8,7 @@ namespace Core.Models
     /// <summary>
     /// All money account movements such as inflows and outflows are registered in this table.
     /// </summary>
-    public class AccountMovement
+    public class AccountMovement : BaseClass
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
