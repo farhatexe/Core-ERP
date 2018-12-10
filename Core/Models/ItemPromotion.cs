@@ -15,22 +15,31 @@ namespace Core.Models
         /// </summary>
         public enum InputTypes 
         { 
+
             /// <summary>
             /// Rule applies to all Products and Locations
             /// </summary>
             General,
+
             /// <summary>
             /// Rule applies to specific Category
             /// </summary>
             OnCategory,
+
             /// <summary>
             /// Rule applies to specific Product
             /// </summary>
             OnProduct,
+
             /// <summary>
-            /// Rule applies to specific Location, such as a Shop.
+            /// The on tag.
             /// </summary>
-            OnLocation
+            OnTag,
+
+            /// <summary>
+            /// The on customer.
+            /// </summary>
+            OnCustomer,
         }
 
         /// <summary>
@@ -38,11 +47,6 @@ namespace Core.Models
         /// </summary>
         public enum OutputTypes 
         { 
-            /// <summary>
-            /// The fixed margin.
-            /// </summary>
-            FixedMargin, 
-
             /// <summary>
             /// Automatic set percentage on an input.
             /// </summary>
@@ -128,11 +132,11 @@ namespace Core.Models
         /// <value>The input value.</value>
         public decimal inputValue { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the input value max.
         /// </summary>
         /// <value>The input value max.</value>
-        [DataMember]
         public decimal inputValueMax { get; set; }
 
         [DataMember]

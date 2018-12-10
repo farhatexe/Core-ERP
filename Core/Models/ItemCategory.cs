@@ -41,12 +41,19 @@ namespace Core.Models
         /// <value>The parent.</value>
         public ItemCategory parent { get; set; }
 
-      //  [DataMember]
+        [DataMember]
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="T:Core.Models.ItemCategory"/> is grouping.
         /// </summary>
         /// <value><c>true</c> if is grouping; otherwise, <c>false</c>.</value>
         public bool group { get; set; }
+
+        /// <summary>
+        /// Gets or sets the global margin.
+        /// </summary>
+        /// <value>The global margin.</value>
+        [DataMember]
+        public decimal? margin { get; set; }
 
         [DataMember]
         /// <summary>

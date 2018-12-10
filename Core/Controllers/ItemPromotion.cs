@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 
 namespace Core.Controllers
@@ -38,14 +39,21 @@ namespace Core.Controllers
         }
 
 
-
-        public Models.Order CheckPromotions(Models.Order order)
+        public Models.Order CalculatePromotionsOnSales(Models.Order order)
         {
+            List<Models.ItemPromotion> promotions = _db.ItemPromotions
+            .Where(x => (x.startDate <= DateTime.Now && x.endDate >= DateTime.Now) || (x.startDate == null && x.endDate == null))
+            .ToList();
+
+            foreach (OrderDetail detail in order.details)
+            {
+                DiscountOnItem(detail);
+            }
+
             return order;
         }
 
-
-        private Models.Order discountOnItem(Models.Order order)
+        public void DiscountOnItem(Models.OrderDetail detail)
         {
 
         }

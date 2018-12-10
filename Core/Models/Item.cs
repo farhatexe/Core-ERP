@@ -32,11 +32,11 @@ namespace Core.Models
         public int? cloudId { get; set; }
 
         /// <summary>
-        /// Gets or sets the company identifier.
+        /// Gets or sets the company.
         /// </summary>
-        /// <value>The company identifier.</value>
+        /// <value>The company.</value>
         [DataMember]
-        public int companyId { get; set; }
+        public Company company { get; set; }
 
         /// <summary>
         /// Gets or sets the global item cloud identifier.
@@ -120,7 +120,31 @@ namespace Core.Models
         /// Gets or sets the price.
         /// </summary>
         /// <value>The price.</value>
-        public decimal price { get; set; }
+        public decimal price 
+        {
+            get 
+            {
+                if (price == 0)
+                {
+                    if (category != null && category.margin != null)
+                    {
+                        return (cost * (category.margin ?? 0 + 1));
+                    }
+                    else if (company != null && company.globalMargin != null)
+                    { 
+                        return (cost * (company.globalMargin ?? 0 + 1));
+                    }
+                }
+
+                return price;
+            }
+            set 
+            { 
+                _price = value;
+
+            }
+        }
+        private decimal _price;
 
         [DataMember]
         /// <summary>

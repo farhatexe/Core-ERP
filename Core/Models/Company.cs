@@ -29,40 +29,47 @@ namespace Core.Models
         /// <value>The name.</value>
         public string name { get; set; }
 
-        [DataMember]
         /// <summary>
         /// Gets or sets the tax identifier.
         /// </summary>
         /// <value>The tax identifier.</value>
+        [DataMember]
         public string taxId { get; set; }
 
-        [DataMember]
         /// <summary>
         /// Gets or sets the address.
         /// </summary>
         /// <value>The address.</value>
+        [DataMember]
         public string address { get; set; }
 
-        [DataMember]
         /// <summary>
         /// Gets or sets the telephone.
         /// </summary>
         /// <value>The telephone.</value>
+        [DataMember]
         public string telephone { get; set; }
 
-        [DataMember]
         /// <summary>
         /// Gets or sets the email.
         /// </summary>
         /// <value>The email.</value>
+        [DataMember]
         public string email { get; set; }
 
-        [DataMember]
         /// <summary>
         /// Gets or sets the currency.
         /// </summary>
         /// <value>The currency.</value>
+        [DataMember]
         public string currencyCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the global margin.
+        /// </summary>
+        /// <value>The global margin.</value>
+        [DataMember]
+        public decimal? globalMargin { get; set; }
 
         public List<Vat> vats { get; set; }
 
