@@ -68,7 +68,6 @@ namespace Core.Models
         /// Gets or sets the identifier.
         /// </summary>
         /// <value>The identifier.</value>
-        /// 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int localId { get; set; }
@@ -101,6 +100,12 @@ namespace Core.Models
         /// <value>The end date.</value>
         public DateTime? endDate { get; set; }
 
+        /// <summary>
+        /// Gets or sets the on location.
+        /// </summary>
+        /// <value>The on location.</value>
+        public int? onLocationCloudId { get; set; }
+
         [DataMember]
         /// <summary>
         /// Gets or sets the type of the input.
@@ -122,6 +127,13 @@ namespace Core.Models
         /// </summary>
         /// <value>The input value.</value>
         public decimal inputValue { get; set; }
+
+        /// <summary>
+        /// Gets or sets the input value max.
+        /// </summary>
+        /// <value>The input value max.</value>
+        [DataMember]
+        public decimal inputValueMax { get; set; }
 
         [DataMember]
         /// <summary>

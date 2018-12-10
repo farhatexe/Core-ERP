@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using System.Runtime.Serialization;
 
 namespace Core.Models
 {
@@ -11,9 +11,6 @@ namespace Core.Models
     /// </summary>
     public class OrderDetail : BaseClass
     {
-
-        private Item _item;
-
         public OrderDetail()
         {
             quantity = 1;
@@ -23,24 +20,36 @@ namespace Core.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int localId { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the cloud identifier.
         /// </summary>
         /// <value>The cloud identifier.</value>
         public int? cloudId { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the order.
         /// </summary>
         /// <value>The order.</value>
         public Order order { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the vat.
         /// </summary>
         /// <value>The vat.</value>
         public Vat vat { get; set; }
 
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the promotion.
+        /// </summary>
+        /// <value>The promotion.</value>
+        public ItemPromotion promotion { get; set; }
+
+        [DataMember]
+        private Item _item;
         /// <summary>
         /// Gets or sets the item.
         /// </summary>
@@ -56,23 +65,26 @@ namespace Core.Models
             }
         }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the item description.
         /// </summary>
         /// <value>The item description.</value>
         public string itemDescription { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the cost.
         /// </summary>
         /// <value>The cost.</value>
         public decimal cost { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the quantity.
         /// </summary>
         /// <value>The quantity.</value>
-        public decimal _quantity;
+        private decimal _quantity;
         public decimal quantity
         {
             get => _quantity;
@@ -84,11 +96,12 @@ namespace Core.Models
             }
         }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the price.
         /// </summary>
         /// <value>The price.</value>
-        public decimal _price;
+        private decimal _price;
         public decimal price
         {
             get => _price;
@@ -107,7 +120,7 @@ namespace Core.Models
         /// Gets the price vat.
         /// </summary>
         /// <value>The price vat.</value>
-        decimal _priceVat;
+        private decimal _priceVat;
         [NotMapped]
         public decimal priceVat
         {
@@ -160,7 +173,7 @@ namespace Core.Models
         /// Gets the sub total.
         /// </summary>
         /// <value>The sub total.</value>
-        decimal _subTotal;
+        private decimal _subTotal;
         [NotMapped]
         public decimal subTotal
         {
@@ -198,7 +211,5 @@ namespace Core.Models
         /// <value>The message.</value>
         [NotMapped]
         public Message.Warning? message { get; set; }
-
-       
     }
 }

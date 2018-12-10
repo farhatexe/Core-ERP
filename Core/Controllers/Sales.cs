@@ -63,15 +63,18 @@ namespace Core.Controllers
         }
 
         /// <summary>
-        /// List this instance.
+        /// Adds the detail.
         /// </summary>
-        /// <returns>The list.</returns>
-        public Core.Models.Order AddDetail(Core.Models.Order order,dynamic Item)
+        /// <returns>The detail.</returns>
+        /// <param name="order">Order.</param>
+        /// <param name="Item">Item.</param>
+        /// <param name="quantity">Quantity.</param>
+        public Core.Models.Order AddDetail(Models.Order order, dynamic Item, int quantity = 1)
         {
             Models.OrderDetail OrderDetail = new OrderDetail();
             OrderDetail.order = order;
             OrderDetail.item =Item.Item;
-            OrderDetail.quantity = 1;
+            OrderDetail.quantity = quantity;
             OrderDetail.price = OrderDetail.item.price;
             order.details.Add(OrderDetail);
             return order;

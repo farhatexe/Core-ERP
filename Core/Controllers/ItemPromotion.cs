@@ -36,5 +36,18 @@ namespace Core.Controllers
         {
             _db.SaveChanges();
         }
+
+
+
+        public Models.Order CheckPromotions(Models.Order order)
+        {
+            return order;
+        }
+
+
+        private Models.Order discountOnItem(Models.Order order)
+        {
+
+        }
     }
 }
