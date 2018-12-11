@@ -96,17 +96,24 @@ namespace Core.Models
             }
         }
 
+        /// <summary>
+        /// Gets or sets the discount.
+        /// </summary>
+        /// <value>The discount.</value>
         [DataMember]
+        public decimal discount { get; set; }
+
         /// <summary>
         /// Gets or sets the price.
         /// </summary>
         /// <value>The price.</value>
-        private decimal _price;
+        [DataMember]
         public decimal price
         {
             get => _price;
             set
             {
+                discount = discount == 0 ? value : discount;
 
                 _price = value;
                 RaisePropertyChanged("priceVat");
@@ -114,7 +121,7 @@ namespace Core.Models
                 RaisePropertyChanged("subTotalVat");
             }
         }
-
+        private decimal _price;
 
         /// <summary>
         /// Gets the price vat.
