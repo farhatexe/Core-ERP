@@ -31,102 +31,119 @@ namespace Core.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int localId { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the cloud identifier.
         /// </summary>
         /// <value>The cloud identifier.</value>
         public int? cloudId { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the type of the order.
         /// </summary>
         /// <value>The type of the order.</value>
         public Types type { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the status.
         /// </summary>
         /// <value>The status.</value>
         public Enums.Status status { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the company.
         /// </summary>
         /// <value>The company.</value>
         public Company company { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the location.
         /// </summary>
         /// <value>The location.</value>
         public Location location { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the date.
         /// </summary>
         /// <value>The date.</value>
         public DateTime date { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the session.
         /// </summary>
         /// <value>Session used during current order.</value>
         public Session session { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the range.
         /// </summary>
         /// <value>Range used during current order.</value>
         public Range range { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the customer.
         /// </summary>
         /// <value>The customer.</value>
         public Contact customer { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the payment contract.
         /// </summary>
         /// <value>The payment contract.</value>
         public PaymentContract paymentContract { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the invoice number.
         /// </summary>
         /// <value>The invoice number.</value>
         public string invoiceNumber { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the invoice code.
         /// </summary>
         /// <value>The invoice code.</value>
         public string code { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the code expiry.
         /// </summary>
         /// <value>The code expiry.</value>
         public DateTime codeExpiry { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the currency.
         /// </summary>
         /// <value>The currency.</value>
         public string currency { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the currency rate.
         /// </summary>
         /// <value>The currency rate.</value>
         public decimal currencyRate { get; set; }
 
+        [NotMapped]
         /// <summary>
         /// Gets the total.
         /// </summary>
         /// <value>The total.</value>
         public decimal total { get { return details.Sum(x => x.subTotalVat); } }
 
+        [NotMapped]
         /// <summary>
         /// Gets the interval.
         /// </summary>

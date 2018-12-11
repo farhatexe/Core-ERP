@@ -73,7 +73,7 @@ namespace Core.Controllers
         {
             Models.OrderDetail OrderDetail = new OrderDetail();
             OrderDetail.order = order;
-            OrderDetail.item =Item.Item;
+            OrderDetail.item =Item;
             OrderDetail.quantity = quantity;
             OrderDetail.price = OrderDetail.item.price;
             order.details.Add(OrderDetail);
@@ -109,6 +109,14 @@ namespace Core.Controllers
         /// <param name="Order">Order.</param>
         public Boolean Save(Models.Order Order)
         {
+            foreach (OrderDetail detail in Order.details)
+            {
+                int id = (int)detail.item.localId;
+                Item Item = _db.Items.Where(x => x.localId == id).FirstOrDefault();
+                detail.item = Item;
+            }
+            _db.Orders.Add(Order);
+
             _db.SaveChanges();
             return true;
         }
