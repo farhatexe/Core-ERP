@@ -57,27 +57,31 @@ namespace Core.Controllers
         {
             //Get List of Items with Inventory
             ItemController itemController = new ItemController(db);
-            var ItemsWithStockByLocation = itemController.ItemsWithStockByLocation(location, DateTime.Now);
+            var ItemsWithStockByLocation = itemController.List_IncludeStock(location, DateTime.Now);
 
             ObservableCollection<Models.Inventory> inventories = new ObservableCollection<Inventory>();
 
-            foreach (dynamic item in ItemsWithStockByLocation)
+            if (ItemsWithStockByLocation!=null)
             {
-                int id = (int)item.Item;
-                Item Item = db.Items.Where(x => x.localId == id).FirstOrDefault();
-                Models.Inventory inventory = new Models.Inventory()
+                foreach (dynamic item in ItemsWithStockByLocation)
                 {
-                    date = DateTime.Now,
-                    location = location,
-                    item = Item,
+               
+                  
+                    Models.Inventory inventory = new Models.Inventory()
+                    {
+                        date = DateTime.Now,
+                        location = location,
+                        item = item.Item,
 
-                    systemQuantity = item.Balance,
-                    cost = item.Cost,
-                };
+                        systemQuantity = item.Balance
+                      
+                    };
 
-                db.Inventories.Add(inventory);
-                inventories.Add(inventory);
+                    db.Inventories.Add(inventory);
+                    inventories.Add(inventory);
+                }
             }
+          
 
             return inventories;
         }

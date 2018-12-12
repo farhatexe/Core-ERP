@@ -124,7 +124,7 @@ namespace Core.Models
         {
             get 
             {
-                if (price == 0)
+                if (_price == 0)
                 {
                     if (category != null && category.margin != null)
                     {
@@ -136,7 +136,7 @@ namespace Core.Models
                     }
                 }
 
-                return price;
+                return _price;
             }
             set 
             { 

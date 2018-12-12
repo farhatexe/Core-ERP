@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -202,5 +203,8 @@ namespace Core.Models
         /// </summary>
         /// <value>The action.</value>
         public int action { get; set; }
+
+
+        public List<OrderDetail> Details { get; set; }
     }
 }
