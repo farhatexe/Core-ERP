@@ -80,33 +80,40 @@ namespace Core.Models
         /// <value>The name.</value>
         public string name { get; set; }
 
-        [DataMember]
         /// <summary>
         /// Gets or sets the sku.
         /// </summary>
         /// <value>The sku.</value>
+        [DataMember]
         public string sku { get; set; }
 
-        [DataMember]
         /// <summary>
         /// Gets or sets the bar code.
         /// </summary>
         /// <value>The bar code.</value>
+        [DataMember]
         public string barCode { get; set; }
 
-        [DataMember]
         /// <summary>
         /// Gets or sets the short description.
         /// </summary>
         /// <value>The short description.</value>
+        [DataMember]
         public string shortDescription { get; set; }
 
-        [DataMember]
         /// <summary>
         /// Gets or sets the long description.
         /// </summary>
         /// <value>The long description.</value>
+        [DataMember]
         public string longDescription { get; set; }
+
+        /// <summary>
+        /// Gets or sets the image URL.
+        /// </summary>
+        /// <value>The image URL.</value>
+        [DataMember]
+        public string imageUrl { get; set; }
 
         [DataMember]
         /// <summary>

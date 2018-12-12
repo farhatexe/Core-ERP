@@ -93,6 +93,7 @@ namespace Core.Models
                 _quantity = value;
                 RaisePropertyChanged("subTotal");
                 RaisePropertyChanged("subTotalVat");
+                order.RaisePropertyChanged("total");
             }
         }
 
@@ -119,6 +120,7 @@ namespace Core.Models
                 RaisePropertyChanged("priceVat");
                 RaisePropertyChanged("subTotal");
                 RaisePropertyChanged("subTotalVat");
+                order.RaisePropertyChanged("total");
             }
         }
         private decimal _price;
@@ -167,10 +169,9 @@ namespace Core.Models
                         {
                             price = value / 1;
                             RaisePropertyChanged("price");
-                        }
-                        
+                        }   
                     }
-                    
+                    order.RaisePropertyChanged("total");
                 }
                 
             }
