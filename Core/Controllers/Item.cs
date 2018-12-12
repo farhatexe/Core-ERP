@@ -28,11 +28,11 @@ namespace Core.Controllers
         /// <param name="location"></param>
         /// <param name="date"></param>
         /// <returns></returns>
-        public IEnumerable<dynamic> List_IncludeStock(Models.Location location, DateTime? date)
+        public IQueryable<dynamic> List_IncludeStock(Models.Location location, DateTime? date)
         {
             date = date.HasValue ? date : DateTime.Now;
             
-                IEnumerable<object> query = from i in db.Items
+               IQueryable<dynamic> query = from i in db.Items
                                             join movements in 
                                             (from movements in db.ItemMovements where location.localId == movements.localId && movements.date >= date select movements)
                                             on i equals movements.item into itemStock

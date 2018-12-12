@@ -91,8 +91,15 @@ namespace Core.Models
             set
             {
                 _quantity = value;
+                RaisePropertyChanged("quantity");
                 RaisePropertyChanged("subTotal");
                 RaisePropertyChanged("subTotalVat");
+                if (order!=null)
+                {
+                    order.RaisePropertyChanged("total");
+
+                }
+                
             }
         }
 
