@@ -55,6 +55,20 @@ namespace Core.Controllers
                 {
                     OnHeader(order, promotion);
                 }
+                else if(promotion.inputType == Models.ItemPromotion.InputTypes.OnCustomer)
+                {
+                    if (order.customer != null && promotion.inputReference == order.customer.cloudId)
+                    {
+                        OnHeader(order, promotion);
+                    }
+                }
+                else if (promotion.inputType == Models.ItemPromotion.InputTypes.OnPaymentType)
+                {
+                    if (order.paymentContract != null && promotion.inputReference == order.paymentContract.cloudId)
+                    {
+                        OnHeader(order, promotion);
+                    }
+                }
 
                 foreach (OrderDetail detail in order.details)
                 {
@@ -89,8 +103,7 @@ namespace Core.Controllers
                     Discount(detail, promotion);
                 }
             }
-
-            if (promotion.outputType == Models.ItemPromotion.OutputTypes.DiscountOnQuantity
+            else if (promotion.outputType == Models.ItemPromotion.OutputTypes.DiscountOnQuantity
                 && promotion.outputValue <= order.details.Sum(x => x.quantity))
             {
                 foreach (OrderDetail detail in order.details)
@@ -98,8 +111,7 @@ namespace Core.Controllers
                     Discount(detail, promotion);
                 }
             }
-
-            if (promotion.outputType == Models.ItemPromotion.OutputTypes.GiftOnQuantity
+            else if (promotion.outputType == Models.ItemPromotion.OutputTypes.GiftOnQuantity
                 && promotion.outputValue <= order.details.Sum(x => x.quantity))
             {
                 foreach (OrderDetail detail in order.details)
@@ -107,8 +119,7 @@ namespace Core.Controllers
                     Gift(detail, promotion);
                 }
             }
-
-            if (promotion.outputType == Models.ItemPromotion.OutputTypes.GiftOnTotal)
+            else if (promotion.outputType == Models.ItemPromotion.OutputTypes.GiftOnTotal)
             {
                 foreach (OrderDetail detail in order.details)
                 {
@@ -123,19 +134,17 @@ namespace Core.Controllers
             {
                 Discount(detail, promotion);
             }
-
-            if (promotion.outputType == Models.ItemPromotion.OutputTypes.DiscountOnQuantity
+            else if (promotion.outputType == Models.ItemPromotion.OutputTypes.DiscountOnQuantity
                 && promotion.outputValue <= detail.quantity)
             {
                 Discount(detail, promotion);
             }
-
-            if (promotion.outputType == Models.ItemPromotion.OutputTypes.GiftOnQuantity)
+            else if (promotion.outputType == Models.ItemPromotion.OutputTypes.GiftOnQuantity
+            && promotion.outputValue <= detail.quantity)
             {
                 Gift(detail, promotion);
             }
-
-            if (promotion.outputType == Models.ItemPromotion.OutputTypes.GiftOnTotal)
+            else if (promotion.outputType == Models.ItemPromotion.OutputTypes.GiftOnTotal)
             {
                 Gift(detail, promotion);
             }
@@ -156,6 +165,11 @@ namespace Core.Controllers
 
         private void Gift(OrderDetail detail, Models.ItemPromotion promotion)
         {
+            if (promotion.outputType == Models.ItemPromotion.OutputTypes.GiftOnQuantity)
+            {
+
+            }
+
             Models.Item item = _db.Items.First(x => x.cloudId == promotion.outputReference);
 
             if (item != null)

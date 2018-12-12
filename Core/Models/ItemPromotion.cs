@@ -14,8 +14,7 @@ namespace Core.Models
         /// The InputTypes are the categories, products, or locations from selling in which to apply the price rule.
         /// </summary>
         public enum InputTypes 
-        { 
-
+        {
             /// <summary>
             /// Rule applies to all Products and Locations
             /// </summary>
@@ -40,6 +39,21 @@ namespace Core.Models
             /// The on customer.
             /// </summary>
             OnCustomer,
+
+            /// <summary>
+            /// The on membership.
+            /// </summary>
+            OnMembershipTier,
+
+            /// <summary>
+            /// The type of the on payment.
+            /// </summary>
+            OnPaymentType,
+
+            /// <summary>
+            /// The on payment condition.
+            /// </summary>
+            OnPaymentCondition
         }
 
         /// <summary>
