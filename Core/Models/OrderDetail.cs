@@ -94,12 +94,7 @@ namespace Core.Models
                 RaisePropertyChanged("quantity");
                 RaisePropertyChanged("subTotal");
                 RaisePropertyChanged("subTotalVat");
-                if (order!=null)
-                {
-                    order.RaisePropertyChanged("total");
-
-                }
-                
+                order.RaisePropertyChanged("total");
             }
         }
 
@@ -126,6 +121,7 @@ namespace Core.Models
                 RaisePropertyChanged("priceVat");
                 RaisePropertyChanged("subTotal");
                 RaisePropertyChanged("subTotalVat");
+                order.RaisePropertyChanged("total");
             }
         }
         private decimal _price;
@@ -143,12 +139,12 @@ namespace Core.Models
                 if (vat != null)
                 {
                     return price * vat.coefficient;
-                     
+
                 }
                 else
                 {
                     return price;
-                  
+
                 }
 
             }
@@ -175,11 +171,10 @@ namespace Core.Models
                             price = value / 1;
                             RaisePropertyChanged("price");
                         }
-                        
                     }
-                    
+                    order.RaisePropertyChanged("total");
                 }
-                
+
             }
         }
 
