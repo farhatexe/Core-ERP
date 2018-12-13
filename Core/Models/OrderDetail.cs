@@ -91,6 +91,7 @@ namespace Core.Models
             set
             {
                 _quantity = value;
+                RaisePropertyChanged("quantity");
                 RaisePropertyChanged("subTotal");
                 RaisePropertyChanged("subTotalVat");
                 order.RaisePropertyChanged("total");
@@ -138,12 +139,12 @@ namespace Core.Models
                 if (vat != null)
                 {
                     return price * vat.coefficient;
-                     
+
                 }
                 else
                 {
                     return price;
-                  
+
                 }
 
             }
@@ -169,11 +170,11 @@ namespace Core.Models
                         {
                             price = value / 1;
                             RaisePropertyChanged("price");
-                        }   
+                        }
                     }
                     order.RaisePropertyChanged("total");
                 }
-                
+
             }
         }
 
