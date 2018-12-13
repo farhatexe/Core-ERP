@@ -128,7 +128,7 @@ namespace Core.Controllers
         /// <param name="Order">Order</param>
         /// <param name="RecalculatePrices">If set to <c>true</c> recalculate prices.</param>
         /// <param name="IgnoreErrors">If set to <c>true</c> ignore errors.</param>
-        public Models.Order Approve(Models.Order Order, bool RecalculatePrices = false, bool IgnoreErrors = false)
+        public Models.Order Approve(Models.Order Order, bool IgnoreErrors = false, bool MakePayment = false, bool RecalculatePrices = false)
         {
            
             //Validate Stock Levels,
@@ -206,7 +206,7 @@ namespace Core.Controllers
                     _db.PaymentSchedual.Add(schedual);
                 }
             }
-            else
+            else if (MakePayment == false)
             {
                 //Incase Payment Contract is not established.
                 Models.PaymentSchedual schedual = new Models.PaymentSchedual()

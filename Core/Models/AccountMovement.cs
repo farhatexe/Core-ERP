@@ -34,6 +34,20 @@ namespace Core.Models
         /// <value>The account.</value>
         public Account account { get; set; }
 
+        /// <summary>
+        /// Gets or sets the schedual.
+        /// </summary>
+        /// <value>The schedual.</value>
+        [DataMember]
+        public PaymentSchedual schedual { get; set; }
+
+        /// <summary>
+        /// Gets or sets the order.
+        /// </summary>
+        /// <value>The order.</value>
+        [DataMember]
+        public Order order { get; set; }
+
         [DataMember]
         /// <summary>
         /// Gets or sets the date.
