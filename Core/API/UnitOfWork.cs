@@ -16,6 +16,8 @@ namespace Core
         private Controllers.Account accountRepo;
         private ItemCategoryController itemcategoryRepo;
         private Sales salesRepo;
+        private Controllers.PaymentType paymentTypeRepo;
+        private Controllers.PaymentSchedual paymentSchedualRepo;
         private Context Context;
 
         public UnitOfWork(Context db)
@@ -113,6 +115,29 @@ namespace Core
                     salesRepo = new Sales(Context);
                 }
                 return salesRepo;
+            }
+        }
+        public Controllers.PaymentType PaymentTypeRepo
+        {
+            get
+            {
+                if (paymentTypeRepo == null)
+                {
+                    paymentTypeRepo = new Controllers.PaymentType(Context);
+                }
+                return paymentTypeRepo;
+            }
+        }
+
+        public Controllers.PaymentSchedual PaymentSchedualRepo
+        {
+            get
+            {
+                if (paymentSchedualRepo == null)
+                {
+                    paymentSchedualRepo = new Controllers.PaymentSchedual(Context);
+                }
+                return paymentSchedualRepo;
             }
         }
 

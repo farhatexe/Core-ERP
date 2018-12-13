@@ -94,7 +94,11 @@ namespace Core.Models
                 RaisePropertyChanged("quantity");
                 RaisePropertyChanged("subTotal");
                 RaisePropertyChanged("subTotalVat");
-                order.RaisePropertyChanged("total");
+                if (order!=null)
+                {
+                    order.RaisePropertyChanged("total");
+                }
+              
             }
         }
 
@@ -121,7 +125,10 @@ namespace Core.Models
                 RaisePropertyChanged("priceVat");
                 RaisePropertyChanged("subTotal");
                 RaisePropertyChanged("subTotalVat");
-                order.RaisePropertyChanged("total");
+                if (order != null)
+                {
+                    order.RaisePropertyChanged("total");
+                }
             }
         }
         private decimal _price;
