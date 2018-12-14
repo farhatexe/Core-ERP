@@ -51,12 +51,46 @@ namespace Core.Controllers
         public void ReceivePayment(Models.Order order, Models.Account account, Models.PaymentType paymentType, DateTime paymentDate, string currencyCode, decimal currencyRate, decimal amount, decimal balance = 0)
         {
             //fixes an issue if developer does not assign a balance.
-            balance = balance > 0 ? balance : amount;
+            balance = balance >= 0 ? balance : amount;
 
-            foreach (var contract in order.paymentContract.details.Where(x => x.forOrders == false))
+            if (order.paymentContract != null)
             {
-                decimal currentObligation = (order.total * currencyRate) * contract.percentage;
+                foreach (var contract in order.paymentContract.details.Where(x => x.forOrders == false))
+                {
+                    decimal currentObligation = (order.total * currencyRate) * contract.percentage;
 
+                    AccountMovement movement = new AccountMovement()
+                    {
+                        account = account,
+                        order = order,
+                        paymentType = paymentType,
+                        date = paymentDate,
+                        debit = 0,
+                        credit = balance >= currentObligation ? currentObligation : balance,
+                        currencyCode = currencyCode,
+                        currencyRate = currencyRate,
+                    };
+
+                    _db.AccountMovements.Add(movement);
+
+                    //In case the current obligation is greater than the balance of the current payment, then make a schedual to have it paid at a later date based on the current obligation's contract.
+                    if (balance < currentObligation)
+                    {
+                        Models.PaymentSchedual schedual = new Models.PaymentSchedual()
+                        {
+                            amountOwed = currentObligation - balance,
+                            order = order,
+                            date = order.date.AddDays(contract.offset),
+                            comment = "Amount not qualified."
+                        };
+
+                        balance -= movement.credit;
+                    }
+                }
+            }
+            else
+            {
+                decimal currentObligation = order.total * currencyRate;
                 AccountMovement movement = new AccountMovement()
                 {
                     account = account,
@@ -69,8 +103,6 @@ namespace Core.Controllers
                     currencyRate = currencyRate,
                 };
 
-                _db.AccountMovements.Add(movement);
-
                 //In case the current obligation is greater than the balance of the current payment, then make a schedual to have it paid at a later date based on the current obligation's contract.
                 if (balance < currentObligation)
                 {
@@ -78,7 +110,7 @@ namespace Core.Controllers
                     {
                         amountOwed = currentObligation - balance,
                         order = order,
-                        date = order.date.AddDays(contract.offset),
+                        date = order.date,
                         comment = "Amount not qualified."
                     };
 
