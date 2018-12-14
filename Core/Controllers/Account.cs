@@ -38,6 +38,82 @@ namespace Core.Controllers
             _db.SaveChanges();
         }
 
+        public void ReceivePayments(List<Models.Order> orders, Models.Account account, PaymentType paymentType, DateTime paymentDate, string currencyCode, decimal currencyRate, decimal amount)
+        {
+            decimal balance = amount;
+
+            foreach (var order in orders.Where(x => x.type == Models.Order.Types.Sales))
+            {
+                if (balance >= order.total)
+                {
+                    foreach (var contract in order.paymentContract.details.Where(x => x.forOrders == false))
+                    {
+                        AccountMovement movement = new AccountMovement()
+                        {
+                            account = account,
+                            order = order,
+                            paymentType = paymentType,
+                            date = paymentDate,
+                            debit = 0,
+                            credit = order.total * contract.percentage,
+                            currencyCode = currencyCode,
+                            currencyRate = currencyRate,
+                        };
+
+                        _db.AccountMovements.Add(movement);
+                    }
+
+                    balance -= order.total;
+                }
+                else
+                {
+                    foreach (var contract in order.paymentContract.details.Where(x => x.forOrders == false))
+                    {
+                        if (balance >= (order.total * contract.percentage))
+                        {
+                            AccountMovement movement = new AccountMovement()
+                            {
+                                account = account,
+                                order = order,
+                                paymentType = paymentType,
+                                date = paymentDate,
+                                debit = 0,
+                                credit = order.total * contract.percentage,
+                                currencyCode = currencyCode,
+                                currencyRate = currencyRate,
+                            };
+                            _db.AccountMovements.Add(movement);
+                        }
+                        else
+                        {
+                            AccountMovement movement = new AccountMovement()
+                            {
+                                account = account,
+                                order = order,
+                                paymentType = paymentType,
+                                date = paymentDate,
+                                debit = 0,
+                                credit = balance,
+                                currencyCode = currencyCode,
+                                currencyRate = currencyRate,
+                            };
+                            _db.AccountMovements.Add(movement);
+
+                            Models.PaymentSchedual schedual = new Models.PaymentSchedual()
+                            {
+                                amountOwed = (order.total * contract.percentage) - balance,
+                                order = order,
+                                date = order.date.AddDays(contract.offset),
+                                comment = "Amount not qualified."
+                            };
+
+                            balance -= movement.credit;
+                        }
+                    }
+                }
+            }
+        }
+
         public void Download(string slug)
         {
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();

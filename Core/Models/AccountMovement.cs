@@ -35,6 +35,13 @@ namespace Core.Models
         public Account account { get; set; }
 
         /// <summary>
+        /// Gets or sets the type of the payment.
+        /// </summary>
+        /// <value>The type of the payment.</value>
+        [DataMember]
+        public PaymentType paymentType { get; set; }
+
+        /// <summary>
         /// Gets or sets the schedual.
         /// </summary>
         /// <value>The schedual.</value>
