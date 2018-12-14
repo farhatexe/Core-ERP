@@ -38,7 +38,7 @@ namespace Core.Controllers
             _db.SaveChanges();
         }
 
-        public void ReceivePayments(List<Models.Order> orders, Models.Account account, PaymentType paymentType, DateTime paymentDate, string currencyCode, decimal currencyRate, decimal amount)
+        public void ReceivePayments(List<Models.Order> orders, Models.Account account, Models.PaymentType paymentType, DateTime paymentDate, string currencyCode, decimal currencyRate, decimal amount)
         {
             decimal balance = amount;
 
