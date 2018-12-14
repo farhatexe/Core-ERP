@@ -38,79 +38,80 @@ namespace Core.Controllers
             _db.SaveChanges();
         }
 
+        /// <summary>
+        /// Receives the payments.
+        /// </summary>
+        /// <param name="orders">List of Orders wish to pay</param>
+        /// <param name="account">Account.</param>
+        /// <param name="paymentType">Payment type.</param>
+        /// <param name="paymentDate">Payment date.</param>
+        /// <param name="currencyCode">Currency code.</param>
+        /// <param name="currencyRate">Currency rate.</param>
+        /// <param name="amount">Amount to be Paid</param>
         public void ReceivePayments(List<Models.Order> orders, Models.Account account, Models.PaymentType paymentType, DateTime paymentDate, string currencyCode, decimal currencyRate, decimal amount)
         {
-            decimal balance = amount;
+            decimal balance = amount * currencyRate;
 
             foreach (var order in orders.Where(x => x.type == Models.Order.Types.Sales))
             {
-                if (balance >= order.total)
+                foreach (var contract in order.paymentContract.details.Where(x => x.forOrders == false))
                 {
-                    foreach (var contract in order.paymentContract.details.Where(x => x.forOrders == false))
+                    decimal currentObligation = (order.total * currencyRate) * contract.percentage;
+
+                    AccountMovement movement = new AccountMovement()
                     {
-                        AccountMovement movement = new AccountMovement()
+                        account = account,
+                        order = order,
+                        paymentType = paymentType,
+                        date = paymentDate,
+                        debit = 0,
+                        credit = balance >= currentObligation ? currentObligation : balance,
+                        currencyCode = currencyCode,
+                        currencyRate = currencyRate,
+                    };
+
+                    _db.AccountMovements.Add(movement);
+
+                    //In case the current obligation is greater than the balance of the current payment, then make a schedual to have it paid at a later date based on the current obligation's contract.
+                    if (balance < currentObligation)
+                    {
+                        Models.PaymentSchedual schedual = new Models.PaymentSchedual()
                         {
-                            account = account,
+                            amountOwed = currentObligation - balance,
                             order = order,
-                            paymentType = paymentType,
-                            date = paymentDate,
-                            debit = 0,
-                            credit = order.total * contract.percentage,
-                            currencyCode = currencyCode,
-                            currencyRate = currencyRate,
+                            date = order.date.AddDays(contract.offset),
+                            comment = "Amount not qualified."
                         };
 
-                        _db.AccountMovements.Add(movement);
+                        balance -= movement.credit;
                     }
-
-                    balance -= order.total;
                 }
-                else
+            }
+        }
+
+        public void ReceivePayments(List<Models.PaymentSchedual> scheduals, Models.Account account, Models.PaymentType paymentType, DateTime paymentDate, string currencyCode, decimal currencyRate, decimal amount)
+        {
+            decimal balance = amount * currencyRate;
+
+            foreach (var schedual in scheduals)
+            {
+                decimal currentObligation = schedual.amountOwed * currencyRate;
+                AccountMovement movement = new AccountMovement()
                 {
-                    foreach (var contract in order.paymentContract.details.Where(x => x.forOrders == false))
-                    {
-                        if (balance >= (order.total * contract.percentage))
-                        {
-                            AccountMovement movement = new AccountMovement()
-                            {
-                                account = account,
-                                order = order,
-                                paymentType = paymentType,
-                                date = paymentDate,
-                                debit = 0,
-                                credit = order.total * contract.percentage,
-                                currencyCode = currencyCode,
-                                currencyRate = currencyRate,
-                            };
-                            _db.AccountMovements.Add(movement);
-                        }
-                        else
-                        {
-                            AccountMovement movement = new AccountMovement()
-                            {
-                                account = account,
-                                order = order,
-                                paymentType = paymentType,
-                                date = paymentDate,
-                                debit = 0,
-                                credit = balance,
-                                currencyCode = currencyCode,
-                                currencyRate = currencyRate,
-                            };
-                            _db.AccountMovements.Add(movement);
+                    account = account,
+                    schedual = schedual,
+                    order = schedual.order,
+                    paymentType = paymentType,
+                    date = paymentDate,
+                    debit = 0,
+                    credit = balance >= currentObligation ? currentObligation : balance,
+                    currencyCode = currencyCode,
+                    currencyRate = currencyRate,
+                };
 
-                            Models.PaymentSchedual schedual = new Models.PaymentSchedual()
-                            {
-                                amountOwed = (order.total * contract.percentage) - balance,
-                                order = order,
-                                date = order.date.AddDays(contract.offset),
-                                comment = "Amount not qualified."
-                            };
+                _db.AccountMovements.Add(movement);
 
-                            balance -= movement.credit;
-                        }
-                    }
-                }
+                balance -= currentObligation;
             }
         }
 
