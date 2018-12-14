@@ -48,8 +48,11 @@ namespace Core.Controllers
         /// <param name="currencyCode">Currency code.</param>
         /// <param name="currencyRate">Currency rate.</param>
         /// <param name="amount">Amount.</param>
-        public void ReceivePayment(Models.Order order, Models.Account account, Models.PaymentType paymentType, DateTime paymentDate, string currencyCode, decimal currencyRate, decimal amount)
+        public void ReceivePayment(Models.Order order, Models.Account account, Models.PaymentType paymentType, DateTime paymentDate, string currencyCode, decimal currencyRate, decimal amount, decimal balance = 0)
         {
+            //fixes an issue if developer does not assign a balance.
+            balance = balance > 0 ? balance : amount;
+
             foreach (var contract in order.paymentContract.details.Where(x => x.forOrders == false))
             {
                 decimal currentObligation = (order.total * currencyRate) * contract.percentage;
@@ -100,7 +103,7 @@ namespace Core.Controllers
 
             foreach (var order in orders.Where(x => x.type == Models.Order.Types.Sales))
             {
-                ReceivePayment(order, account, paymentType, paymentDate, currencyCode, currencyRate, amount);
+                ReceivePayment(order, account, paymentType, paymentDate, currencyCode, currencyRate, order.total, balance);
             }
         }
 
