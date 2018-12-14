@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -72,5 +73,9 @@ namespace Core.Models
         /// </summary>
         /// <value>The action.</value>
         public int action { get; set; }
+        /// <summary>
+        /// Get or Sets Movements
+        /// </summary>
+        public ObservableCollection<AccountMovement> movements { get; set; }
     }
 }

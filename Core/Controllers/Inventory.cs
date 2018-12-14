@@ -63,17 +63,17 @@ namespace Core.Controllers
 
             if (ItemsWithStockByLocation!=null)
             {
-                foreach (dynamic item in ItemsWithStockByLocation)
+                foreach (dynamic stockitem in ItemsWithStockByLocation)
                 {
-               
-                  
+
+                    Item item = db.Items.Find(stockitem.Item.localId);
                     Models.Inventory inventory = new Models.Inventory()
                     {
                         date = DateTime.Now,
                         location = location,
-                        item = item.Item,
+                        item = item,
 
-                        systemQuantity = item.Balance
+                        systemQuantity = stockitem.Balance
                       
                     };
 

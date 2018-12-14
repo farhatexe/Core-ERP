@@ -76,11 +76,25 @@ namespace Core.Controllers
             OrderDetail.item = Item;
             OrderDetail.quantity = quantity;
             OrderDetail.price = OrderDetail.item.price;
-
+            OrderDetail.discount = 0;
             return OrderDetail;
         }
 
+        public Models.Order Add(Models.Session session, Core.Models.Location location = null, Core.Models.PaymentContract paymentContract = null)
+        {
 
+            Core.Models.Order Order = new Core.Models.Order();
+
+            //TODO Select proper location...
+            location = _db.Locations.FirstOrDefault();
+
+            //TODO Select proper location...
+            Order.location = location;
+            //TODO Select proper Paymnetcontract
+            Order.paymentContract = _db.PaymentContracts.FirstOrDefault();
+            Order.session = session;
+            return Order;
+        }
 
         public Models.Order AddRemoveVat(Models.Order order, bool RemoveVat = true)
         {
@@ -133,7 +147,7 @@ namespace Core.Controllers
         /// <param name="Order">Order</param>
         /// <param name="RecalculatePrices">If set to <c>true</c> recalculate prices.</param>
         /// <param name="IgnoreErrors">If set to <c>true</c> ignore errors.</param>
-        public Models.Order Approve(Models.Order Order, bool IgnoreErrors = false, bool MakePayment = false, bool RecalculatePrices = false)
+        public Models.Order Approve(Models.Order Order, bool IgnoreErrors = false, bool InsertSchedual = true, bool RecalculatePrices = false)
         {
 
 
@@ -214,7 +228,7 @@ namespace Core.Controllers
                     _db.PaymentSchedual.Add(schedual);
                 }
             }
-            else if (MakePayment == false)
+            else if (InsertSchedual)
             {
 
                 //Incase Payment Contract is not established.

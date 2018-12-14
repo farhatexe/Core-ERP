@@ -34,7 +34,7 @@ namespace Core.Controllers
             
                IQueryable<dynamic> query = from i in db.Items
                                             join movements in 
-                                            (from movements in db.ItemMovements where location.localId == movements.localId && movements.date >= date select movements)
+                                            (from movements in db.ItemMovements where location.localId == movements.location.localId && movements.date <= date select movements)
                                             on i equals movements.item into itemStock
                                             from Is in itemStock.DefaultIfEmpty()
                                             join branch in db.Locations on Is.location equals branch into locationstock
@@ -43,7 +43,7 @@ namespace Core.Controllers
                                             select new
                                             {
                                                 Item = g.Key,
-                                                Balance = g.Key.ItemMovements.Sum(x=>x.credit-x.debit)
+                                                Balance = g.Sum(x => x != null ? (x.debit - x.credit) : 0)
                                             };
             return query;
         }

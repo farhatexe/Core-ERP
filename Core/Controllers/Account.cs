@@ -83,7 +83,7 @@ namespace Core.Controllers
                             date = order.date.AddDays(contract.offset),
                             comment = "Amount not qualified."
                         };
-
+                        _db.PaymentSchedual.Add(schedual);
                         balance -= movement.credit;
                     }
                 }
@@ -102,7 +102,8 @@ namespace Core.Controllers
                     currencyCode = currencyCode,
                     currencyRate = currencyRate,
                 };
-
+                _db.AccountMovements.Add(movement);
+               
                 //In case the current obligation is greater than the balance of the current payment, then make a schedual to have it paid at a later date based on the current obligation's contract.
                 if (balance < currentObligation)
                 {
@@ -113,7 +114,7 @@ namespace Core.Controllers
                         date = order.date,
                         comment = "Amount not qualified."
                     };
-
+                    _db.PaymentSchedual.Add(schedual);
                     balance -= movement.credit;
                 }
             }

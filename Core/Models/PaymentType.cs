@@ -12,7 +12,7 @@ namespace Core.Models
     public class PaymentType : BaseClass
     {
         /// <summary>
-        /// Core accepts different types of behaviours.
+        /// Core accepts different types of behaviours.`
         /// </summary>
         public enum Behaviors
         { 
@@ -114,5 +114,7 @@ namespace Core.Models
         public int action { get; set; }
 
         public List<PointOfSale> pointOfSales { get; set; }
+
+        public List<AccountMovement> movements { get; set; }
     }
 }

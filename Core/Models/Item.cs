@@ -234,6 +234,7 @@ namespace Core.Models
         /// <value>The action.</value>
         public Enums.Action action { get; set; }
 
+        [DataMember]
         public List<ItemMovement> ItemMovements { get; set; }
 
         public List<OrderDetail> orderDetails { get; set; }

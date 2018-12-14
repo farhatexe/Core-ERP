@@ -157,6 +157,11 @@ namespace Core.Models
         public ObservableCollection<OrderDetail> details { get; set; }
 
         /// <summary>
+        /// Get or Sets Movements
+        /// </summary>
+        public ObservableCollection<AccountMovement> movements { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether this <see cref="T:Core.Models.Order"/> is archived.
         /// </summary>
         /// <value><c>true</c> if is archived; otherwise, <c>false</c>.</value>
