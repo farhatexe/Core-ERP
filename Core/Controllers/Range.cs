@@ -86,10 +86,10 @@ namespace Core.Controllers
             return prefix;
         }
 
-        public void Download(string slug)
+        public void Download(string slug, string key)
         {
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
-            List<object> RangeList = CognitivoAPI.DowloadData(slug, "", Core.API.CognitivoAPI.Modules.DocumentRange);
+            List<object> RangeList = CognitivoAPI.DowloadData(slug, key, Core.API.CognitivoAPI.Modules.DocumentRange);
 
             foreach (dynamic data in RangeList)
             {

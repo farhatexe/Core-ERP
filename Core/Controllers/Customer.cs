@@ -120,10 +120,10 @@ namespace Core.Controllers
             ctx.Contacts.Add(Entity);
         }
 
-        public void Download(string slug)
+        public void Download(string slug,string key)
         {
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
-            List<object> CustomerList = CognitivoAPI.DowloadData(slug, "", Core.API.CognitivoAPI.Modules.Customer);
+            List<object> CustomerList = CognitivoAPI.DowloadData(slug, key, Core.API.CognitivoAPI.Modules.Customer);
             foreach (dynamic data in CustomerList)
             {
                 Contact contact = new Core.Models.Contact

@@ -11,6 +11,7 @@ namespace Core.Controllers
     {
         private Context db;
 
+
         public ItemController(Context DB)
         {
             db = DB;
@@ -101,10 +102,10 @@ namespace Core.Controllers
 
         }
 
-        public void Download(string slug)
+        public void Download(string slug,string key)
         {
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
-            List<object> ItemList = CognitivoAPI.DowloadData(slug, "", Core.API.CognitivoAPI.Modules.Item);
+            List<object> ItemList = CognitivoAPI.DowloadData(slug, key, Core.API.CognitivoAPI.Modules.Item);
 
             foreach (dynamic data in ItemList)
             {
@@ -114,7 +115,7 @@ namespace Core.Controllers
                     globalId = data.globalItem != null ? (int)data.globalItem : 0,
                     shortDescription = data.shortDescription,
                     longDescription = data.longDescription,
-                    action = (Core.Enums.Action)data.action,
+                    action = data.action??Core.Enums.Action.CreatedOnCloud,
                     categoryCloudId = data.categoryCloudId,
                     barCode = data.barCode,
                     cost = data.cost ?? 0,

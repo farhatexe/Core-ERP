@@ -227,5 +227,8 @@ namespace Core.Models
         /// <value>The message.</value>
         [NotMapped]
         public Message.Warning? message { get; set; }
+
+        [NotMapped]
+        public bool QuantityUpdated { get; set; }
     }
 }

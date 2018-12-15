@@ -77,6 +77,7 @@ namespace Core.Controllers
             OrderDetail.quantity = quantity;
             OrderDetail.price = OrderDetail.item.price;
             OrderDetail.discount = 0;
+            OrderDetail.QuantityUpdated = false;
             return OrderDetail;
         }
 
@@ -87,7 +88,8 @@ namespace Core.Controllers
 
             //TODO Select proper location...
             location = _db.Locations.FirstOrDefault();
-
+            //TODO Select Proper company...
+            Order.company = _db.Companies.FirstOrDefault();
             //TODO Select proper location...
             Order.location = location;
             //TODO Select proper Paymnetcontract

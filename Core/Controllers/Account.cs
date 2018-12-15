@@ -166,10 +166,10 @@ namespace Core.Controllers
             }
         }
 
-        public void Download(string slug)
+        public void Download(string slug, string key)
         {
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
-            List<object> AccountList = CognitivoAPI.DowloadData(slug, "", Core.API.CognitivoAPI.Modules.Account);
+            List<object> AccountList = CognitivoAPI.DowloadData(slug, key, Core.API.CognitivoAPI.Modules.Account);
             
             foreach (dynamic data in AccountList)
             {

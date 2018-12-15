@@ -36,10 +36,10 @@ namespace Core.Controllers
             _db.SaveChanges();
         }
 
-        public void Download(string slug)
+        public void Download(string slug, string key)
         {
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
-            List<object> ItemCategoryList = CognitivoAPI.DowloadData(slug, "", Core.API.CognitivoAPI.Modules.ItemCategory);
+            List<object> ItemCategoryList = CognitivoAPI.DowloadData(slug,key, Core.API.CognitivoAPI.Modules.ItemCategory);
 
             foreach (dynamic data in ItemCategoryList)
             {

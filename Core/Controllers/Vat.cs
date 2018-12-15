@@ -37,10 +37,10 @@ namespace Core.Controllers
         {
             _db.SaveChanges();
         }
-        public void Download(string slug)
+        public void Download(string slug, string key)
         {
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
-            List<object> TaxList = CognitivoAPI.DowloadData(slug, "", Core.API.CognitivoAPI.Modules.Vat);
+            List<object> TaxList = CognitivoAPI.DowloadData(slug, key, Core.API.CognitivoAPI.Modules.Vat);
 
             foreach (dynamic data in TaxList)
             {
