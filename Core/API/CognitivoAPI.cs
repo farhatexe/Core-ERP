@@ -19,6 +19,7 @@ namespace Core.API
             ItemCategory=4,
             DocumentRange=5,
             Inventory=6,
+            Location=7,
 
 
         }
@@ -85,6 +86,10 @@ namespace Core.API
             else if (Module == Modules.ItemCategory)
             {
                 SyncList = receive.ItemCategory(CompanySlug, Cognitivo.API.Enums.TimeSpan.LastMonth).OfType<object>().ToList();
+            }
+            else if (Module == Modules.Location)
+            {
+                SyncList = receive.Location(CompanySlug, Cognitivo.API.Enums.TimeSpan.LastMonth).OfType<object>().ToList();
             }
 
             return SyncList;

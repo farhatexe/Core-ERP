@@ -143,21 +143,28 @@ namespace Core.Controllers
         {
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
             List<object> AccountList = CognitivoAPI.DowloadData(slug, key, Core.API.CognitivoAPI.Modules.Account);
-            
-            foreach (dynamic data in AccountList)
-            {
-                Models.Account account = new Core.Models.Account
-                {
-                    cloudId = data.cloudId,
-                    name = data.name,
-                    number = data.number,
-                    currencyCode = data.currencyCode,
 
-                };
-                _db.Accounts.Add(account);
+            foreach (dynamic
+                data in AccountList)
+            {
+                int cloudId = (int)data.cloudId;
+                Models.Account account = _db.Accounts.Where(x => x.cloudId == cloudId).FirstOrDefault() ?? new Models.Account();
+
+                account.cloudId = data.cloudId;
+                account.name = data.name;
+                account.number = data.number;
+                account.currencyCode = data.currencyCode;
+                if (account.localId == 0)
+                {
+                    _db.Accounts.Add(account);
+                }
 
             }
-          _db.SaveChanges();
+
+
+
+
+            _db.SaveChanges();
         }
 
         public void Upload(string slug)

@@ -44,24 +44,34 @@ namespace Core.Controllers
 
             foreach (dynamic data in TaxList)
             {
-                Vat tax = new Core.Models.Vat
-                {
-                    cloudId = data.cloudId,
-                    name = data.name,
-                };
+                int cloudId = (int)data.cloudId;
+                Core.Models.Vat tax = _db.Vats.Where(x => x.cloudId == cloudId).FirstOrDefault() ??
+                    new Core.Models.Vat();
+                tax.cloudId = data.cloudId;
+                tax.name = data.name;
+
                 foreach (var detail in data.details)
                 {
-                    VatDetail vatdetail = new VatDetail
-                    {
-                        cloudId = detail.cloudId,
-                        name = detail.name,
-                        coefficient = detail.coefficient,
-                        percentage = detail.percentage
-                    };
-                    tax.details.Add(vatdetail);
-                }
+                    int cloudDetailId = (int)data.cloudId;
+                    Core.Models.VatDetail vatdetail = _db.VatDetails.Where(x => x.cloudId == cloudDetailId).FirstOrDefault() ??
+                        new Core.Models.VatDetail();
 
-                _db.Vats.Add(tax);
+                    vatdetail.cloudId = detail.cloudId;
+                    vatdetail.name = detail.name;
+                    vatdetail.coefficient = detail.coefficient;
+                    vatdetail.percentage = detail.percentage;
+
+                    if (vatdetail.localId==0)
+                    {
+                        tax.details.Add(vatdetail);
+                    }
+                  
+                }
+                if (tax.localId == 0)
+                {
+                    _db.Vats.Add(tax);
+                }
+                
 
             }
             _db.SaveChanges();

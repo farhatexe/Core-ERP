@@ -126,18 +126,24 @@ namespace Core.Controllers
             List<object> CustomerList = CognitivoAPI.DowloadData(slug, key, Core.API.CognitivoAPI.Modules.Customer);
             foreach (dynamic data in CustomerList)
             {
-                Contact contact = new Core.Models.Contact
+                int cloudId = (int)data.cloudId;
+                Core.Models.Contact contact = ctx.Contacts.Where(x => x.cloudId == cloudId).FirstOrDefault() ?? 
+                    new Core.Models.Contact();
+
+
+                contact.cloudId = data.cloudId;
+                contact.alias = data.alias;
+                contact.taxId = data.taxid;
+                contact.address = data.address;
+                contact.email = data.email;
+                contact.telephone = data.telephone;
+                contact.leadTime = data.leadTime;
+                contact.creditLimit = data.creditLimit != null ? (int)data.creditLimit : 0;
+                if (contact.localId==0)
                 {
-                    cloudId = data.cloudId,
-                    alias = data.alias,
-                    taxId = data.taxid,
-                    address = data.address,
-                    email = data.email,
-                    telephone = data.telephone,
-                    leadTime = data.leadTime,
-                    creditLimit = data.creditLimit != null ? (int)data.creditLimit : 0
-                };
-                ctx.Contacts.Add(contact);
+                    ctx.Contacts.Add(contact);
+                }
+              
 
             }
             ctx.SaveChanges();

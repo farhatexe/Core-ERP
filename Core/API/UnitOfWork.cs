@@ -19,6 +19,7 @@ namespace Core
         private Controllers.PaymentType paymentTypeRepo;
         private Controllers.PaymentSchedual paymentSchedualRepo;
         private Controllers.Session sessionRepo;
+        private Controllers.Location locationRepo;
         public Context Context;
 
         public UnitOfWork(Context db)
@@ -151,6 +152,18 @@ namespace Core
                     sessionRepo = new Controllers.Session(Context);
                 }
                 return sessionRepo;
+            }
+        }
+
+        public Controllers.Location LocationRepo
+        {
+            get
+            {
+                if (locationRepo == null)
+                {
+                    locationRepo = new Controllers.Location(Context);
+                }
+                return locationRepo;
             }
         }
 

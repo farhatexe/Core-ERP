@@ -109,27 +109,31 @@ namespace Core.Controllers
 
             foreach (dynamic data in ItemList)
             {
-                Item item = new Core.Models.Item
-                {
-                    cloudId = data.cloudId,
-                    globalId = data.globalItem != null ? (int)data.globalItem : 0,
-                    shortDescription = data.shortDescription,
-                    longDescription = data.longDescription,
-                    categoryCloudId = data.categoryCloudId,
-                    barCode = data.barCode,
-                    cost = data.cost ?? 0,
-                    currencyCode = data.currencyCode,
-                    price = data.price ?? 0,
-                    sku = data.sku,
-                    name=data.name,
-                    weighWithScale = data.weighWithScale ?? 0,
-                    weight = data.weight ?? 0,
-                    volume = data.volume,
-                    isPrivate = data.isPrivate,
-                    isActive = data.isActive,
-                };
+                int cloudId = (int)data.cloudId;
+                Models.Item item = db.Items.Where(x => x.cloudId == cloudId).FirstOrDefault() ?? new Models.Item();
+                item.cloudId = data.cloudId;
+                item.globalId = data.globalItem != null ? (int)data.globalItem : 0;
+                item.shortDescription = data.shortDescription;
+                item.longDescription = data.longDescription;
+                item.categoryCloudId = data.categoryCloudId;
+                item.barCode = data.barCode;
+                item.cost = data.cost ?? 0;
+                item.currencyCode = data.currencyCode;
+                item.price = data.price ?? 0;
+                item.sku = data.sku;
+                item.name = data.name;
+                item.weighWithScale = data.weighWithScale ?? 0;
+                item.weight = data.weight ?? 0;
+                item.volume = data.volume;
+                item.isPrivate = data.isPrivate;
+                item.isActive = data.isActive;
 
-                db.Items.Add(item);
+                if (item.localId == 0)
+                {
+                    db.Items.Add(item);
+                }
+
+
 
             }
 

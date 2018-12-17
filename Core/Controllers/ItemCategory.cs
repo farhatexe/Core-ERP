@@ -40,19 +40,23 @@ namespace Core.Controllers
         {
             List<object> ItemCategoryList = new List<object>();
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
-           ItemCategoryList = CognitivoAPI.DowloadData(slug,key, Core.API.CognitivoAPI.Modules.ItemCategory);
+            ItemCategoryList = CognitivoAPI.DowloadData(slug, key, Core.API.CognitivoAPI.Modules.ItemCategory);
 
             foreach (dynamic data in ItemCategoryList)
             {
-                ItemCategory itemcategory = new ItemCategory
+                int cloudId = (int)data.cloudId;
+                Models.ItemCategory itemcategory = _db.ItemCategories.Where(x => x.cloudId == cloudId).FirstOrDefault() ?? new Models.ItemCategory();
+
+
+                itemcategory.cloudId = data.cloudId;
+                itemcategory.name = data.name;
+                itemcategory.group = data.group;
+
+                if (itemcategory.localId==0)
                 {
-                    cloudId = data.cloudId,
-                    name = data.name,
-                    group=data.group
-
-                };
-
-                _db.ItemCategories.Add(itemcategory);
+                    _db.ItemCategories.Add(itemcategory);
+                }
+                
 
             }
             _db.SaveChanges();
