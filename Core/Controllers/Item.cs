@@ -32,20 +32,20 @@ namespace Core.Controllers
         public IQueryable<dynamic> List_IncludeStock(Models.Location location, DateTime? date)
         {
             date = date.HasValue ? date : DateTime.Now;
-            
-               IQueryable<dynamic> query = from i in db.Items
-                                            join movements in 
-                                            (from movements in db.ItemMovements where location.localId == movements.location.localId && movements.date <= date select movements)
-                                            on i equals movements.item into itemStock
-                                            from Is in itemStock.DefaultIfEmpty()
-                                            join branch in db.Locations on Is.location equals branch into locationstock
-                                            from j in locationstock.DefaultIfEmpty()
-                                            group Is by i into g
-                                            select new
-                                            {
-                                                Item = g.Key,
-                                                Balance = g.Sum(x => x != null ? (x.debit - x.credit) : 0)
-                                            };
+
+            IQueryable<dynamic> query = from i in db.Items
+                                        join movements in
+                                        (from movements in db.ItemMovements where location.localId == movements.location.localId && movements.date <= date select movements)
+                                        on i equals movements.item into itemStock
+                                        from Is in itemStock.DefaultIfEmpty()
+                                        join branch in db.Locations on Is.location equals branch into locationstock
+                                        from j in locationstock.DefaultIfEmpty()
+                                        group Is by i into g
+                                        select new
+                                        {
+                                            Item = g.Key,
+                                            Balance = g.Sum(x => x != null ? (x.debit - x.credit) : 0)
+                                        };
             return query;
         }
 
@@ -102,7 +102,7 @@ namespace Core.Controllers
 
         }
 
-        public void Download(string slug,string key)
+        public void Download(string slug, string key)
         {
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
             List<object> ItemList = CognitivoAPI.DowloadData(slug, key, Core.API.CognitivoAPI.Modules.Item);
@@ -115,13 +115,13 @@ namespace Core.Controllers
                     globalId = data.globalItem != null ? (int)data.globalItem : 0,
                     shortDescription = data.shortDescription,
                     longDescription = data.longDescription,
-                    action = data.action??Core.Enums.Action.CreatedOnCloud,
                     categoryCloudId = data.categoryCloudId,
                     barCode = data.barCode,
                     cost = data.cost ?? 0,
                     currencyCode = data.currencyCode,
                     price = data.price ?? 0,
                     sku = data.sku,
+                    name=data.name,
                     weighWithScale = data.weighWithScale ?? 0,
                     weight = data.weight ?? 0,
                     volume = data.volume,

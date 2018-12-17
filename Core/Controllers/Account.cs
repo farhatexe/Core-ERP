@@ -51,7 +51,7 @@ namespace Core.Controllers
         /// <param name="currentObligation">Current obligation.</param>
         /// <param name="balance">Balance.</param>
         /// <param name="contractOffset">Contract offset.</param>
-        public decimal ReceivePayment(Models.Order order, Models.PaymentSchedual schedual = null, Models.Account account, Models.PaymentType paymentType, DateTime paymentDate, string currencyCode, decimal currencyRate, decimal currentObligation, decimal balance = 0, int contractOffset = 0)
+        public decimal ReceivePayment(Models.Order order, Models.PaymentSchedual schedual, Models.Account account, Models.PaymentType paymentType, DateTime paymentDate, string currencyCode, decimal currencyRate, decimal currentObligation, decimal balance = 0, int contractOffset = 0)
         {
             AccountMovement movement = new AccountMovement()
             {

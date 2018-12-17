@@ -38,8 +38,9 @@ namespace Core.Controllers
 
         public void Download(string slug, string key)
         {
+            List<object> ItemCategoryList = new List<object>();
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
-            List<object> ItemCategoryList = CognitivoAPI.DowloadData(slug,key, Core.API.CognitivoAPI.Modules.ItemCategory);
+           ItemCategoryList = CognitivoAPI.DowloadData(slug,key, Core.API.CognitivoAPI.Modules.ItemCategory);
 
             foreach (dynamic data in ItemCategoryList)
             {

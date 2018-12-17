@@ -129,7 +129,7 @@ namespace Core.Controllers
                 Contact contact = new Core.Models.Contact
                 {
                     cloudId = data.cloudId,
-                    alias = data.name,
+                    alias = data.alias,
                     taxId = data.taxid,
                     address = data.address,
                     email = data.email,
