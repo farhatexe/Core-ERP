@@ -127,6 +127,9 @@ namespace Core.Controllers
                 item.volume = data.volume;
                 item.isPrivate = data.isPrivate;
                 item.isActive = data.isActive;
+                item.updatedAt = data.updatedAt;
+              //  item.createdAt = data.createdAt;
+
 
                 if (item.localId == 0)
                 {
@@ -147,8 +150,6 @@ namespace Core.Controllers
 
             foreach (Core.Models.Item item in db.Items.ToList())
             {
-                item.createdAt = item.createdAt;
-                item.updatedAt = item.createdAt;
                 syncList.Add(item);
             }
 
