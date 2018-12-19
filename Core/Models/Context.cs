@@ -45,13 +45,13 @@ namespace Core.Models
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess = true)
         {
-            //generateTimestamps();
+            generateTimestamps();
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess = true, CancellationToken cancellationToken = default(CancellationToken))
         {
-           // generateTimestamps();
+            generateTimestamps();
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
@@ -63,6 +63,7 @@ namespace Core.Models
                 {
                     case EntityState.Added:
                         entry.CurrentValues["createdAt"] = DateTime.Now;
+                        entry.CurrentValues["updatedAt"] = DateTime.Now;
                         entry.CurrentValues["deletedAt"] = null;
                         break;
 

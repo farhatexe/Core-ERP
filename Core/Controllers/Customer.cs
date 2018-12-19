@@ -117,6 +117,8 @@ namespace Core.Controllers
         /// <param name="Entity">Entity.</param>
         public void Add(Models.Contact Entity)
         {
+            Entity.createdAt = DateTime.Now;
+            Entity.updatedAt = DateTime.Now;
             ctx.Contacts.Add(Entity);
         }
 
@@ -124,21 +126,24 @@ namespace Core.Controllers
         {
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
             List<object> CustomerList = CognitivoAPI.DowloadData(slug, key, Core.API.CognitivoAPI.Modules.Customer);
+
             foreach (dynamic data in CustomerList)
             {
                 int cloudId = (int)data.cloudId;
                 Core.Models.Contact contact = ctx.Contacts.Where(x => x.cloudId == cloudId).FirstOrDefault() ?? 
                     new Core.Models.Contact();
-
-
+                
                 contact.cloudId = data.cloudId;
                 contact.alias = data.alias;
-                contact.taxId = data.taxid;
+                contact.taxId = data.taxId;
                 contact.address = data.address;
                 contact.email = data.email;
                 contact.telephone = data.telephone;
                 contact.leadTime = data.leadTime;
                 contact.creditLimit = data.creditLimit != null ? (int)data.creditLimit : 0;
+                contact.updatedAt = Convert.ToDateTime(data.updatedAt);
+                contact.createdAt = Convert.ToDateTime(data.createdAt);
+                contact.deletedAt = data.deletedAt != null ? Convert.ToDateTime(data.deletedAt) : null;
                 if (contact.localId==0)
                 {
                     ctx.Contacts.Add(contact);
@@ -156,11 +161,58 @@ namespace Core.Controllers
 
             foreach (Core.Models.Contact item in ctx.Contacts.ToList())
             {
-                item.createdAt = item.createdAt;
-                item.updatedAt = item.createdAt;
-                syncList.Add(item);
+                Cognitivo.API.Models.Customer Customer = new Cognitivo.API.Models.Customer();
+                Customer = Updatedata(Customer, item);
+                syncList.Add(Customer);
             }
-            CognitivoAPI.UploadData(slug, "", syncList, API.CognitivoAPI.Modules.Customer);
+
+            List<object> ReturnItem = CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Customer);
+            foreach (dynamic data in ReturnItem)
+            {
+
+                if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.UpdateOnLocal)
+                {
+                    int localId = (int)data.localId;
+                    Models.Contact item = ctx.Contacts.Where(x => x.localId == localId).FirstOrDefault();
+                    if (data.deletedAt != null)
+                    {
+                       // item.isActive = false;
+                        item.deletedAt = data.deletedAt != null ? Convert.ToDateTime(data.deletedAt) : null;
+                    }
+                    else
+                    {
+                        item.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        item.createdAt = Convert.ToDateTime(data.createdAt);
+                        item.address = item.address;
+                        item.alias = item.alias;
+                        item.cloudId = item.cloudId;
+                        item.creditLimit = item.creditLimit;
+                        item.email = item.email;
+                        item.leadTime = item.leadTime;
+                        item.localId = item.localId;
+                        item.taxId = item.taxId;
+                        item.telephone = item.telephone;
+                    }
+                }
+            }
+            ctx.SaveChanges();
+        }
+        public dynamic Updatedata(dynamic Customer,Core.Models.Contact item)
+        {
+            Customer.updatedAt = item.updatedAt != null ? item.updatedAt.Value.Date.ToUniversalTime() : DateTime.Now.ToUniversalTime();
+            Customer.action = (Cognitivo.API.Enums.Action)item.action;
+            Customer.address = item.address;
+            Customer.alias = item.alias;
+            Customer.cloudId = item.cloudId;
+            Customer.createdAt = item.createdAt != null ? item.createdAt.Value.Date.ToUniversalTime() : DateTime.Now.ToUniversalTime();
+            Customer.creditLimit = item.creditLimit;
+            Customer.deletedAt = item.deletedAt != null ? item.deletedAt.Value.ToUniversalTime() : item.deletedAt;
+            Customer.email = item.email;
+            Customer.leadTime = item.leadTime;
+            Customer.localId = item.localId;
+            Customer.taxId = item.taxId;
+            Customer.telephone = item.telephone;
+            return Customer;
 
         }
     }
