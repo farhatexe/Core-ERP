@@ -57,7 +57,7 @@ namespace Core.API
         public List<object> DowloadData(String CompanySlug, string APIKey, Modules Module)
         {
             List<object> SyncList=null;
-            receive = new Cognitivo.API.Download(APIKey, Cognitivo.API.Enums.SyncWith.Playground);
+            receive = new Cognitivo.API.Download(APIKey, Cognitivo.API.Enums.SyncWith.Local);
             if (Module == Modules.Vat)
             {
                 SyncList = receive.Vat(CompanySlug , Cognitivo.API.Enums.TimeSpan.LastMonth).OfType<object>().ToList();
