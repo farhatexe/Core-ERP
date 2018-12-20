@@ -19,7 +19,7 @@ namespace Core.Controllers
 
         public ObservableCollection<Models.Item> List()
         {
-            db.Items.Load();
+            db.Items.Where(x => x.deletedAt == null).Load();
             return db.Items.Local.ToObservableCollection();
         }
 
@@ -64,7 +64,7 @@ namespace Core.Controllers
         /// <param name="Entity">Entity.</param>
         public void Delete(Models.Item Entity)
         {
-            db.Items.Remove(Entity);
+            db.Entry<Core.Models.Item>(Entity).State = EntityState.Deleted;
         }
 
         /// <summary>
@@ -151,24 +151,25 @@ namespace Core.Controllers
 
             foreach (Core.Models.Item item in db.Items.ToList())
             {
-                Cognitivo.API.Models.Item Item = new Cognitivo.API.Models.Item();
+                Cognitivo.API.Models.Item itemModel = new Cognitivo.API.Models.Item();
 
-                Item = Updatedata(Item, item);
-                syncList.Add(Item);
+                itemModel = UpdateData(itemModel, item);
+                syncList.Add(itemModel);
             }
 
-
             List<object> ReturnItem = CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Item);
+
             foreach (dynamic data in ReturnItem)
             {
-
                 if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.UpdateOnLocal)
                 {
                     int localId = (int)data.localId;
                     Models.Item item = db.Items.Where(x => x.localId == localId).FirstOrDefault();
+
                     if (data.deletedAt != null)
                     {
                         item.isActive = false;
+                        item.updatedAt = Convert.ToDateTime(data.updatedAt);
                         item.deletedAt = data.deletedAt != null ? Convert.ToDateTime(data.deletedAt) : null;
                     }
                     else
@@ -191,21 +192,46 @@ namespace Core.Controllers
                         item.isActive = data.isActive;
                         item.updatedAt = Convert.ToDateTime(data.updatedAt);
                         item.createdAt = Convert.ToDateTime(data.createdAt);
-
                     }
-
-
                 }
+                else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.CreateOnLocal)
+                {
+                    Models.Item item = new Item();
+                    item.cloudId = data.cloudId;
+                    item.globalId = data.globalItem != null ? (int)data.globalItem : 0;
+                    item.shortDescription = data.shortDescription;
+                    item.longDescription = data.longDescription;
+                    item.categoryCloudId = data.categoryCloudId;
+                    item.barCode = data.barCode;
+                    item.cost = data.cost ?? 0;
+                    item.currencyCode = data.currencyCode;
+                    item.price = data.price ?? 0;
+                    item.sku = data.sku;
+                    item.name = data.name;
+                    item.weighWithScale = data.weighWithScale ?? 0;
+                    item.weight = data.weight ?? 0;
+                    item.volume = data.volume;
+                    item.isPrivate = data.isPrivate;
+                    item.isActive = data.isActive;
+                    item.updatedAt = Convert.ToDateTime(data.updatedAt);
+                    item.createdAt = Convert.ToDateTime(data.createdAt);
 
-
+                    db.Items.Add(item);
+                }
+                else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.UpdateOnCloud)
+                {
+                    int localId = (int)data.localId;
+                    Models.Item item = db.Items.Where(x => x.localId == localId).FirstOrDefault();
+                    item.updatedAt = Convert.ToDateTime(data.updatedAt);
+                    item.createdAt = Convert.ToDateTime(data.createdAt);
+                }
             }
+
             db.SaveChanges();
-
-
         }
-        public dynamic Updatedata(dynamic Item, Core.Models.Item item)
+        public dynamic UpdateData(dynamic Item, Core.Models.Item item)
         {
-            Item.updatedAt = item.updatedAt != null ? item.updatedAt.Value : DateTime.Now;
+            Item.updatedAt = item.updatedAt != null ? item.updatedAt.Value : item.createdAt.Value;
             Item.action = (Cognitivo.API.Enums.Action)item.action;
             Item.barCode = item.barCode;
             Item.categoryCloudId = item.categoryCloudId;

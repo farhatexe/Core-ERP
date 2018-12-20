@@ -117,8 +117,6 @@ namespace Core.Controllers
         /// <param name="Entity">Entity.</param>
         public void Add(Models.Contact Entity)
         {
-            Entity.createdAt = DateTime.Now;
-            Entity.updatedAt = DateTime.Now;
             ctx.Contacts.Add(Entity);
         }
 
@@ -199,14 +197,14 @@ namespace Core.Controllers
         }
         public dynamic Updatedata(dynamic Customer,Core.Models.Contact item)
         {
-            Customer.updatedAt = item.updatedAt != null ? item.updatedAt.Value.Date.ToUniversalTime() : DateTime.Now.ToUniversalTime();
+            Customer.updatedAt = item.updatedAt != null ? TimeZoneInfo.ConvertTimeToUtc(item.updatedAt.Value, TimeZoneInfo.Local) : DateTime.Now;
             Customer.action = (Cognitivo.API.Enums.Action)item.action;
             Customer.address = item.address;
             Customer.alias = item.alias;
             Customer.cloudId = item.cloudId;
-            Customer.createdAt = item.createdAt != null ? item.createdAt.Value.Date.ToUniversalTime() : DateTime.Now.ToUniversalTime();
+            Customer.createdAt = item.createdAt != null ? TimeZoneInfo.ConvertTimeToUtc(item.createdAt.Value, TimeZoneInfo.Local) : DateTime.Now;
             Customer.creditLimit = item.creditLimit;
-            Customer.deletedAt = item.deletedAt != null ? item.deletedAt.Value.ToUniversalTime() : item.deletedAt;
+            Customer.deletedAt = item.deletedAt != null ? TimeZoneInfo.ConvertTimeToUtc(item.deletedAt.Value, TimeZoneInfo.Local) : item.deletedAt;
             Customer.email = item.email;
             Customer.leadTime = item.leadTime;
             Customer.localId = item.localId;

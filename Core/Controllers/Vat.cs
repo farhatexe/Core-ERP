@@ -60,6 +60,9 @@ namespace Core.Controllers
                     vatdetail.name = detail.name;
                     vatdetail.coefficient = detail.coefficient;
                     vatdetail.percentage = detail.percentage;
+                    vatdetail.updatedAt = Convert.ToDateTime(data.updatedAt);
+                    vatdetail.createdAt = Convert.ToDateTime(data.createdAt);
+                    vatdetail.deletedAt = data.deletedAt != null ? Convert.ToDateTime(data.deletedAt) : null;
 
                     if (vatdetail.localId==0)
                     {
