@@ -174,37 +174,69 @@ namespace Core.Controllers
                     Models.Contact item = ctx.Contacts.Where(x => x.localId == localId).FirstOrDefault();
                     if (data.deletedAt != null)
                     {
-                       // item.isActive = false;
+                        item.updatedAt = Convert.ToDateTime(data.updatedAt);
                         item.deletedAt = data.deletedAt != null ? Convert.ToDateTime(data.deletedAt) : null;
                     }
                     else
                     {
                         item.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        item.updatedAt = item.updatedAt.Value.ToLocalTime();
                         item.createdAt = Convert.ToDateTime(data.createdAt);
-                        item.address = item.address;
-                        item.alias = item.alias;
-                        item.cloudId = item.cloudId;
-                        item.creditLimit = item.creditLimit;
-                        item.email = item.email;
-                        item.leadTime = item.leadTime;
-                        item.localId = item.localId;
-                        item.taxId = item.taxId;
-                        item.telephone = item.telephone;
+                        item.createdAt = item.createdAt.Value.ToLocalTime();
+
+                        item.address = data.address;
+                        item.alias = data.alias;
+                        item.cloudId = data.cloudId;
+                        item.creditLimit = data.creditLimit;
+                        item.email = data.email;
+                        item.leadTime = data.leadTime;
+                        item.localId = data.localId;
+                        item.taxId = data.taxId;
+                        item.telephone = data.telephone;
                     }
+                }
+                else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.CreateOnLocal)
+                {
+                    Models.Contact item = new Contact();
+                    item.updatedAt = Convert.ToDateTime(data.updatedAt);
+                    item.updatedAt = item.updatedAt.Value.ToLocalTime();
+                    item.createdAt = Convert.ToDateTime(data.createdAt);
+                    item.createdAt = item.createdAt.Value.ToLocalTime();
+
+                    item.address = data.address;
+                    item.alias = data.alias;
+                    item.cloudId = data.cloudId;
+                    item.creditLimit = data.creditLimit;
+                    item.email = data.email;
+                    item.leadTime = data.leadTime;
+                    item.localId = data.localId;
+                    item.taxId = data.taxId;
+                    item.telephone = data.telephone;
+
+                    ctx.Contacts.Add(item);
+                }
+                else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.UpdateOnCloud)
+                {
+                    int localId = (int)data.localId;
+                    Models.Contact item = ctx.Contacts.Where(x => x.localId == localId).FirstOrDefault();
+                    item.updatedAt = Convert.ToDateTime(data.updatedAt);
+                    item.updatedAt = item.updatedAt.Value.ToLocalTime();
+                    item.createdAt = Convert.ToDateTime(data.createdAt);
+                    item.createdAt = item.createdAt.Value.ToLocalTime();
                 }
             }
             ctx.SaveChanges();
         }
-        public dynamic Updatedata(dynamic Customer,Core.Models.Contact item)
+        public dynamic Updatedata(Cognitivo.API.Models.Customer Customer,Core.Models.Contact item)
         {
-            Customer.updatedAt = item.updatedAt != null ? TimeZoneInfo.ConvertTimeToUtc(item.updatedAt.Value, TimeZoneInfo.Local) : DateTime.Now;
+            Customer.updatedAt = item.updatedAt != null ? item.updatedAt.Value : item.createdAt.Value; ;
             Customer.action = (Cognitivo.API.Enums.Action)item.action;
             Customer.address = item.address;
             Customer.alias = item.alias;
             Customer.cloudId = item.cloudId;
-            Customer.createdAt = item.createdAt != null ? TimeZoneInfo.ConvertTimeToUtc(item.createdAt.Value, TimeZoneInfo.Local) : DateTime.Now;
+            Customer.createdAt = item.createdAt != null ? item.updatedAt.Value : item.createdAt.Value; ;
             Customer.creditLimit = item.creditLimit;
-            Customer.deletedAt = item.deletedAt != null ? TimeZoneInfo.ConvertTimeToUtc(item.deletedAt.Value, TimeZoneInfo.Local) : item.deletedAt;
+            Customer.deletedAt = item.deletedAt != null ? item.deletedAt.Value : item.deletedAt;
             Customer.email = item.email;
             Customer.leadTime = item.leadTime;
             Customer.localId = item.localId;

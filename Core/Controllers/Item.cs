@@ -19,7 +19,7 @@ namespace Core.Controllers
 
         public ObservableCollection<Models.Item> List()
         {
-            db.Items.Where(x => x.deletedAt == null).Load();
+            db.Items.Where(x => x.deletedAt == null && x.isActive).Load();
             return db.Items.Local.ToObservableCollection();
         }
 
@@ -64,6 +64,7 @@ namespace Core.Controllers
         /// <param name="Entity">Entity.</param>
         public void Delete(Models.Item Entity)
         {
+            Entity.isActive = false;
             db.Entry<Core.Models.Item>(Entity).State = EntityState.Deleted;
         }
 
@@ -128,7 +129,9 @@ namespace Core.Controllers
                 item.isPrivate = data.isPrivate;
                 item.isActive = data.isActive;
                 item.updatedAt = Convert.ToDateTime(data.updatedAt);
+                item.updatedAt = item.updatedAt.Value.ToLocalTime();
                 item.createdAt = Convert.ToDateTime(data.createdAt);
+                item.createdAt = item.createdAt.Value.ToLocalTime();
                 item.deletedAt = data.deletedAt != null ? Convert.ToDateTime(data.deletedAt) : null;
 
 
@@ -191,7 +194,9 @@ namespace Core.Controllers
                         item.isPrivate = data.isPrivate;
                         item.isActive = data.isActive;
                         item.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        item.updatedAt = item.updatedAt.Value.ToLocalTime();
                         item.createdAt = Convert.ToDateTime(data.createdAt);
+                        item.createdAt = item.createdAt.Value.ToLocalTime();
                     }
                 }
                 else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.CreateOnLocal)
@@ -214,7 +219,9 @@ namespace Core.Controllers
                     item.isPrivate = data.isPrivate;
                     item.isActive = data.isActive;
                     item.updatedAt = Convert.ToDateTime(data.updatedAt);
+                    item.updatedAt = item.updatedAt.Value.ToLocalTime();
                     item.createdAt = Convert.ToDateTime(data.createdAt);
+                    item.createdAt = item.createdAt.Value.ToLocalTime();
 
                     db.Items.Add(item);
                 }
@@ -223,13 +230,15 @@ namespace Core.Controllers
                     int localId = (int)data.localId;
                     Models.Item item = db.Items.Where(x => x.localId == localId).FirstOrDefault();
                     item.updatedAt = Convert.ToDateTime(data.updatedAt);
+                    item.updatedAt = item.updatedAt.Value.ToLocalTime();
                     item.createdAt = Convert.ToDateTime(data.createdAt);
+                    item.createdAt = item.createdAt.Value.ToLocalTime();
                 }
             }
 
             db.SaveChanges();
         }
-        public dynamic UpdateData(dynamic Item, Core.Models.Item item)
+        public dynamic UpdateData(Cognitivo.API.Models.Item Item, Core.Models.Item item)
         {
             Item.updatedAt = item.updatedAt != null ? item.updatedAt.Value : item.createdAt.Value;
             Item.action = (Cognitivo.API.Enums.Action)item.action;

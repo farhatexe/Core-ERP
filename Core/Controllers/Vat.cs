@@ -64,17 +64,17 @@ namespace Core.Controllers
                     vatdetail.createdAt = Convert.ToDateTime(data.createdAt);
                     vatdetail.deletedAt = data.deletedAt != null ? Convert.ToDateTime(data.deletedAt) : null;
 
-                    if (vatdetail.localId==0)
+                    if (vatdetail.localId == 0)
                     {
                         tax.details.Add(vatdetail);
                     }
-                  
+
                 }
                 if (tax.localId == 0)
                 {
                     _db.Vats.Add(tax);
                 }
-                
+
 
             }
             _db.SaveChanges();
@@ -85,15 +85,115 @@ namespace Core.Controllers
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
             List<object> syncList = new List<object>();
 
-            foreach (Core.Models.Vat vat in _db.Vats.ToList())
+            foreach (Core.Models.Vat vat in _db.Vats.Include(x => x.details).ToList())
             {
-                vat.createdAt = vat.createdAt;
-                vat.updatedAt = vat.updatedAt;
-                syncList.Add(vat);
+                Cognitivo.API.Models.Vat vatModel = new Cognitivo.API.Models.Vat();
+
+                vatModel = UpdateData(vatModel, vat);
+                syncList.Add(vatModel);
             }
 
-            CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Vat);
+            List<object> ReturnItem = CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Vat);
 
+            foreach (dynamic data in ReturnItem)
+            {
+                if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.UpdateOnLocal)
+                {
+                    int localId = (int)data.localId;
+                    Models.Vat vat = _db.Vats.Where(x => x.localId == localId).FirstOrDefault();
+
+                    if (data.deletedAt != null)
+                    {
+                        vat.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        vat.deletedAt = data.deletedAt != null ? Convert.ToDateTime(data.deletedAt) : null;
+                    }
+                    else
+                    {
+                        vat.cloudId = data.cloudId;
+                        vat.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        vat.updatedAt = vat.updatedAt.Value.ToLocalTime();
+                        vat.createdAt = Convert.ToDateTime(data.createdAt);
+                        vat.createdAt = vat.createdAt.Value.ToLocalTime();
+                        foreach (var item in data.details)
+                        {
+                            int localDetailId = (int)data.localId;
+                            Models.VatDetail detail = vat.details.Where(x => x.localId == localDetailId).FirstOrDefault() ?? new VatDetail();
+
+                            detail.cloudId = item.cloudId;
+                            detail.coefficient = item.coefficient;
+                            detail.name = item.name;
+                            detail.percentage = item.percentage;
+                            detail.updatedAt = Convert.ToDateTime(item.updatedAt);
+                            detail.updatedAt = detail.updatedAt.Value.ToLocalTime();
+                            detail.createdAt = Convert.ToDateTime(item.createdAt);
+                            detail.createdAt = detail.createdAt.Value.ToLocalTime();
+
+                            if (detail.localId==0)
+                            {
+                                vat.details.Add(detail);
+                            }
+
+                        }
+
+                    }
+                }
+                else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.CreateOnLocal)
+                {
+                    Models.Vat vat = new Vat();
+                    vat.cloudId = data.cloudId;
+                    vat.updatedAt = Convert.ToDateTime(data.updatedAt);
+                    vat.updatedAt = vat.updatedAt.Value.ToLocalTime();
+                    vat.createdAt = Convert.ToDateTime(data.createdAt);
+                    vat.createdAt = vat.createdAt.Value.ToLocalTime();
+                    foreach (var item in data.details)
+                    {
+                       
+                        Models.VatDetail detail = new VatDetail();
+
+                        detail.cloudId = item.cloudId;
+                        detail.coefficient = item.coefficient;
+                        detail.name = item.name;
+                        detail.percentage = item.percentage;
+                        detail.updatedAt = Convert.ToDateTime(item.updatedAt);
+                        detail.updatedAt = detail.updatedAt.Value.ToLocalTime();
+                        detail.createdAt = Convert.ToDateTime(item.createdAt);
+                        detail.createdAt = detail.createdAt.Value.ToLocalTime();
+                         vat.details.Add(detail);
+                        
+
+                    }
+                    _db.Vats.Add(vat);
+
+                }
+                else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.UpdateOnCloud)
+                {
+                    int localId = (int)data.localId;
+                    Models.Vat vat = _db.Vats.Where(x => x.localId == localId).FirstOrDefault();
+                    vat.updatedAt = Convert.ToDateTime(data.updatedAt);
+                    vat.updatedAt = vat.updatedAt.Value.ToLocalTime();
+                    vat.createdAt = Convert.ToDateTime(data.createdAt);
+                    vat.createdAt = vat.createdAt.Value.ToLocalTime();
+                }
+            }
+
+        }
+        public dynamic UpdateData(Cognitivo.API.Models.Vat Vat, Core.Models.Vat vat)
+        {
+            Vat.updatedAt = vat.updatedAt != null ? vat.updatedAt.Value : vat.createdAt.Value;
+            Vat.action = (Cognitivo.API.Enums.Action)vat.action;
+            Vat.name = vat.name;
+            foreach (VatDetail detail in vat.details)
+            {
+                Cognitivo.API.Models.VatDetail VatDetail = new Cognitivo.API.Models.VatDetail();
+                VatDetail.coefficient = detail.coefficient;
+                VatDetail.name = detail.name;
+                VatDetail.percentage = detail.percentage;
+                VatDetail.updatedAt = detail.updatedAt != null ? detail.updatedAt.Value : detail.createdAt.Value;
+                Vat.details.Add(VatDetail);
+            }
+
+
+            return Vat;
         }
     }
 }

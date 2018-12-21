@@ -173,11 +173,74 @@ namespace Core.Controllers
             List<object> syncList = new List<object>();
             foreach (Core.Models.Account item in _db.Accounts.ToList())
             {
-                item.createdAt = item.createdAt;
-                item.updatedAt = item.createdAt;
-                syncList.Add(item);
+                Cognitivo.API.Models.Account Account = new Cognitivo.API.Models.Account();
+                Account = Updatedata(Account, item);
+                syncList.Add(Account);
             }
-            CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Account);
+            List<object> ReturnItem = CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Account);
+            foreach (dynamic data in ReturnItem)
+            {
+
+                if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.UpdateOnLocal)
+                {
+                    int localId = (int)data.localId;
+                    Models.Account account = _db.Accounts.Where(x => x.localId == localId).FirstOrDefault();
+                    if (data.deletedAt != null)
+                    {
+                        account.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        account.deletedAt = data.deletedAt != null ? Convert.ToDateTime(data.deletedAt) : null;
+                    }
+                    else
+                    {
+                        account.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        account.updatedAt = account.updatedAt.Value.ToLocalTime();
+                        account.createdAt = Convert.ToDateTime(data.createdAt);
+                        account.createdAt = account.createdAt.Value.ToLocalTime();
+                        account.name = data.name;
+                        account.number = data.number;
+                        account.cloudId = data.cloudId;
+                        account.currencyCode = data.currencyCode;
+
+                    }
+                }
+                else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.CreateOnLocal)
+                {
+                    Models.Account account = new Models.Account();
+                    account.updatedAt = Convert.ToDateTime(data.updatedAt);
+                    account.updatedAt = account.updatedAt.Value.ToLocalTime();
+                    account.createdAt = Convert.ToDateTime(data.createdAt);
+                    account.createdAt = account.createdAt.Value.ToLocalTime();
+                    account.name = data.name;
+                    account.number = data.number;
+                    account.cloudId = data.cloudId;
+                    account.currencyCode = data.currencyCode;
+
+                    _db.Accounts.Add(account);
+                }
+                else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.UpdateOnCloud)
+                {
+                    int localId = (int)data.localId;
+                    Models.Account account = _db.Accounts.Where(x => x.localId == localId).FirstOrDefault();
+                    account.updatedAt = Convert.ToDateTime(data.updatedAt);
+                    account.updatedAt = account.updatedAt.Value.ToLocalTime();
+                    account.createdAt = Convert.ToDateTime(data.createdAt);
+                    account.createdAt = account.createdAt.Value.ToLocalTime();
+                }
+            }
+            _db.SaveChanges();
+        }
+        public dynamic Updatedata(Cognitivo.API.Models.Account Account, Core.Models.Account item)
+        {
+            Account.updatedAt = item.updatedAt != null ? item.updatedAt.Value : item.createdAt.Value; ;
+            Account.action = (Cognitivo.API.Enums.Action)item.action;
+            Account.name = item.name;
+            Account.number = item.number;
+            Account.cloudId = item.cloudId;
+            Account.createdAt = item.createdAt != null ? item.updatedAt.Value : item.createdAt.Value; ;
+            Account.currencyCode = item.currencyCode;
+            Account.deletedAt = item.deletedAt != null ? item.deletedAt.Value : item.deletedAt;
+            Account.localId = item.localId;
+            return Account;
 
         }
 

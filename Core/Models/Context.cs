@@ -67,8 +67,8 @@ namespace Core.Models
                         break;
 
                     case EntityState.Modified:
-                        //entry.CurrentValues["updatedAt"] = entry.CurrentValues["updatedAt"] ?? DateTime.Now;
-                        entry.CurrentValues["deletedAt"] = null;
+                        entry.CurrentValues["updatedAt"] = entry.CurrentValues["updatedAt"] ?? DateTime.Now;
+                        entry.CurrentValues["deletedAt"] = entry.CurrentValues["deletedAt"] ?? null;
                         break;
 
                     case EntityState.Deleted:
