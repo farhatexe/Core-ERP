@@ -58,11 +58,11 @@ namespace Core.Controllers
 
 
 
-                if (location.localId==0)
+                if (location.localId == 0)
                 {
                     _db.Locations.Add(location);
                 }
-               
+
 
             }
             _db.SaveChanges();
@@ -73,12 +73,82 @@ namespace Core.Controllers
             List<object> syncList = new List<object>();
             foreach (Core.Models.Location item in _db.Locations.ToList())
             {
-                item.createdAt = item.createdAt;
-                item.updatedAt = item.createdAt;
+                Cognitivo.API.Models.Location locationModel = new Cognitivo.API.Models.Location();
+
+                locationModel = UpdateData(locationModel, item);
                 syncList.Add(item);
             }
-            CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Location);
+            List<object> ReturnItem = CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Location);
+            foreach (dynamic data in ReturnItem)
+            {
+                if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.UpdateOnLocal)
+                {
+                    int localId = (int)data.localId;
+                    Models.Location location = _db.Locations.Where(x => x.localId == localId).FirstOrDefault();
 
+                    if (data.deletedAt != null)
+                    {
+                        location.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        location.deletedAt = data.deletedAt != null ? Convert.ToDateTime(data.deletedAt) : null;
+                    }
+                    else
+                    {
+                        location.cloudId = data.cloudId;
+                        location.currencyCode = data.currencyCode;
+                        location.address = data.address;
+                        location.email = data.email;
+                        location.telephone = data.telephone;
+                        location.name = data.name;
+                        location.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        location.updatedAt = location.updatedAt.Value.ToLocalTime();
+                        location.createdAt = Convert.ToDateTime(data.createdAt);
+                        location.createdAt = location.createdAt.Value.ToLocalTime();
+                    }
+                }
+                else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.CreateOnLocal)
+                {
+                    Models.Location location = new Models.Location();
+                    location.cloudId = data.cloudId;
+                    location.currencyCode = data.currencyCode;
+                    location.address = data.address;
+                    location.email = data.email;
+                    location.telephone = data.telephone;
+                    location.name = data.name;
+                    location.updatedAt = Convert.ToDateTime(data.updatedAt);
+                    location.updatedAt = location.updatedAt.Value.ToLocalTime();
+                    location.createdAt = Convert.ToDateTime(data.createdAt);
+                    location.createdAt = location.createdAt.Value.ToLocalTime();
+                    _db.Locations.Add(location);
+                }
+                else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.UpdateOnCloud)
+                {
+                    int localId = (int)data.localId;
+                    Models.Location location = _db.Locations.Where(x => x.localId == localId).FirstOrDefault();
+                    location.updatedAt = Convert.ToDateTime(data.updatedAt);
+                    location.updatedAt = location.updatedAt.Value.ToLocalTime();
+                    location.createdAt = Convert.ToDateTime(data.createdAt);
+                    location.createdAt = location.createdAt.Value.ToLocalTime();
+                }
+            }
+
+            _db.SaveChanges();
+        }
+        public dynamic UpdateData(Cognitivo.API.Models.Location Location, Core.Models.Location location)
+        {
+            Location.updatedAt = location.updatedAt != null ? location.updatedAt.Value : location.createdAt.Value;
+            Location.action = (Cognitivo.API.Enums.Action)location.action;
+            Location.cloudId = location.cloudId;
+            Location.createdAt = location.createdAt != null ? location.createdAt.Value : DateTime.Now;
+            Location.currencyCode = location.currencyCode;
+            Location.deletedAt = location.deletedAt != null ? location.deletedAt.Value : location.deletedAt;
+            Location.localId = location.localId;
+            Location.name = location.name;
+            Location.vatCloudId = location.vat.cloudId;
+            location.address = location.address;
+            location.email = location.email;
+            location.telephone = location.telephone;
+
+            return Location;
         }
     }
 

@@ -20,6 +20,7 @@ namespace Core
         private Controllers.PaymentSchedual paymentSchedualRepo;
         private Controllers.Session sessionRepo;
         private Controllers.Location locationRepo;
+        private Controllers.PaymentContract contractRepo;
         public Context Context;
 
         public UnitOfWork(Context db)
@@ -140,6 +141,18 @@ namespace Core
                     paymentSchedualRepo = new Controllers.PaymentSchedual(Context);
                 }
                 return paymentSchedualRepo;
+            }
+        }
+
+        public Controllers.PaymentContract PaymentContractRepo
+        {
+            get
+            {
+                if (contractRepo == null)
+                {
+                    contractRepo = new Controllers.PaymentContract(Context);
+                }
+                return contractRepo;
             }
         }
 

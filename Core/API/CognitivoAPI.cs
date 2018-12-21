@@ -20,6 +20,7 @@ namespace Core.API
             DocumentRange=5,
             Inventory=6,
             Location=7,
+            Contract=8
 
 
         }
@@ -40,13 +41,17 @@ namespace Core.API
             {
                 SyncList = send.Customer(CompanySlug, SyncList).OfType<object>().ToList();
             }
-            //else if (Module == Modules.Account)
-            //{
-            //    SyncList = send.Account(CompanySlug, Cognitivo.API.Enums.TimeSpan.LastMonth).OfType<object>().ToList();
-            //}
+            else if (Module == Modules.Account)
+            {
+                SyncList = send.Account(CompanySlug,SyncList).OfType<object>().ToList();
+            }
             else if (Module == Modules.DocumentRange)
             {
                 SyncList = send.Ranges(CompanySlug, SyncList).OfType<object>().ToList();
+            }
+            else if (Module == Modules.Location)
+            {
+                SyncList = send.Locations(CompanySlug, SyncList).OfType<object>().ToList();
             }
             //else if (Module == Modules.Inventory)
             //{

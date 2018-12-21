@@ -18,14 +18,17 @@ namespace Core.Models
         /// </summary>
         /// <value>The identifier.</value>
         /// 
-        [Key]
+
+        [DataMember]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        [Key]
+        public int localId { get; set; }
 
         /// <summary>
         /// Gets or sets the cloud identifier.
         /// </summary>
         /// <value>The cloud identifier.</value>
+        [DataMember]
         public int? cloudId { get; set; }
 
         /// <summary>
