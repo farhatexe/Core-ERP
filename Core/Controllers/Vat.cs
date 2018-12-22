@@ -19,7 +19,7 @@ namespace Core.Controllers
 
         public ObservableCollection<Vat> List()
         {
-            _db.Vats.Include(x => x.details).Load();
+            _db.Vats.Where(x => x.deletedAt == null).Include(x => x.details).Load();
             return _db.Vats.Local.ToObservableCollection();
         }
 
@@ -109,11 +109,13 @@ namespace Core.Controllers
                     }
                     else
                     {
+                        vat.name = data.name;
                         vat.cloudId = data.cloudId;
                         vat.updatedAt = Convert.ToDateTime(data.updatedAt);
                         vat.updatedAt = vat.updatedAt.Value.ToLocalTime();
                         vat.createdAt = Convert.ToDateTime(data.createdAt);
                         vat.createdAt = vat.createdAt.Value.ToLocalTime();
+
                         foreach (var item in data.details)
                         {
                             int localDetailId = (int)data.localId;
@@ -128,7 +130,7 @@ namespace Core.Controllers
                             detail.createdAt = Convert.ToDateTime(item.createdAt);
                             detail.createdAt = detail.createdAt.Value.ToLocalTime();
 
-                            if (detail.localId==0)
+                            if (detail.localId == 0)
                             {
                                 vat.details.Add(detail);
                             }
@@ -141,13 +143,15 @@ namespace Core.Controllers
                 {
                     Models.Vat vat = new Vat();
                     vat.cloudId = data.cloudId;
+                    vat.name = data.name;
                     vat.updatedAt = Convert.ToDateTime(data.updatedAt);
                     vat.updatedAt = vat.updatedAt.Value.ToLocalTime();
                     vat.createdAt = Convert.ToDateTime(data.createdAt);
                     vat.createdAt = vat.createdAt.Value.ToLocalTime();
+
                     foreach (var item in data.details)
                     {
-                       
+
                         Models.VatDetail detail = new VatDetail();
 
                         detail.cloudId = item.cloudId;
@@ -158,8 +162,8 @@ namespace Core.Controllers
                         detail.updatedAt = detail.updatedAt.Value.ToLocalTime();
                         detail.createdAt = Convert.ToDateTime(item.createdAt);
                         detail.createdAt = detail.createdAt.Value.ToLocalTime();
-                         vat.details.Add(detail);
-                        
+                        vat.details.Add(detail);
+
 
                     }
                     _db.Vats.Add(vat);
@@ -169,26 +173,46 @@ namespace Core.Controllers
                 {
                     int localId = (int)data.localId;
                     Models.Vat vat = _db.Vats.Where(x => x.localId == localId).FirstOrDefault();
-                    vat.updatedAt = Convert.ToDateTime(data.updatedAt);
-                    vat.updatedAt = vat.updatedAt.Value.ToLocalTime();
-                    vat.createdAt = Convert.ToDateTime(data.createdAt);
-                    vat.createdAt = vat.createdAt.Value.ToLocalTime();
+
+                    if (data.deletedAt != null)
+                    {
+                        vat.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        vat.updatedAt = vat.updatedAt.Value.ToLocalTime();
+                        vat.deletedAt = data.deletedAt != null ? Convert.ToDateTime(data.deletedAt) : null;
+                    }
+                    else
+                    {
+
+                        vat.cloudId = data.cloudId;
+                        vat.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        vat.updatedAt = vat.updatedAt.Value.ToLocalTime();
+                        vat.createdAt = Convert.ToDateTime(data.createdAt);
+                        vat.createdAt = vat.createdAt.Value.ToLocalTime();
+                    }
+
                 }
             }
-
+            _db.SaveChanges();
         }
+
         public dynamic UpdateData(Cognitivo.API.Models.Vat Vat, Core.Models.Vat vat)
         {
-            Vat.updatedAt = vat.updatedAt != null ? vat.updatedAt.Value : vat.createdAt.Value;
+            Vat.cloudId = vat.cloudId;
+            Vat.localId = vat.localId;
+            // Vat.updatedAt = vat.updatedAt != null ? vat.updatedAt.Value : vat.createdAt.Value;
+            Vat.createdAt = vat.createdAt != null ? vat.createdAt.Value.ToUniversalTime() : DateTime.Now.ToUniversalTime();
+            Vat.updatedAt = vat.updatedAt != null ? vat.updatedAt.Value.ToUniversalTime() : vat.createdAt.Value.ToUniversalTime();
+            Vat.deletedAt = vat.deletedAt != null ? vat.deletedAt.Value.ToUniversalTime() : vat.deletedAt;
             Vat.action = (Cognitivo.API.Enums.Action)vat.action;
             Vat.name = vat.name;
             foreach (VatDetail detail in vat.details)
             {
                 Cognitivo.API.Models.VatDetail VatDetail = new Cognitivo.API.Models.VatDetail();
+                VatDetail.cloudId = detail.cloudId;
                 VatDetail.coefficient = detail.coefficient;
                 VatDetail.name = detail.name;
                 VatDetail.percentage = detail.percentage;
-                VatDetail.updatedAt = detail.updatedAt != null ? detail.updatedAt.Value : detail.createdAt.Value;
+                VatDetail.updatedAt = detail.updatedAt != null ? detail.updatedAt.Value.ToUniversalTime() : detail.createdAt.Value.ToUniversalTime();
                 Vat.details.Add(VatDetail);
             }
 

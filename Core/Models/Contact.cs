@@ -73,7 +73,7 @@ namespace Core.Models
         /// Gets or sets the credit limit.
         /// </summary>
         /// <value>The credit limit.</value>
-        public int? creditLimit { get; set; }
+        public decimal? creditLimit { get; set; }
 
         [DataMember]
         /// <summary>

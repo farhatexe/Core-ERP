@@ -70,5 +70,7 @@ namespace Core.Models
         /// </summary>
         /// <value>The action.</value>
         public int action { get; set; }
+
+        public List<Order> Orders { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace Core.Models
 {
@@ -22,6 +23,13 @@ namespace Core.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int localId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the cloud identifier.
+        /// </summary>
+        /// <value>The cloud identifier.</value>
+        [DataMember]
+        public int? cloudId { get; set; }
 
         /// <summary>
         /// Gets or sets the date.

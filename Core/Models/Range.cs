@@ -17,7 +17,7 @@ namespace Core.Models
         /// </summary>
         /// <value>The cloud identifier.</value>
         [DataMember]
-        public int cloudId { get; set; }
+        public int? cloudId { get; set; }
 
         /// <summary>
         /// Gets or sets the company.

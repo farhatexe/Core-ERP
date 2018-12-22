@@ -18,6 +18,9 @@ namespace Core.Models
         [Key]
         public int localId { get; set; }
 
+        [DataMember]
+        public int? cloudId { get; set; }
+
         /// <summary>
         /// Gets or Sets the Order.
         /// </summary>

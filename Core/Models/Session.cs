@@ -19,6 +19,13 @@ namespace Core.Models
         public int localId { get; set; }
 
         /// <summary>
+        /// Gets or sets the cloud identifier.
+        /// </summary>
+        /// <value>The cloud identifier.</value>
+        [DataMember]
+        public int? cloudId { get; set; }
+
+        /// <summary>
         /// Gets or sets the point of sale.
         /// </summary>
         /// <value>The point of sale.</value>

@@ -13,7 +13,7 @@ namespace Core.Models
         public int localId { get; set; }
 
         [DataMember]
-        public int cloudId { get; set; }
+        public int? cloudId { get; set; }
 
         /// <summary>
         /// Gets or sets the company.

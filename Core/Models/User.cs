@@ -17,6 +17,12 @@ namespace Core.Models
         public int localId { get; set; }
 
         /// <summary>
+        /// Gets or sets the cloud identifier.
+        /// </summary>
+        /// <value>The cloud identifier.</value>
+        public int? cloudId { get; set; }
+
+        /// <summary>
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>

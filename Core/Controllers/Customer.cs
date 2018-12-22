@@ -28,7 +28,7 @@ namespace Core.Controllers
         /// </summary>
         public ObservableCollection<Contact> LIST(int Take = 25, int Skip = 0)
         {
-            Customers = ctx.Contacts
+            Customers = ctx.Contacts.Where(x=>x.deletedAt==null)
                                .Take(Take).Skip(Skip);
 
             return new ObservableCollection<Contact>(Customers);
@@ -106,8 +106,7 @@ namespace Core.Controllers
         /// <param name="Contact">Contact.</param>
         public bool Delete(Models.Contact Contact)
         {
-            ctx.Contacts.Remove(Contact);
-            ctx.SaveChanges();
+            ctx.Entry<Core.Models.Contact>(Contact).State = EntityState.Deleted;
             return true;
         }
 
@@ -217,24 +216,39 @@ namespace Core.Controllers
                 }
                 else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.UpdateOnCloud)
                 {
+
                     int localId = (int)data.localId;
                     Models.Contact item = ctx.Contacts.Where(x => x.localId == localId).FirstOrDefault();
-                    item.updatedAt = Convert.ToDateTime(data.updatedAt);
-                    item.updatedAt = item.updatedAt.Value.ToLocalTime();
-                    item.createdAt = Convert.ToDateTime(data.createdAt);
-                    item.createdAt = item.createdAt.Value.ToLocalTime();
+
+                    if (data.deletedAt != null)
+                    {
+                        item.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        item.updatedAt = item.updatedAt.Value.ToLocalTime();
+                        item.deletedAt = data.deletedAt != null ? Convert.ToDateTime(data.deletedAt) : null;
+                    }
+                    else
+                    {
+
+                        item.cloudId = data.cloudId;
+                        item.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        item.updatedAt = item.updatedAt.Value.ToLocalTime();
+                        item.createdAt = Convert.ToDateTime(data.createdAt);
+                        item.createdAt = item.createdAt.Value.ToLocalTime();
+                    }
+                   
+                 
                 }
             }
             ctx.SaveChanges();
         }
         public dynamic Updatedata(Cognitivo.API.Models.Customer Customer,Core.Models.Contact item)
         {
-            Customer.updatedAt = item.updatedAt != null ? item.updatedAt.Value : item.createdAt.Value; ;
+            Customer.updatedAt = item.updatedAt != null ? item.updatedAt.Value.ToUniversalTime() : item.createdAt.Value.ToUniversalTime();
             Customer.action = (Cognitivo.API.Enums.Action)item.action;
             Customer.address = item.address;
             Customer.alias = item.alias;
             Customer.cloudId = item.cloudId;
-            Customer.createdAt = item.createdAt != null ? item.updatedAt.Value : item.createdAt.Value; ;
+            Customer.createdAt = item.createdAt != null ? item.updatedAt.Value.ToUniversalTime() : item.createdAt.Value.ToUniversalTime();
             Customer.creditLimit = item.creditLimit;
             Customer.deletedAt = item.deletedAt != null ? item.deletedAt.Value : item.deletedAt;
             Customer.email = item.email;

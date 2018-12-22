@@ -229,10 +229,23 @@ namespace Core.Controllers
                 {
                     int localId = (int)data.localId;
                     Models.Item item = db.Items.Where(x => x.localId == localId).FirstOrDefault();
-                    item.updatedAt = Convert.ToDateTime(data.updatedAt);
-                    item.updatedAt = item.updatedAt.Value.ToLocalTime();
-                    item.createdAt = Convert.ToDateTime(data.createdAt);
-                    item.createdAt = item.createdAt.Value.ToLocalTime();
+
+                    if (data.deletedAt != null)
+                    {
+                        item.isActive = false;
+                        item.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        item.updatedAt = item.updatedAt.Value.ToLocalTime();
+                        item.deletedAt = data.deletedAt != null ? Convert.ToDateTime(data.deletedAt) : null;
+                    }
+                    else
+                    {
+
+                        item.cloudId = data.cloudId;
+                        item.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        item.updatedAt = item.updatedAt.Value.ToLocalTime();
+                        item.createdAt = Convert.ToDateTime(data.createdAt);
+                        item.createdAt = item.createdAt.Value.ToLocalTime();
+                    }
                 }
             }
 
@@ -240,15 +253,15 @@ namespace Core.Controllers
         }
         public dynamic UpdateData(Cognitivo.API.Models.Item Item, Core.Models.Item item)
         {
-            Item.updatedAt = item.updatedAt != null ? item.updatedAt.Value : item.createdAt.Value;
+            Item.updatedAt = item.updatedAt != null ? item.updatedAt.Value.ToUniversalTime() : item.createdAt.Value.ToUniversalTime();
             Item.action = (Cognitivo.API.Enums.Action)item.action;
             Item.barCode = item.barCode;
             Item.categoryCloudId = item.categoryCloudId;
             Item.cloudId = item.cloudId;
             Item.cost = item.cost;
-            Item.createdAt = item.createdAt != null ? item.createdAt.Value : DateTime.Now;
+            Item.createdAt = item.createdAt != null ? item.createdAt.Value.ToUniversalTime() : DateTime.Now.ToUniversalTime();
             Item.currencyCode = item.currencyCode;
-            Item.deletedAt = item.deletedAt != null ? item.deletedAt.Value : item.deletedAt;
+            Item.deletedAt = item.deletedAt != null ? item.deletedAt.Value.ToUniversalTime() : item.deletedAt;
             Item.globalItem = item.globalId > 0 ? item.globalId : null;
             Item.isActive = item.isActive;
             Item.isPrivate = item.isPrivate;
