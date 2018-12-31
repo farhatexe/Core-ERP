@@ -20,7 +20,8 @@ namespace Core.API
             DocumentRange=5,
             Inventory=6,
             Location=7,
-            Contract=8
+            Contract=8,
+            PaymentType=9
 
 
         }
@@ -52,6 +53,10 @@ namespace Core.API
             else if (Module == Modules.Location)
             {
                 SyncList = send.Locations(CompanySlug, SyncList).OfType<object>().ToList();
+            }
+            else if (Module == Modules.PaymentType)
+            {
+                SyncList = send.PaymentType(CompanySlug,SyncList).OfType<object>().ToList();
             }
             //else if (Module == Modules.Inventory)
             //{

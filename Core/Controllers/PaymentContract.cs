@@ -69,6 +69,7 @@ namespace Core.Controllers
                     }
                     else
                     {
+                        contract.name = data.name;
                         contract.cloudId = data.cloudId;
                         contract.updatedAt = Convert.ToDateTime(data.updatedAt);
                         contract.updatedAt = contract.updatedAt.Value.ToLocalTime();
@@ -99,6 +100,7 @@ namespace Core.Controllers
                 else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.CreateOnLocal)
                 {
                     Models.PaymentContract contract = new Models.PaymentContract();
+                    contract.name = data.name;
                     contract.cloudId = data.cloudId;
                     contract.updatedAt = Convert.ToDateTime(data.updatedAt);
                     contract.updatedAt = contract.updatedAt.Value.ToLocalTime();
@@ -125,14 +127,27 @@ namespace Core.Controllers
                 }
                 else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.UpdateOnCloud)
                 {
+
                     int localId = (int)data.localId;
                     Models.PaymentContract contract = _db.PaymentContracts.Where(x => x.localId == localId).FirstOrDefault();
-                    contract.updatedAt = Convert.ToDateTime(data.updatedAt);
-                    contract.updatedAt = contract.updatedAt.Value.ToLocalTime();
-                    contract.createdAt = Convert.ToDateTime(data.createdAt);
-                    contract.createdAt = contract.createdAt.Value.ToLocalTime();
+                    if (data.deletedAt != null)
+                    {
+                        contract.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        contract.updatedAt = contract.updatedAt.Value.ToLocalTime();
+                        contract.deletedAt = data.deletedAt != null ? Convert.ToDateTime(data.deletedAt) : null;
+                    }
+
+                    else
+                    {
+                        contract.cloudId = data.cloudId;
+                        contract.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        contract.updatedAt = contract.updatedAt.Value.ToLocalTime();
+                        contract.createdAt = Convert.ToDateTime(data.createdAt);
+                        contract.createdAt = contract.createdAt.Value.ToLocalTime();
+                    }
                 }
             }
+            _db.SaveChanges();
 
         }
         public dynamic UpdateData(Cognitivo.API.Models.PaymentContract Contract, Core.Models.PaymentContract contract)

@@ -118,8 +118,8 @@ namespace Core.Controllers
 
                         foreach (var item in data.details)
                         {
-                            int localDetailId = (int)data.localId;
-                            Models.VatDetail detail = vat.details.Where(x => x.localId == localDetailId).FirstOrDefault() ?? new VatDetail();
+                            int localDetailId = (int)item.cloudId;
+                            Models.VatDetail detail = vat.details.Where(x => x.cloudId == localDetailId).FirstOrDefault() ?? new VatDetail();
 
                             detail.cloudId = item.cloudId;
                             detail.coefficient = item.coefficient;

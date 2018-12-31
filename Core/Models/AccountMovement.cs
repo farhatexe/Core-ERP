@@ -111,12 +111,12 @@ namespace Core.Models
         /// <value>The create date.</value>
         public DateTime? updatedAt { get; set; }
 
-        //[DataMember]
-        // <summary>
-        // Gets or sets the deleted at.
-        // </summary>
-        // <value>The deleted at.</value>
-        //public DateTime? deletedAt { get; set; }
+        [DataMember]
+         //<summary>
+         //Gets or sets the deleted at.
+         //</summary>
+         //<value>The deleted at.</value>
+        public DateTime? deletedAt { get; set; }
 
         [NotMapped]
         /// <summary>
