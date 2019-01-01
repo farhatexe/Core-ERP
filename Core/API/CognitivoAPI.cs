@@ -21,7 +21,8 @@ namespace Core.API
             Inventory=6,
             Location=7,
             Contract=8,
-            PaymentType=9
+            PaymentType=9,
+            PointOfSale=10
 
 
         }
@@ -57,6 +58,10 @@ namespace Core.API
             else if (Module == Modules.PaymentType)
             {
                 SyncList = send.PaymentType(CompanySlug,SyncList).OfType<object>().ToList();
+            }
+            else if (Module == Modules.PointOfSale)
+            {
+                SyncList = send.Terminal(CompanySlug, SyncList).OfType<object>().ToList();
             }
             //else if (Module == Modules.Inventory)
             //{

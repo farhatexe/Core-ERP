@@ -67,7 +67,6 @@ namespace Core.Controllers
                     {
                         paymnettype.cloudId = data.cloudId;
                         paymnettype.name = data.name;
-                        paymnettype.behavior = data.behavior;
                         paymnettype.updatedAt = Convert.ToDateTime(data.updatedAt);
                         paymnettype.updatedAt = paymnettype.updatedAt.Value.ToLocalTime();
                         paymnettype.createdAt = Convert.ToDateTime(data.createdAt);
@@ -79,7 +78,6 @@ namespace Core.Controllers
                     Models.PaymentType paymnettype = new Models.PaymentType();
                     paymnettype.cloudId = data.cloudId;
                     paymnettype.name = data.name;
-                    paymnettype.behavior = data.behavior;
                     paymnettype.updatedAt = Convert.ToDateTime(data.updatedAt);
                     paymnettype.updatedAt = paymnettype.updatedAt.Value.ToLocalTime();
                     paymnettype.createdAt = Convert.ToDateTime(data.createdAt);
@@ -116,6 +114,7 @@ namespace Core.Controllers
         {
             paymenttype.updatedAt = item.updatedAt != null ? item.updatedAt.Value.ToUniversalTime() : item.createdAt.Value.ToUniversalTime();
             paymenttype.action = (Cognitivo.API.Enums.Action)item.action;
+            paymenttype.country = item.country;
             paymenttype.cloudId = item.cloudId;
             paymenttype.localId = item.localId;
             paymenttype.name = item.name;

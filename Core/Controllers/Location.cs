@@ -76,7 +76,7 @@ namespace Core.Controllers
                 Cognitivo.API.Models.Location locationModel = new Cognitivo.API.Models.Location();
 
                 locationModel = UpdateData(locationModel, item);
-                syncList.Add(item);
+                syncList.Add(locationModel);
             }
             List<object> ReturnItem = CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Location);
             foreach (dynamic data in ReturnItem)
@@ -143,7 +143,7 @@ namespace Core.Controllers
             Location.deletedAt = location.deletedAt != null ? location.deletedAt.Value : location.deletedAt;
             Location.localId = location.localId;
             Location.name = location.name;
-            Location.vatCloudId = location.vat.cloudId;
+            Location.vatCloudId = location.vat!=null ? location.vat.cloudId:0;
             location.address = location.address;
             location.email = location.email;
             location.telephone = location.telephone;

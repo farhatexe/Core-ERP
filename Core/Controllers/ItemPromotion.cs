@@ -55,7 +55,7 @@ namespace Core.Controllers
                 {
                     OnHeader(order, promotion);
                 }
-                else if(promotion.inputType == Models.ItemPromotion.InputTypes.OnCustomer)
+                else if (promotion.inputType == Models.ItemPromotion.InputTypes.OnCustomer)
                 {
                     if (order.customer != null && promotion.inputReference == order.customer.cloudId)
                     {
@@ -187,6 +187,93 @@ namespace Core.Controllers
 
                 detail.order.details.Add(giftDetail);
             }
+        }
+
+
+        public void Upload(string slug)
+        {
+            Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
+            List<object> syncList = new List<object>();
+
+            foreach (Core.Models.ItemPromotion itempromotion in _db.ItemPromotions.ToList())
+            {
+                Cognitivo.API.Models.ItemPromotion itempromotionModel = new Cognitivo.API.Models.ItemPromotion();
+
+                itempromotionModel = UpdateData(itempromotionModel, itempromotion);
+                syncList.Add(itempromotionModel);
+            }
+
+            List<object> ReturnItem = CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Item);
+
+            foreach (dynamic data in ReturnItem)
+            {
+                if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.UpdateOnLocal)
+                {
+                    int localId = (int)data.localId;
+                    Models.ItemPromotion itempromotion = _db.ItemPromotions.Where(x => x.localId == localId).FirstOrDefault();
+
+                    if (data.deletedAt != null)
+                    {
+                        itempromotion.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        itempromotion.deletedAt = data.deletedAt != null ? Convert.ToDateTime(data.deletedAt) : null;
+                    }
+                    else
+                    {
+                        itempromotion.cloudId = data.cloudId;
+                        itempromotion.name = data.name;
+                        itempromotion.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        itempromotion.updatedAt = itempromotion.updatedAt.Value.ToLocalTime();
+                        itempromotion.createdAt = Convert.ToDateTime(data.createdAt);
+                        itempromotion.createdAt = itempromotion.createdAt.Value.ToLocalTime();
+                    }
+                }
+                else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.CreateOnLocal)
+                {
+                    Models.ItemPromotion itempromotion = new Models.ItemPromotion();
+                    itempromotion.cloudId = data.cloudId;
+                    itempromotion.name = data.name;
+                    itempromotion.updatedAt = Convert.ToDateTime(data.updatedAt);
+                    itempromotion.updatedAt = itempromotion.updatedAt.Value.ToLocalTime();
+                    itempromotion.createdAt = Convert.ToDateTime(data.createdAt);
+                    itempromotion.createdAt = itempromotion.createdAt.Value.ToLocalTime();
+
+                    _db.ItemPromotions.Add(itempromotion);
+                }
+                else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.UpdateOnCloud)
+                {
+                    int localId = (int)data.localId;
+                    Models.ItemPromotion itempromotion = _db.ItemPromotions.Where(x => x.localId == localId).FirstOrDefault();
+
+                    if (data.deletedAt != null)
+                    {
+                        itempromotion.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        itempromotion.updatedAt = itempromotion.updatedAt.Value.ToLocalTime();
+                        itempromotion.deletedAt = data.deletedAt != null ? Convert.ToDateTime(data.deletedAt) : null;
+                    }
+                    else
+                    {
+
+                        itempromotion.cloudId = data.cloudId;
+                        itempromotion.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        itempromotion.updatedAt = itempromotion.updatedAt.Value.ToLocalTime();
+                        itempromotion.createdAt = Convert.ToDateTime(data.createdAt);
+                        itempromotion.createdAt = itempromotion.createdAt.Value.ToLocalTime();
+                    }
+                }
+            }
+
+            _db.SaveChanges();
+        }
+        public dynamic UpdateData(Cognitivo.API.Models.ItemPromotion ItemPromotion, Core.Models.ItemPromotion itempromotion)
+        {
+            ItemPromotion.updatedAt = itempromotion.updatedAt != null ? itempromotion.updatedAt.Value.ToUniversalTime() : itempromotion.createdAt.Value.ToUniversalTime();
+            ItemPromotion.action = (Cognitivo.API.Enums.Action)itempromotion.action;
+            ItemPromotion.cloudId = itempromotion.cloudId;
+            ItemPromotion.createdAt = itempromotion.createdAt != null ? itempromotion.createdAt.Value.ToUniversalTime() : DateTime.Now.ToUniversalTime();
+            ItemPromotion.deletedAt = itempromotion.deletedAt != null ? itempromotion.deletedAt.Value.ToUniversalTime() : itempromotion.deletedAt;
+            ItemPromotion.localId = itempromotion.localId;
+            ItemPromotion.name = itempromotion.name;
+            return ItemPromotion;
         }
     }
 }

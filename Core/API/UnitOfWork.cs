@@ -21,6 +21,9 @@ namespace Core
         private Controllers.Session sessionRepo;
         private Controllers.Location locationRepo;
         private Controllers.PaymentContract contractRepo;
+        private PointOfSales pointofsaleRepo;
+        private Controllers.ItemPromotion itempromotionRepo;
+
         public Context Context;
 
         public UnitOfWork(Context db)
@@ -177,6 +180,29 @@ namespace Core
                     locationRepo = new Controllers.Location(Context);
                 }
                 return locationRepo;
+            }
+        }
+
+        public Controllers.PointOfSales PointOfSaleRepo
+        {
+            get
+            {
+                if (pointofsaleRepo == null)
+                {
+                    pointofsaleRepo = new Controllers.PointOfSales(Context);
+                }
+                return pointofsaleRepo;
+            }
+        }
+        public Controllers.ItemPromotion Promotions
+        {
+            get
+            {
+                if (itempromotionRepo == null)
+                {
+                    itempromotionRepo = new Controllers.ItemPromotion(Context);
+                }
+                return itempromotionRepo;
             }
         }
 
