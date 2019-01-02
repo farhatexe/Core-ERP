@@ -210,7 +210,9 @@ namespace Core.Controllers
             //Check Prices
             if (RecalculatePrices)
             {
-                //TODO: run promotions check again, simply call function.
+                ItemPromotion promo = new ItemPromotion(_db);
+                promo.CalculatePromotionsOnSales(Order);
+
             }
 
             //Insert into Payment Schedual

@@ -7,11 +7,11 @@ using System.Linq;
 
 namespace Core.Controllers
 {
-    public class DocumentController
+    public class RangeController
     {
         private Context _db;
 
-        public DocumentController(Context db)
+        public RangeController(Context db)
         {
             _db = db;
         }

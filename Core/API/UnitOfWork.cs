@@ -10,7 +10,7 @@ namespace Core
     {
         private ItemController itemRepository;
         private CustomerController customerRepo;
-        private DocumentController rangeRepo;
+        private RangeController rangeRepo;
         private InventoryController inventoryRepo;
         private VatController vatRepo;
         private Controllers.Account accountRepo;
@@ -23,6 +23,7 @@ namespace Core
         private Controllers.PaymentContract contractRepo;
         private PointOfSales pointofsaleRepo;
         private Controllers.ItemPromotion itempromotionRepo;
+        private Controllers.DocumentController documentRepo;
 
         public Context Context;
 
@@ -54,13 +55,13 @@ namespace Core
             }
         }
 
-        public DocumentController RangeRepo
+        public RangeController RangeRepo
         {
             get
             {
                 if (rangeRepo == null)
                 {
-                    rangeRepo = new DocumentController(Context);
+                    rangeRepo = new RangeController(Context);
                 }
                 return rangeRepo;
             }
@@ -203,6 +204,17 @@ namespace Core
                     itempromotionRepo = new Controllers.ItemPromotion(Context);
                 }
                 return itempromotionRepo;
+            }
+        }
+        public Controllers.DocumentController Document
+        {
+            get
+            {
+                if (documentRepo == null)
+                {
+                    documentRepo = new Controllers.DocumentController();
+                }
+                return documentRepo;
             }
         }
 

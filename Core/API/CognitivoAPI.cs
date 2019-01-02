@@ -22,7 +22,8 @@ namespace Core.API
             Location=7,
             Contract=8,
             PaymentType=9,
-            PointOfSale=10
+            PointOfSale=10,
+            Promotion=11
 
 
         }
@@ -62,6 +63,10 @@ namespace Core.API
             else if (Module == Modules.PointOfSale)
             {
                 SyncList = send.Terminal(CompanySlug, SyncList).OfType<object>().ToList();
+            }
+            else if (Module == Modules.Promotion)
+            {
+                SyncList = send.Promotions(CompanySlug, SyncList).OfType<object>().ToList();
             }
             //else if (Module == Modules.Inventory)
             //{

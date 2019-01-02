@@ -44,6 +44,13 @@ namespace Core.Models
         public PaymentType defaultPaymentType { get; set; }
 
         /// <summary>
+        /// Gets or sets the default type of the account.
+        /// </summary>
+        /// <value>The default type of the account.</value>
+        [DataMember]
+        public Account defaultAccount { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether this <see cref="T:Core.Models.PointOfSale"/> prefill payment.
         /// Prefill amount paid with the exact due amount
         /// </summary>

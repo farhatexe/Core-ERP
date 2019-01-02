@@ -83,5 +83,9 @@ namespace Core.Models
         /// </summary>
         /// <value>The action.</value>
         public int action { get; set; }
+
+        [DataMember]
+        public List<PointOfSale> pointOfSales { get; set; }
+
     }
 }

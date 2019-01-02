@@ -105,7 +105,8 @@ namespace Core.Models
 
         [NotMapped]
         public decimal CurrentEndingBalance{
-            get {
+            get
+            {
                 return startingBalance + orders.Sum(x => x.total * x.currencyRate);
             }
         }

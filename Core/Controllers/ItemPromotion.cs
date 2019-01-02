@@ -203,7 +203,7 @@ namespace Core.Controllers
                 syncList.Add(itempromotionModel);
             }
 
-            List<object> ReturnItem = CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Item);
+            List<object> ReturnItem = CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Promotion);
 
             foreach (dynamic data in ReturnItem)
             {
@@ -221,6 +221,14 @@ namespace Core.Controllers
                     {
                         itempromotion.cloudId = data.cloudId;
                         itempromotion.name = data.name;
+                        itempromotion.startDate= Convert.ToDateTime(data.startDate);
+                        itempromotion.endDate = Convert.ToDateTime(data.endDate);
+                        itempromotion.inputType = (Core.Models.ItemPromotion.InputTypes)data.inputType;
+                        itempromotion.inputReference = data.inputReference;
+                        itempromotion.inputValue = data.inputValue;
+                        itempromotion.outputType = (Core.Models.ItemPromotion.OutputTypes)data.outputType;
+                        itempromotion.outputReference = data.outputReference;
+                        itempromotion.outputValue = data.outputValue;
                         itempromotion.updatedAt = Convert.ToDateTime(data.updatedAt);
                         itempromotion.updatedAt = itempromotion.updatedAt.Value.ToLocalTime();
                         itempromotion.createdAt = Convert.ToDateTime(data.createdAt);
@@ -232,6 +240,14 @@ namespace Core.Controllers
                     Models.ItemPromotion itempromotion = new Models.ItemPromotion();
                     itempromotion.cloudId = data.cloudId;
                     itempromotion.name = data.name;
+                    itempromotion.startDate = Convert.ToDateTime(data.startDate);
+                    itempromotion.endDate = Convert.ToDateTime(data.endDate);
+                    itempromotion.inputType =(Core.Models.ItemPromotion.InputTypes)data.inputType;
+                    itempromotion.inputReference = data.inputReference;
+                    itempromotion.inputValue = data.inputValue;
+                    itempromotion.outputType = (Core.Models.ItemPromotion.OutputTypes)data.outputType;
+                    itempromotion.outputReference = data.outputReference;
+                    itempromotion.outputValue = data.outputValue;
                     itempromotion.updatedAt = Convert.ToDateTime(data.updatedAt);
                     itempromotion.updatedAt = itempromotion.updatedAt.Value.ToLocalTime();
                     itempromotion.createdAt = Convert.ToDateTime(data.createdAt);
@@ -273,6 +289,14 @@ namespace Core.Controllers
             ItemPromotion.deletedAt = itempromotion.deletedAt != null ? itempromotion.deletedAt.Value.ToUniversalTime() : itempromotion.deletedAt;
             ItemPromotion.localId = itempromotion.localId;
             ItemPromotion.name = itempromotion.name;
+            itempromotion.startDate = itempromotion.startDate != null? itempromotion.startDate.Value.ToUniversalTime() : DateTime.Now.ToUniversalTime();
+            itempromotion.endDate = itempromotion.endDate != null? itempromotion.endDate.Value.ToUniversalTime() : DateTime.Now.AddMonths(1).ToUniversalTime();
+            itempromotion.inputType = itempromotion.inputType;
+            itempromotion.inputReference = itempromotion.inputReference;
+            itempromotion.inputValue = itempromotion.inputValue;
+            itempromotion.outputType = itempromotion.outputType;
+            itempromotion.outputReference = itempromotion.outputReference;
+            itempromotion.outputValue = itempromotion.outputValue;
             return ItemPromotion;
         }
     }
