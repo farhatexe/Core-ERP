@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -11,6 +12,11 @@ namespace Core.Models
     /// </summary>
     public class Account : BaseClass
     {
+        public Account()
+        {
+            accountMovements = new ObservableCollection<AccountMovement>();
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int localId { get; set; }
@@ -50,11 +56,12 @@ namespace Core.Models
         [DataMember]
         public bool isActive { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the account movements.
         /// </summary>
         /// <value>The account movements.</value>
-        public List<AccountMovement> accountMovements { get; set; }
+        public virtual ObservableCollection<AccountMovement> accountMovements { get; set; }
 
         [DataMember]
         /// <summary>
@@ -85,7 +92,7 @@ namespace Core.Models
         public int action { get; set; }
 
         [DataMember]
-        public List<PointOfSale> pointOfSales { get; set; }
+        public virtual ObservableCollection<PointOfSale> pointOfSales { get; set; }
 
     }
 }

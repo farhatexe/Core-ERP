@@ -27,7 +27,7 @@ namespace Core.Models
         /// Gets or sets the contract.
         /// </summary>
         /// <value>The contract.</value>
-        public PaymentContract paymentContract { get; set; }
+        public virtual PaymentContract paymentContract { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="T:Core.Models.PaymentContractDetail"/> for orders.

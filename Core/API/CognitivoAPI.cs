@@ -17,7 +17,7 @@ namespace Core.API
             Customer=2,
             Account=3,
             ItemCategory=4,
-            DocumentRange=5,
+            Document=5,
             Inventory=6,
             Location=7,
             Contract=8,
@@ -48,7 +48,7 @@ namespace Core.API
             {
                 SyncList = send.Account(CompanySlug,SyncList).OfType<object>().ToList();
             }
-            else if (Module == Modules.DocumentRange)
+            else if (Module == Modules.Document)
             {
                 SyncList = send.Ranges(CompanySlug, SyncList).OfType<object>().ToList();
             }
@@ -95,7 +95,7 @@ namespace Core.API
             {
                 SyncList = receive.Account(CompanySlug, Cognitivo.API.Enums.TimeSpan.LastMonth).OfType<object>().ToList();
             }
-            else if (Module == Modules.DocumentRange)
+            else if (Module == Modules.Document)
             {
                 SyncList = receive.Range(CompanySlug, Cognitivo.API.Enums.TimeSpan.LastMonth).OfType<object>().ToList();
             }

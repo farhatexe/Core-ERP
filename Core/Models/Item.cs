@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -16,7 +17,7 @@ namespace Core.Models
         {
             isPrivate = false;
             isActive = true;
-            ItemMovements = new List<ItemMovement>();
+            ItemMovements = new ObservableCollection<ItemMovement>();
         }
 
         [DataMember]
@@ -36,7 +37,7 @@ namespace Core.Models
         /// </summary>
         /// <value>The company.</value>
         [DataMember]
-        public Company company { get; set; }
+        public virtual Company company { get; set; }
 
         /// <summary>
         /// Gets or sets the global item cloud identifier.
@@ -57,7 +58,7 @@ namespace Core.Models
         /// </summary>
         /// <value>The vat.</value>
         [DataMember]
-        public Vat vat { get; set; }
+        public virtual Vat vat { get; set; }
 
         [DataMember]
         /// <summary>
@@ -71,7 +72,7 @@ namespace Core.Models
         /// Gets or sets the category.
         /// </summary>
         /// <value>The category.</value>
-        public ItemCategory category { get; set; }
+        public virtual ItemCategory category { get; set; }
 
         [DataMember]
         /// <summary>
@@ -235,10 +236,10 @@ namespace Core.Models
         public Enums.Action action { get; set; }
 
         [DataMember]
-        public List<ItemMovement> ItemMovements { get; set; }
-
-        public List<OrderDetail> orderDetails { get; set; }
-
-        public List<Inventory> Inventory { get; set; }
+        public virtual ObservableCollection<ItemMovement> ItemMovements { get; set; }
+        [DataMember]
+        public virtual ObservableCollection<OrderDetail> orderDetails { get; set; }
+        [DataMember]
+        public virtual ObservableCollection<Inventory> Inventory { get; set; }
     }
 }

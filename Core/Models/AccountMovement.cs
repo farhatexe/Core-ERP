@@ -32,28 +32,28 @@ namespace Core.Models
         /// Gets or sets the account.
         /// </summary>
         /// <value>The account.</value>
-        public Account account { get; set; }
+        public virtual Account account { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the payment.
         /// </summary>
         /// <value>The type of the payment.</value>
         [DataMember]
-        public PaymentType paymentType { get; set; }
+        public virtual PaymentType paymentType { get; set; }
 
         /// <summary>
         /// Gets or sets the schedual.
         /// </summary>
         /// <value>The schedual.</value>
         [DataMember]
-        public PaymentSchedual schedual { get; set; }
+        public virtual PaymentSchedual schedual { get; set; }
 
         /// <summary>
         /// Gets or sets the order.
         /// </summary>
         /// <value>The order.</value>
         [DataMember]
-        public Order order { get; set; }
+        public virtual Order order { get; set; }
 
         [DataMember]
         /// <summary>

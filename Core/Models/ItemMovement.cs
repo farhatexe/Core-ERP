@@ -32,21 +32,21 @@ namespace Core.Models
         /// Gets or sets the company.
         /// </summary>
         /// <value>The company.</value>
-        public Company company { get; set; }
+        public virtual Company company { get; set; }
 
         [DataMember]
         /// <summary>
         /// Gets or sets the location.
         /// </summary>
         /// <value>The location.</value>
-        public Location location { get; set; }
+        public virtual Location location { get; set; }
 
         [DataMember]
         /// <summary>
         /// Gets or sets the item.
         /// </summary>
         /// <value>The item.</value>
-        public Item item { get; set; }
+        public virtual Item item { get; set; }
 
         [DataMember]
         /// <summary>

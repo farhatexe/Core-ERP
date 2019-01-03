@@ -195,7 +195,7 @@ namespace Core
                 return pointofsaleRepo;
             }
         }
-        public Controllers.ItemPromotion Promotions
+        public Controllers.ItemPromotion PromotionRepo
         {
             get
             {
@@ -206,13 +206,13 @@ namespace Core
                 return itempromotionRepo;
             }
         }
-        public Controllers.DocumentController Document
+        public Controllers.DocumentController DocumentRepo
         {
             get
             {
                 if (documentRepo == null)
                 {
-                    documentRepo = new Controllers.DocumentController();
+                    documentRepo = new Controllers.DocumentController(Context);
                 }
                 return documentRepo;
             }

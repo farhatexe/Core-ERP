@@ -32,21 +32,21 @@ namespace Core.Models
         /// Gets or sets the order.
         /// </summary>
         /// <value>The order.</value>
-        public Order order { get; set; }
+        public virtual Order order { get; set; }
 
         [DataMember]
         /// <summary>
         /// Gets or sets the vat.
         /// </summary>
         /// <value>The vat.</value>
-        public Vat vat { get; set; }
+        public virtual Vat vat { get; set; }
 
         [DataMember]
         /// <summary>
         /// Gets or sets the promotion.
         /// </summary>
         /// <value>The promotion.</value>
-        public ItemPromotion promotion { get; set; }
+        public virtual ItemPromotion promotion { get; set; }
 
         [DataMember]
         private Item _item;
@@ -54,7 +54,7 @@ namespace Core.Models
         /// Gets or sets the item.
         /// </summary>
         /// <value>The item.</value>
-        public Item item
+        public virtual Item item
         {
             get => _item;
             set

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -71,20 +72,20 @@ namespace Core.Models
         [DataMember]
         public decimal? globalMargin { get; set; }
 
-        public List<Vat> vats { get; set; }
+        public virtual ObservableCollection<Vat> vats { get; set; }
 
-        public List<PointOfSale> pointOfSales { get; set; }
+        public virtual ObservableCollection<PointOfSale> pointOfSales { get; set; }
 
-        public List<Range> ranges { get; set; }
+        public virtual ObservableCollection<Range> ranges { get; set; }
 
-        public List<Contact> contacts { get; set; }
+        public virtual ObservableCollection<Contact> contacts { get; set; }
 
-        public List<Location> locations { get; set; }
+        public virtual ObservableCollection<Location> locations { get; set; }
 
-        public List<PaymentType> paymentTypes { get; set; }
+        public virtual ObservableCollection<PaymentType> paymentTypes { get; set; }
 
-        public List<ItemMovement> itemMovements { get; set; }
+        public virtual ObservableCollection<ItemMovement> itemMovements { get; set; }
 
-        public List<Order> orders { get; set; }
+        public virtual ObservableCollection<Order> orders { get; set; }
     }
 }

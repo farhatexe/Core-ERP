@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -10,7 +11,7 @@ namespace Core.Models
     {
         public PaymentContract()
         {
-            details = new List<PaymentContractDetail>();
+            details = new ObservableCollection<PaymentContractDetail>();
         }
 
         /// <summary>
@@ -41,7 +42,7 @@ namespace Core.Models
         /// Gets or sets the details.
         /// </summary>
         /// <value>The details.</value>
-        public List<PaymentContractDetail> details { get; set; }
+        public virtual ObservableCollection<PaymentContractDetail> details { get; set; }
 
         [DataMember]
         /// <summary>
@@ -71,6 +72,6 @@ namespace Core.Models
         /// <value>The action.</value>
         public int action { get; set; }
 
-        public List<Order> Orders { get; set; }
+        public virtual ObservableCollection<Order> Orders { get; set; }
     }
 }

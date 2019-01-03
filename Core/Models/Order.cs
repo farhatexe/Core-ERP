@@ -57,49 +57,49 @@ namespace Core.Models
         /// Gets or sets the company.
         /// </summary>
         /// <value>The company.</value>
-        public Company company { get; set; }
+        public virtual Company company { get; set; }
 
         [DataMember]
         /// <summary>
         /// Gets or sets the location.
         /// </summary>
         /// <value>The location.</value>
-        public Location location { get; set; }
+        public virtual Location location { get; set; }
 
         [DataMember]
         /// <summary>
         /// Gets or sets the date.
         /// </summary>
         /// <value>The date.</value>
-        public DateTime date { get; set; }
+        public virtual DateTime date { get; set; }
 
         [DataMember]
         /// <summary>
         /// Gets or sets the session.
         /// </summary>
         /// <value>Session used during current order.</value>
-        public Session session { get; set; }
+        public virtual Session session { get; set; }
 
         [DataMember]
         /// <summary>
         /// Gets or sets the range.
         /// </summary>
         /// <value>Range used during current order.</value>
-        public Range range { get; set; }
+        public virtual Range range { get; set; }
 
         [DataMember]
         /// <summary>
         /// Gets or sets the customer.
         /// </summary>
         /// <value>The customer.</value>
-        public Contact customer { get; set; }
+        public virtual Contact customer { get; set; }
 
         [DataMember]
         /// <summary>
         /// Gets or sets the payment contract.
         /// </summary>
         /// <value>The payment contract.</value>
-        public PaymentContract paymentContract { get; set; }
+        public virtual PaymentContract paymentContract { get; set; }
 
         [DataMember]
         /// <summary>
@@ -154,12 +154,12 @@ namespace Core.Models
         /// Gets or sets the details.
         /// </summary>
         /// <value>The details.</value>
-        public ObservableCollection<OrderDetail> details { get; set; }
+        public virtual ObservableCollection<OrderDetail> details { get; set; }
 
         /// <summary>
         /// Get or Sets Movements
         /// </summary>
-        public ObservableCollection<AccountMovement> movements { get; set; }
+        public virtual ObservableCollection<AccountMovement> movements { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="T:Core.Models.Order"/> is archived.

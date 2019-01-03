@@ -35,7 +35,7 @@ namespace Core.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            
+         
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -20,14 +21,14 @@ namespace Core.Models
         /// </summary>
         /// <value>The company.</value>
         [DataMember]
-        public Company company { get; set; }
+        public virtual Company company { get; set; }
 
         /// <summary>
         /// Gets or sets the location.
         /// </summary>
         /// <value>The location.</value>
         [DataMember]
-        public Location location { get; set; }
+        public virtual Location location { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
@@ -41,14 +42,16 @@ namespace Core.Models
         /// </summary>
         /// <value>The default type of the payment.</value>
         [DataMember]
-        public PaymentType defaultPaymentType { get; set; }
+        public virtual PaymentType defaultPaymentType { get; set; }
 
         /// <summary>
         /// Gets or sets the default type of the account.
         /// </summary>
         /// <value>The default type of the account.</value>
+       
         [DataMember]
-        public Account defaultAccount { get; set; }
+        public virtual Account defaultAccount { get; set; }
+       
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="T:Core.Models.PointOfSale"/> prefill payment.
@@ -128,6 +131,6 @@ namespace Core.Models
         [DataMember]
         public int action { get; set; }
 
-        public List<Session> sessions { get; set; }
+        public virtual ObservableCollection<Session> sessions { get; set; }
     }
 }

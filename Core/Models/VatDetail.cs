@@ -27,7 +27,7 @@ namespace Core.Models
         /// </summary>
         /// <value>The vat.</value>
         [DataMember]
-        public Vat vat { get; set; }
+        public virtual Vat vat { get; set; }
 
         /// <summary>
         /// Gets or sets the name.

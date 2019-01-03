@@ -89,7 +89,7 @@ namespace Core.Controllers
         public void Download(string slug, string key)
         {
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
-            List<object> RangeList = CognitivoAPI.DowloadData(slug, key, Core.API.CognitivoAPI.Modules.DocumentRange);
+            List<object> RangeList = CognitivoAPI.DowloadData(slug, key, Core.API.CognitivoAPI.Modules.Document);
 
             foreach (dynamic data in RangeList)
             {
@@ -114,14 +114,148 @@ namespace Core.Controllers
         {
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
             List<object> syncList = new List<object>();
-            foreach (Core.Models.Range item in _db.Ranges.ToList())
-            {
-                item.createdAt = item.createdAt;
-                item.updatedAt = item.updatedAt;
-                syncList.Add(item);
-            }
-            CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.ItemCategory);
 
+            foreach (Core.Models.Document document in _db.Documents.Include(x => x.details).ToList())
+            {
+                Cognitivo.API.Models.Document documentModel = new Cognitivo.API.Models.Document();
+
+                documentModel = UpdateData(documentModel, document);
+                syncList.Add(documentModel);
+            }
+
+            List<object> ReturnItem = CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Document);
+
+            foreach (dynamic data in ReturnItem)
+            {
+                if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.UpdateOnLocal)
+                {
+                    int localId = (int)data.localId;
+                    Models.Document document = _db.Documents.Where(x => x.localId == localId).FirstOrDefault();
+
+                    if (data.deletedAt != null)
+                    {
+                        document.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        document.deletedAt = data.deletedAt != null ? Convert.ToDateTime(data.deletedAt) : null;
+                    }
+                    else
+                    {
+                        document.name = data.name;
+                        document.cloudId = data.cloudId;
+                        document.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        document.updatedAt = document.updatedAt.Value.ToLocalTime();
+                        document.createdAt = Convert.ToDateTime(data.createdAt);
+                        document.createdAt = document.createdAt.Value.ToLocalTime();
+
+                        foreach (var item in data.details)
+                        {
+                            int localDetailId = (int)item.cloudId;
+                            Models.Range detail = document.details.Where(x => x.cloudId == localDetailId).FirstOrDefault() ?? new Range();
+
+                            detail.cloudId = item.cloudId;
+                            detail.code = item.code;
+                            detail.currentValue = item.currentValue;
+                            detail.endValue = item.endValue;
+                            detail.expiryDate = item.expiryDate;
+                            detail.startDate = item.startDate;
+                            detail.document = document;
+                            detail.updatedAt = Convert.ToDateTime(item.updatedAt);
+                            detail.updatedAt = detail.updatedAt.Value.ToLocalTime();
+                            detail.createdAt = Convert.ToDateTime(item.createdAt);
+                            detail.createdAt = detail.createdAt.Value.ToLocalTime();
+
+                            if (detail.localId == 0)
+                            {
+                                document.details.Add(detail);
+                            }
+
+                        }
+
+                    }
+                }
+                else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.CreateOnLocal)
+                {
+                    Models.Document document = new Document();
+                    document.cloudId = data.cloudId;
+                    document.name = data.name;
+                    document.updatedAt = Convert.ToDateTime(data.updatedAt);
+                    document.updatedAt = document.updatedAt.Value.ToLocalTime();
+                    document.createdAt = Convert.ToDateTime(data.createdAt);
+                    document.createdAt = document.createdAt.Value.ToLocalTime();
+
+                    foreach (var item in data.details)
+                    {
+
+                        Models.Range detail = new Range();
+
+                        detail.cloudId = item.cloudId;
+                        detail.code = item.code;
+                        detail.currentValue = item.currentValue;
+                        detail.endValue = item.endValue;
+                        detail.expiryDate = item.expiryDate;
+                        detail.startDate = item.startDate;
+                        detail.document = document;
+                        detail.updatedAt = Convert.ToDateTime(item.updatedAt);
+                        detail.updatedAt = detail.updatedAt.Value.ToLocalTime();
+                        detail.createdAt = Convert.ToDateTime(item.createdAt);
+                        detail.createdAt = detail.createdAt.Value.ToLocalTime();
+                        document.details.Add(detail);
+
+
+                    }
+                    _db.Documents.Add(document);
+
+                }
+                else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.UpdateOnCloud)
+                {
+                    int localId = (int)data.localId;
+                    Models.Document document = _db.Documents.Where(x => x.localId == localId).FirstOrDefault();
+
+                    if (data.deletedAt != null)
+                    {
+                        document.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        document.updatedAt = document.updatedAt.Value.ToLocalTime();
+                        document.deletedAt = data.deletedAt != null ? Convert.ToDateTime(data.deletedAt) : null;
+                    }
+                    else
+                    {
+
+                        document.cloudId = data.cloudId;
+                        document.updatedAt = Convert.ToDateTime(data.updatedAt);
+                        document.updatedAt = document.updatedAt.Value.ToLocalTime();
+                        document.createdAt = Convert.ToDateTime(data.createdAt);
+                        document.createdAt = document.createdAt.Value.ToLocalTime();
+                    }
+
+                }
+            }
+            _db.SaveChanges();
+        }
+
+        public dynamic UpdateData(Cognitivo.API.Models.Document Document, Core.Models.Document document)
+        {
+            Document.cloudId = document.cloudId;
+            Document.localId = document.localId;
+            // Vat.updatedAt = vat.updatedAt != null ? vat.updatedAt.Value : vat.createdAt.Value;
+            Document.createdAt = document.createdAt != null ? document.createdAt.Value.ToUniversalTime() : DateTime.Now.ToUniversalTime();
+            Document.updatedAt = document.updatedAt != null ? document.updatedAt.Value.ToUniversalTime() : document.createdAt.Value.ToUniversalTime();
+            Document.deletedAt = document.deletedAt != null ? document.deletedAt.Value.ToUniversalTime() : document.deletedAt;
+            Document.action = (Cognitivo.API.Enums.Action)document.action;
+            Document.name = document.name;
+            foreach (Range detail in document.details)
+            {
+                Cognitivo.API.Models.Range Range = new Cognitivo.API.Models.Range();
+                Range.cloudId = detail.cloudId;
+                Range.code = detail.code;
+                Range.currentValue = detail.currentValue;
+                Range.expiryDate = detail.expiryDate;
+                Range.startDate = detail.startDate;
+                Range.document = Document;
+                Range.updatedAt = detail.updatedAt != null ? detail.updatedAt.Value.ToUniversalTime() : detail.createdAt.Value.ToUniversalTime();
+                Document.details.Add(Range);
+            }
+
+
+            return Document;
         }
 
         private static string Truncate(string source, int length)

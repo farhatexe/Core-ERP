@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -22,28 +23,28 @@ namespace Core.Models
         /// Gets or sets the company.
         /// </summary>
         /// <value>The company.</value>
-        public Company company { get; set; }
+        public virtual Company company { get; set; }
 
         [DataMember]
         /// <summary>
         /// Gets or sets the location.
         /// </summary>
         /// <value>The location.</value>
-        public Location location { get; set; }
+        public virtual Location location { get; set; }
 
         [DataMember]
         /// <summary>
         /// Gets or sets the point of sale.
         /// </summary>
         /// <value>The point of sale.</value>
-        public PointOfSale pointOfSale { get; set; }
+        public virtual PointOfSale pointOfSale { get; set; }
 
         [DataMember]
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>
-        public int name { get; set; }
+        public string name { get; set; }
 
         [DataMember]
         /// <summary>
@@ -80,7 +81,7 @@ namespace Core.Models
         /// <value>The mask.</value>
         public string mask { get; set; }
 
-        public List<Range> details { get; set; }
+        public virtual ObservableCollection<Range> details { get; set; }
 
         [DataMember]
         /// <summary>

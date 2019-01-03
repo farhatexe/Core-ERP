@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -55,7 +56,7 @@ namespace Core.Models
         /// </summary>
         /// <value>The company.</value>
         [DataMember]
-        public Company company { get; set; }
+        public virtual Company company { get; set; }
 
         /// <summary>
         /// Gets or sets the behavior.
@@ -114,8 +115,8 @@ namespace Core.Models
         public int action { get; set; }
 
         [DataMember]
-        public List<PointOfSale> pointOfSales { get; set; }
+        public virtual ObservableCollection<PointOfSale> pointOfSales { get; set; }
 
-        public List<AccountMovement> movements { get; set; }
+        public virtual ObservableCollection<AccountMovement> movements { get; set; }
     }
 }

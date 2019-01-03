@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -117,6 +118,6 @@ namespace Core.Models
         /// <value>The action.</value>
         public int action { get; set; }
 
-        public List<Order> orders { get; set; }
+        public virtual ObservableCollection<Order> orders { get; set; }
     }
 }

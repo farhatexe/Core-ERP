@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Core.Models
     {
         public Vat()
         {
-            details = new List<VatDetail>();
+            details = new ObservableCollection<VatDetail>();
         }
 
         /// <summary>
@@ -33,7 +34,7 @@ namespace Core.Models
         /// Gets or sets the company.
         /// </summary>
         /// <value>The company.</value>
-        public Company company { get; set; }
+        public virtual Company company { get; set; }
 
         /// <summary>
         /// Name for easy recognition.
@@ -84,6 +85,6 @@ namespace Core.Models
         /// List of Details 
         /// </summary>
         /// <value>The details.</value>
-        public List<VatDetail> details { get; set; }
+        public virtual ObservableCollection<VatDetail> details { get; set; }
     }
 }

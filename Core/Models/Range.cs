@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -24,14 +25,14 @@ namespace Core.Models
         /// </summary>
         /// <value>The company.</value>
         [DataMember]
-        public Company company { get; set; }
+        public virtual Company company { get; set; }
 
         /// <summary>
         /// Gets or sets the document.
         /// </summary>
         /// <value>The document.</value>
         [DataMember]
-        public Document document { get; set; }
+        public virtual Document document { get; set; }
 
         /// <summary>
         /// Gets or sets the current value.
@@ -73,7 +74,7 @@ namespace Core.Models
         /// </summary>
         /// <value>The orders.</value>
         [DataMember]
-        public List<Order> orders { get; set; }
+        public virtual ObservableCollection<Order> orders { get; set; }
 
         [DataMember]
         /// <summary>

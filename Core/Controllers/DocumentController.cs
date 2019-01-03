@@ -1,10 +1,41 @@
-﻿using System;
+﻿using Core.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Core.Controllers
 {
     public class DocumentController
     {
+        private Context _db;
+
+        public DocumentController(Context db)
+        {
+            _db = db;
+        }
+
+        public ObservableCollection<Document> List()
+        {
+            _db.Documents.Load();
+            return _db.Documents.Local.ToObservableCollection();
+        }
+
+        public void Add(Document document)
+        {
+            _db.Documents.Add(document);
+        }
+
+        public void Delete(Document document)
+        {
+            _db.Documents.Remove(document);
+        }
+
+        public void SaveChanges()
+        {
+            _db.SaveChanges();
+        }
+
         public string Sales(Models.Order Order)
         {
             Models.Document document = Order.range.document;

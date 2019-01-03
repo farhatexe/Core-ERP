@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace Core.Models
 {
@@ -11,8 +12,8 @@ namespace Core.Models
     {
         public Session()
         {
-            movements = new List<AccountMovement>();
-            orders = new List<Order>();
+            movements = new ObservableCollection<AccountMovement>();
+            orders = new ObservableCollection<Order>();
         }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -29,7 +30,7 @@ namespace Core.Models
         /// Gets or sets the point of sale.
         /// </summary>
         /// <value>The point of sale.</value>
-        public PointOfSale PointOfSale { get; set; }
+        public virtual PointOfSale PointOfSale { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
@@ -94,14 +95,14 @@ namespace Core.Models
         /// </summary>
         /// <value>The movements.</value>
         [DataMember]
-        public List<AccountMovement> movements { get; set; }
+        public virtual ObservableCollection<AccountMovement> movements { get; set; }
 
         /// <summary>
         /// Gets or sets the transactions.
         /// </summary>
         /// <value>The transactions.</value>
         [DataMember]
-        public List<Order> orders { get; set; }
+        public virtual ObservableCollection<Order> orders { get; set; }
 
         [NotMapped]
         public decimal CurrentEndingBalance{

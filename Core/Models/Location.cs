@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -19,7 +20,7 @@ namespace Core.Models
         /// Gets or sets the company.
         /// </summary>
         /// <value>The company.</value>
-        public Company company { get; set; }
+        public virtual Company company { get; set; }
 
         [DataMember]
         /// <summary>
@@ -56,7 +57,7 @@ namespace Core.Models
         /// Gets or sets the vat.
         /// </summary>
         /// <value>The vat.</value>
-        public Vat vat { get; set; }
+        public virtual Vat vat { get; set; }
 
         [DataMember]
         /// <summary>
@@ -86,14 +87,14 @@ namespace Core.Models
         /// <value>The action.</value>
         public int action { get; set; }
 
-        public List<PointOfSale> pointOfSales { get; set; }
+        public virtual ObservableCollection<PointOfSale> pointOfSales { get; set; }
 
-        public List<Order> orders { get; set; }
+        public virtual  ObservableCollection<Order> orders { get; set; }
 
-        public List<Inventory> inventories { get; set; }
+        public virtual ObservableCollection<Inventory> inventories { get; set; }
 
-        public List<Range> ranges { get; set; }
+        public virtual ObservableCollection<Range> ranges { get; set; }
 
-        public List<ItemMovement> itemMovements { get; set; }
+        public virtual ObservableCollection<ItemMovement> itemMovements { get; set; }
     }
 }

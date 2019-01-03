@@ -26,7 +26,7 @@ namespace Core.Models
         /// </summary>
         /// <value>The Order</value>
         [DataMember]
-        public Order order { get; set; }
+        public virtual Order order { get; set; }
 
         /// <summary>
         /// Gets or sets the date.
@@ -79,6 +79,6 @@ namespace Core.Models
         /// <summary>
         /// Get or Sets Movements
         /// </summary>
-        public ObservableCollection<AccountMovement> movements { get; set; }
+        public virtual ObservableCollection<AccountMovement> movements { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -39,7 +40,7 @@ namespace Core.Models
         /// Gets or sets the parent.
         /// </summary>
         /// <value>The parent.</value>
-        public ItemCategory parent { get; set; }
+        public virtual ItemCategory parent { get; set; }
 
         [DataMember]
         /// <summary>
@@ -88,8 +89,8 @@ namespace Core.Models
         /// Gets or sets the children.
         /// </summary>
         /// <value>The children.</value>
-        public List<ItemCategory> children { get; set; }
+        public virtual ObservableCollection<ItemCategory> children { get; set; }
 
-        public List<Item> items { get; set; }
+        public virtual ObservableCollection<Item> items { get; set; }
     }
 }
