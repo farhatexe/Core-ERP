@@ -85,7 +85,7 @@ namespace Core.Controllers
                 }
             }
 
-            _db.Sessions.Add(session);
+            _db.SaveChanges();
             return session;
 
         }

@@ -74,8 +74,16 @@ namespace Core.Controllers
             Models.OrderDetail OrderDetail = new OrderDetail();
             OrderDetail.order = order;
             OrderDetail.item = Item;
+            int id = (int)Item.vatCloudId;
+            if (Item.vatCloudId != null)
+            {
+                OrderDetail.vat = _db.Vats.Include(x=>x.details).Where(x => x.localId == id).FirstOrDefault();
+            }
+
             OrderDetail.quantity = quantity;
             OrderDetail.price = OrderDetail.item.price;
+                
+
             OrderDetail.discount = 0;
             OrderDetail.QuantityUpdated = false;
             return OrderDetail;
@@ -115,6 +123,7 @@ namespace Core.Controllers
                 Detail.RaisePropertyChanged("subTotal");
                 Detail.RaisePropertyChanged("subTotalVat");
             }
+            order.RaisePropertyChanged("total");
             return order;
         }
         /// <summary>
@@ -277,6 +286,67 @@ namespace Core.Controllers
         {
             _db.Orders.Remove(Order);
             return true;
+        }
+
+        public void Upload(string slug)
+        {
+            Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
+            List<object> syncList = new List<object>();
+
+            foreach (Core.Models.Order order in _db.Orders.Include(x => x.details).ToList())
+            {
+                Cognitivo.API.Models.Sales orderModel = new Cognitivo.API.Models.Sales();
+
+                orderModel = UpdateData(orderModel, order);
+                syncList.Add(orderModel);
+            }
+
+            List<object> ReturnItem = CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Transaction);
+
+
+        }
+
+        public dynamic UpdateData(Cognitivo.API.Models.Sales Sales, Core.Models.Order sales)
+        {
+            Sales.cloudId = sales.cloudId;
+            Sales.localId = sales.localId;
+            // Vat.updatedAt = vat.updatedAt != null ? vat.updatedAt.Value : vat.createdAt.Value;
+            Sales.createdAt = sales.createdAt != null ? sales.createdAt.Value.ToUniversalTime() : DateTime.Now.ToUniversalTime();
+            Sales.updatedAt = sales.updatedAt != null ? sales.updatedAt.Value.ToUniversalTime() : sales.createdAt.Value.ToUniversalTime();
+            Sales.deletedAt = sales.deletedAt != null ? sales.deletedAt.Value.ToUniversalTime() : sales.deletedAt;
+            Sales.action = (Cognitivo.API.Enums.Action)sales.action;
+            Sales.status = (Cognitivo.API.Enums.Status)sales.status;
+            Sales.locationCloudId = sales.location.cloudId;
+            Sales.date = sales.date;
+            Sales.customerCloudId = sales.customer != null ? sales.customer.cloudId : _db.Contacts.FirstOrDefault().cloudId;
+            Sales.paymentContractCloudId = sales.paymentContract != null ? sales.paymentContract.cloudId : null;
+            Sales.invoiceNumber = sales.invoiceNumber;
+            Sales.InvoiceCode = sales.code;
+            Sales.codeExpiry = sales.codeExpiry;
+            Sales.currencyCode = sales.currency;
+            Sales.rate = sales.currencyRate;
+            Sales.interval = sales.interval;
+
+            foreach (OrderDetail detail in sales.details)
+            {
+                Cognitivo.API.Models.SalesDetail SalesDetail = new Cognitivo.API.Models.SalesDetail();
+                SalesDetail.cloudId = detail.cloudId;
+                SalesDetail.salesCloudId = detail.order.cloudId;
+                SalesDetail.vatCloudId = detail.vat != null ? detail.vat.cloudId : null;
+                SalesDetail.itemCloudId = detail.item.cloudId;
+                SalesDetail.itemLocalId = detail.item.localId;
+                SalesDetail.item = new Cognitivo.API.Models.Item { name = detail.item.name, sku = detail.item.sku };
+                SalesDetail.name = detail.item.name;
+                SalesDetail.sku = detail.item.sku;
+                SalesDetail.cost = detail.cost;
+                SalesDetail.quantity = detail.quantity;
+                SalesDetail.price = detail.price;
+                SalesDetail.updatedAt = detail.updatedAt != null ? detail.updatedAt.Value.ToUniversalTime() : detail.createdAt.Value.ToUniversalTime();
+                Sales.details.Add(SalesDetail);
+            }
+
+
+            return Sales;
         }
     }
 }

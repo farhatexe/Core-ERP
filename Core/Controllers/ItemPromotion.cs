@@ -289,14 +289,14 @@ namespace Core.Controllers
             ItemPromotion.deletedAt = itempromotion.deletedAt != null ? itempromotion.deletedAt.Value.ToUniversalTime() : itempromotion.deletedAt;
             ItemPromotion.localId = itempromotion.localId;
             ItemPromotion.name = itempromotion.name;
-            itempromotion.startDate = itempromotion.startDate != null? itempromotion.startDate.Value.ToUniversalTime() : DateTime.Now.ToUniversalTime();
-            itempromotion.endDate = itempromotion.endDate != null? itempromotion.endDate.Value.ToUniversalTime() : DateTime.Now.AddMonths(1).ToUniversalTime();
-            itempromotion.inputType = itempromotion.inputType;
-            itempromotion.inputReference = itempromotion.inputReference;
-            itempromotion.inputValue = itempromotion.inputValue;
-            itempromotion.outputType = itempromotion.outputType;
-            itempromotion.outputReference = itempromotion.outputReference;
-            itempromotion.outputValue = itempromotion.outputValue;
+            ItemPromotion.startDate = itempromotion.startDate != null? itempromotion.startDate : DateTime.Now;
+            ItemPromotion.endDate = itempromotion.endDate != null? itempromotion.endDate : DateTime.Now.AddMonths(1);
+            ItemPromotion.inputType = (Cognitivo.API.Models.ItemPromotion.InputTypes)itempromotion.inputType;
+            ItemPromotion.inputReference = itempromotion.inputReference;
+            ItemPromotion.inputValue = itempromotion.inputValue;
+            ItemPromotion.outputType = (Cognitivo.API.Models.ItemPromotion.OutputTypes)itempromotion.outputType;
+            ItemPromotion.outputReference = itempromotion.outputReference;
+            ItemPromotion.outputValue = itempromotion.outputValue;
             return ItemPromotion;
         }
     }

@@ -37,6 +37,27 @@ namespace Core.Controllers
         {
             _db.SaveChanges();
         }
+        /// <summary>
+        /// Receives the payment.
+        /// </summary>
+        /// <returns>The Balance after Payment</returns>
+        /// <param name="order">Order.</param>
+        /// <param name="account">Account.</param>
+        /// <param name="paymentType">List of Multiple Payment type like cash card.</param>
+        /// <param name="paymentDate">Payment date.</param>
+        /// <param name="currencyCode">Currency code.</param>
+        /// <param name="currencyRate">Currency rate.</param>
+        /// <param name="currentObligation">Current obligation.</param>
+        /// <param name="balance">Balance.</param>
+        /// <param name="contractOffset">Contract offset.</param>
+        public decimal ReceivePayment(List<Models.Order> order,Models.Account account, ObservableCollection<MultiplePayments> MultiplePaymnets, DateTime paymentDate, string currencyCode, decimal currencyRate, decimal currentObligation, decimal balance = 0, int contractOffset = 0)
+        {
+            foreach (MultiplePayments item in MultiplePaymnets)
+            {
+             ReceivePayments(order, account, item.PaymentType, DateTime.Now, currencyCode, 1, item.Amount);
+            }
+            return 0;
+        }
 
         /// <summary>
         /// Receives the payment.

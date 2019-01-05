@@ -91,7 +91,7 @@ namespace Core.Models
             set
             {
                 _quantity = value;
-                RaisePropertyChanged("quantity");
+                 RaisePropertyChanged("quantity");
                 RaisePropertyChanged("subTotal");
                 RaisePropertyChanged("subTotalVat");
                 if (order!=null)
@@ -145,7 +145,12 @@ namespace Core.Models
             {
                 if (vat != null)
                 {
-                    return price * vat.coefficient;
+                    decimal coefficient = 0;
+                    foreach (VatDetail item in vat.details)
+                    {
+                        coefficient = coefficient + item.coefficient;
+                    }
+                    return price + price * coefficient;
 
                 }
                 else

@@ -23,7 +23,8 @@ namespace Core.API
             Contract=8,
             PaymentType=9,
             PointOfSale=10,
-            Promotion=11
+            Promotion=11,
+            Transaction=12
 
 
         }
@@ -67,6 +68,10 @@ namespace Core.API
             else if (Module == Modules.Promotion)
             {
                 SyncList = send.Promotions(CompanySlug, SyncList).OfType<object>().ToList();
+            }
+            else if (Module == Modules.Transaction)
+            {
+                SyncList = send.Transaction(CompanySlug, SyncList).OfType<object>().ToList();
             }
             //else if (Module == Modules.Inventory)
             //{

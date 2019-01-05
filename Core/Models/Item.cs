@@ -132,17 +132,17 @@ namespace Core.Models
         {
             get 
             {
-                if (_price == 0)
-                {
-                    if (category != null && category.margin != null)
-                    {
-                        return (cost * (category.margin ?? 0 + 1));
-                    }
-                    else if (company != null && company.globalMargin != null)
-                    { 
-                        return (cost * (company.globalMargin ?? 0 + 1));
-                    }
-                }
+                //if (_price == 0)
+                //{
+                //    if (category != null && category.margin != null)
+                //    {
+                //        return (cost * (category.margin ?? 0 + 1));
+                //    }
+                //    else if (company != null && company.globalMargin != null)
+                //    { 
+                //        return (cost * (company.globalMargin ?? 0 + 1));
+                //    }
+                //}
 
                 return _price;
             }

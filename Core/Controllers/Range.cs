@@ -160,8 +160,8 @@ namespace Core.Controllers
                             detail.document = document;
                             detail.updatedAt = Convert.ToDateTime(item.updatedAt);
                             detail.updatedAt = detail.updatedAt.Value.ToLocalTime();
-                            detail.createdAt = Convert.ToDateTime(item.createdAt);
-                            detail.createdAt = detail.createdAt.Value.ToLocalTime();
+                           // detail.createdAt = Convert.ToDateTime(item.createdAt);
+                           // detail.createdAt = detail.createdAt.Value.ToLocalTime();
 
                             if (detail.localId == 0)
                             {
@@ -196,8 +196,8 @@ namespace Core.Controllers
                         detail.document = document;
                         detail.updatedAt = Convert.ToDateTime(item.updatedAt);
                         detail.updatedAt = detail.updatedAt.Value.ToLocalTime();
-                        detail.createdAt = Convert.ToDateTime(item.createdAt);
-                        detail.createdAt = detail.createdAt.Value.ToLocalTime();
+                       // detail.createdAt = Convert.ToDateTime(item.createdAt);
+                       // detail.createdAt = detail.createdAt.Value.ToLocalTime();
                         document.details.Add(detail);
 
 

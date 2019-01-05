@@ -12,6 +12,10 @@ namespace Core.Models
     /// </summary>
     public class Document : BaseClass
     {
+        public Document()
+        {
+            details = new ObservableCollection<Range>();
+        }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int localId { get; set; }
