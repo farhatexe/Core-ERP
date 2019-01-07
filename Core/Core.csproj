@@ -4,7 +4,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Cognitivo.Core</PackageId>
-    <Version>1.0.5</Version>
+    <Version>1.0.7</Version>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageLicenseUrl>www.cognitivo.in</PackageLicenseUrl>
   </PropertyGroup>
 
   <ItemGroup>
