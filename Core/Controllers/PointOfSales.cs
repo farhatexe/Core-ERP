@@ -20,7 +20,7 @@ namespace Core.Controllers
 
         public ObservableCollection<Models.PointOfSale> List()
         {
-            _db.PointOfSales.Load();
+            _db.PointOfSales.Include(x=>x.defaultAccount).Load();
             //_db.Accounts.Load();
             //_db.PaymentTypes.Load();
             //_db.Companies.Load();
