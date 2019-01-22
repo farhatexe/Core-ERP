@@ -1,4 +1,5 @@
-﻿using Core.Models;
+﻿using Core.API;
+using Core.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -37,5 +38,27 @@ namespace Core.Controllers
             _db.SaveChanges();
         }
 
+        public void Download(string slug, string key)
+        {
+            Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
+            List<object> CompanyList = CognitivoAPI.DowloadData(slug, key, Core.API.CognitivoAPI.Modules.Company);
+
+            foreach (dynamic data in CompanyList)
+            {
+                Models.Company company = new Models.Company();
+                company.slugCognitivo = data.slugCognitivo;
+                company.name = data.name;
+                company.address = data.address;
+                company.email = data.email;
+                company.taxId = data.taxId;
+                _db.Companies.Add(company);
+                
+
+
+
+            }
+
+            _db.SaveChanges();
+        }
     }
 }

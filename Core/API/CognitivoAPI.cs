@@ -24,7 +24,8 @@ namespace Core.API
             PaymentType=9,
             PointOfSale=10,
             Promotion=11,
-            Transaction=12
+            Transaction=12,
+            Company=13
 
 
         }
@@ -115,6 +116,10 @@ namespace Core.API
             else if (Module == Modules.Location)
             {
                 SyncList = receive.Location(CompanySlug, Cognitivo.API.Enums.TimeSpan.LastMonth).OfType<object>().ToList();
+            }
+            else if (Module == Modules.Company)
+            {
+                SyncList = receive.Company(CompanySlug, Cognitivo.API.Enums.TimeSpan.LastMonth).OfType<object>().ToList();
             }
 
             return SyncList;

@@ -24,6 +24,7 @@ namespace Core
         private PointOfSales pointofsaleRepo;
         private Controllers.ItemPromotion itempromotionRepo;
         private Controllers.DocumentController documentRepo;
+        private Controllers.Company companyRepo;
 
         public Context Context;
 
@@ -215,6 +216,18 @@ namespace Core
                     documentRepo = new Controllers.DocumentController(Context);
                 }
                 return documentRepo;
+            }
+        }
+
+        public Controllers.Company CompanyRepo
+        {
+            get
+            {
+                if (companyRepo == null)
+                {
+                    companyRepo = new Controllers.Company(Context);
+                }
+                return companyRepo;
             }
         }
 
