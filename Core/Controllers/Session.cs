@@ -23,23 +23,45 @@ namespace Core.Controllers
             session.startDate = DateTime.Now;
             session.startingBalance = accountBalance + addToBalance;
             session.PointOfSale = pointOfSale;
-            //todo need to fix currency rate
-            if (addToBalance > 0)
-            {
-                AccountMovement movement = new AccountMovement()
-                {
-                    account = pointOfSale.defaultAccount,
-                    paymentType = pointOfSale.defaultPaymentType,
-                    date = session.startDate,
-                    debit = 0,
-                    credit = addToBalance,
-                    currencyCode = currencyCode,
-                    currencyRate = currencyRate,
-                    comment = "Added for Opening Balance"
-                };
 
-                session.movements.Add(movement);
+            if (accountBalance!=addToBalance)
+            {
+                decimal Balance = accountBalance - addToBalance;
+                if (Balance > 0)
+                {
+                    AccountMovement movement = new AccountMovement()
+                    {
+                        account = pointOfSale.defaultAccount,
+                        paymentType = pointOfSale.defaultPaymentType,
+                        date = session.startDate,
+                        debit = Balance,
+                        credit = 0,
+                        currencyCode = currencyCode,
+                        currencyRate = currencyRate,
+                        comment = "Added for Opening Balance"
+                    };
+
+                    session.movements.Add(movement);
+                }
+                else
+                {
+                    AccountMovement movement = new AccountMovement()
+                    {
+                        account = pointOfSale.defaultAccount,
+                        paymentType = pointOfSale.defaultPaymentType,
+                        date = session.startDate,
+                        debit = 0,
+                        credit = Balance,
+                        currencyCode = currencyCode,
+                        currencyRate = currencyRate,
+                        comment = "Added for Opening Balance"
+                    };
+
+                    session.movements.Add(movement);
+                }
             }
+            //todo need to fix currency rate
+           
 
             _db.Sessions.Add(session);
             

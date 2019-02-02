@@ -38,6 +38,7 @@ namespace Core.Controllers
         }
         public void Upload(string slug)
         {
+            Core.Models.Company company = _db.Companies.Where(x => x.slugCognitivo == slug).FirstOrDefault();
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
             List<object> syncList = new List<object>();
 
@@ -76,6 +77,7 @@ namespace Core.Controllers
                 else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.CreateOnLocal)
                 {
                     Models.PaymentType paymnettype = new Models.PaymentType();
+                    paymnettype.company = company;
                     paymnettype.cloudId = data.cloudId;
                     paymnettype.name = data.name;
                     paymnettype.updatedAt = Convert.ToDateTime(data.updatedAt);

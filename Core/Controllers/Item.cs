@@ -153,7 +153,7 @@ namespace Core.Controllers
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
             List<object> syncList = new List<object>();
 
-            foreach (Core.Models.Item item in db.Items.ToList())
+            foreach (Core.Models.Item item in db.Items.Where(x => x.deletedAt == null && x.isActive).ToList())
             {
                 Cognitivo.API.Models.Item itemModel = new Cognitivo.API.Models.Item();
 

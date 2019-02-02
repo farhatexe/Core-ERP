@@ -41,33 +41,36 @@ namespace Core.Controllers
         {
             _db.SaveChanges();
         }
-        public void Download(string slug, string key)
+        public List<Models.PointOfSale> Download(string slug, string key)
         {
+            Core.Models.Company company = _db.Companies.Where(x => x.slugCognitivo == slug).FirstOrDefault();
+            List<Models.PointOfSale> pointOfSales = new List<PointOfSale>();
             List<object> PointOfSaleList = new List<object>();
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
-            PointOfSaleList = CognitivoAPI.DowloadData(slug, key, Core.API.CognitivoAPI.Modules.Location);
+            PointOfSaleList = CognitivoAPI.DowloadData(slug, key, Core.API.CognitivoAPI.Modules.PointOfSale);
 
             foreach (dynamic data in PointOfSaleList)
             {
-                int cloudId = (int)data.cloudId;
-                Core.Models.PointOfSale pointofsale = _db.PointOfSales.Where(x => x.cloudId == cloudId).Include(x=>x.location).FirstOrDefault() ?? new Core.Models.PointOfSale();
-
+                int locationid = data.locationCloudId;
+                Models.PointOfSale pointofsale = new Models.PointOfSale();
+                pointofsale.company = company;
+                pointofsale.location = _db.Locations.Where(x => x.cloudId == locationid).FirstOrDefault();
                 pointofsale.cloudId = data.cloudId;
                 pointofsale.name = data.name;
-                
-
-
-                if (pointofsale.localId == 0)
-                {
-                    _db.PointOfSales.Add(pointofsale);
-                }
-
+                pointofsale.updatedAt = Convert.ToDateTime(data.updatedAt);
+                pointofsale.updatedAt = pointofsale.updatedAt.Value.ToLocalTime();
+                pointofsale.createdAt = Convert.ToDateTime(data.createdAt);
+                pointofsale.createdAt = pointofsale.createdAt.Value.ToLocalTime();
+                PointOfSaleList.Add(pointofsale);
 
             }
-            _db.SaveChanges();
+            return pointOfSales;
+          //  _db.SaveChanges();
         }
         public void Upload(string slug)
         {
+            List<Models.PointOfSale> pointOfSales = new List<PointOfSale>();
+            Core.Models.Company company = _db.Companies.Where(x => x.slugCognitivo == slug).FirstOrDefault();
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
             List<object> syncList = new List<object>();
             foreach (Core.Models.PointOfSale item in _db.PointOfSales.Include(x=>x.location).ToList())
@@ -102,7 +105,11 @@ namespace Core.Controllers
                 }
                 else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.CreateOnLocal)
                 {
+                    int locationid = data.locationCloudId;
                     Models.PointOfSale pointofsale = new Models.PointOfSale();
+                    pointofsale.company = company;
+                    pointofsale.location = _db.Locations.Where(x => x.cloudId == locationid).FirstOrDefault();
+                    pointofsale.defaultAccount = _db.Accounts.FirstOrDefault();
                     pointofsale.cloudId = data.cloudId;
                     pointofsale.name = data.name;
                     pointofsale.updatedAt = Convert.ToDateTime(data.updatedAt);
@@ -123,6 +130,7 @@ namespace Core.Controllers
             }
 
             _db.SaveChanges();
+           
         }
         public dynamic UpdateData(Cognitivo.API.Models.PointOfSale PoinOfSale, Core.Models.PointOfSale pointofsale)
         {

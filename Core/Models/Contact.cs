@@ -27,6 +27,13 @@ namespace Core.Models
         /// <value>The cloud identifier.</value>
         public int? cloudId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the company.
+        /// </summary>
+        /// <value>The company.</value>
+        [DataMember]
+        public virtual Company company { get; set; }
+
         [DataMember]
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="T:Core.Models.Contact"/> is customer.

@@ -97,7 +97,7 @@ namespace Core.Controllers
                 {
                     cloudId = data.cloudId,
                     currentValue = data.group,
-                    endValue=data.endingValue,
+                    endValue = data.endingValue,
                     code = data.code,
                     expiryDate = data.expiryDate,
 
@@ -110,8 +110,9 @@ namespace Core.Controllers
             _db.SaveChanges();
         }
 
-        public void Upload(string slug)
+        public void Upload(string slug, PointOfSale terminal)
         {
+            Core.Models.Company company = _db.Companies.Where(x => x.slugCognitivo == slug).FirstOrDefault();
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
             List<object> syncList = new List<object>();
 
@@ -124,6 +125,8 @@ namespace Core.Controllers
             }
 
             List<object> ReturnItem = CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Document);
+
+
 
             foreach (dynamic data in ReturnItem)
             {
@@ -148,25 +151,28 @@ namespace Core.Controllers
 
                         foreach (var item in data.details)
                         {
-                            int localDetailId = (int)item.cloudId;
-                            Models.Range detail = document.details.Where(x => x.cloudId == localDetailId).FirstOrDefault() ?? new Range();
+                          
+                                int localDetailId = (int)item.cloudId;
+                                Models.Range detail = document.details.Where(x => x.cloudId == localDetailId).FirstOrDefault() ?? new Range();
 
-                            detail.cloudId = item.cloudId;
-                            detail.code = item.code;
-                            detail.currentValue = item.currentValue;
-                            detail.endValue = item.endValue;
-                            detail.expiryDate = item.expiryDate;
-                            detail.startDate = item.startDate;
-                            detail.document = document;
-                            detail.updatedAt = Convert.ToDateTime(item.updatedAt);
-                            detail.updatedAt = detail.updatedAt.Value.ToLocalTime();
-                           // detail.createdAt = Convert.ToDateTime(item.createdAt);
-                           // detail.createdAt = detail.createdAt.Value.ToLocalTime();
+                                detail.cloudId = item.cloudId;
+                                detail.code = item.code;
+                                detail.currentValue = item.currentValue;
+                                detail.endValue = item.endValue;
+                                detail.expiryDate = item.expiryDate;
+                                detail.startDate = item.startDate;
+                                detail.document = document;
+                                detail.updatedAt = Convert.ToDateTime(item.updatedAt);
+                                detail.updatedAt = detail.updatedAt.Value.ToLocalTime();
+                                // detail.createdAt = Convert.ToDateTime(item.createdAt);
+                                // detail.createdAt = detail.createdAt.Value.ToLocalTime();
 
-                            if (detail.localId == 0)
-                            {
-                                document.details.Add(detail);
-                            }
+                                if (detail.localId == 0)
+                                {
+                                    document.details.Add(detail);
+                                }
+                            
+                           
 
                         }
 
@@ -175,6 +181,9 @@ namespace Core.Controllers
                 else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.CreateOnLocal)
                 {
                     Models.Document document = new Document();
+                    document.company = company;
+                    document.pointOfSale = terminal;
+                    document.location = terminal.location;
                     document.cloudId = data.cloudId;
                     document.name = data.name;
                     document.updatedAt = Convert.ToDateTime(data.updatedAt);
@@ -184,22 +193,24 @@ namespace Core.Controllers
 
                     foreach (var item in data.details)
                     {
-
-                        Models.Range detail = new Range();
-
-                        detail.cloudId = item.cloudId;
-                        detail.code = item.code;
-                        detail.currentValue = item.currentValue;
-                        detail.endValue = item.endValue;
-                        detail.expiryDate = item.expiryDate;
-                        detail.startDate = item.startDate;
-                        detail.document = document;
-                        detail.updatedAt = Convert.ToDateTime(item.updatedAt);
-                        detail.updatedAt = detail.updatedAt.Value.ToLocalTime();
-                       // detail.createdAt = Convert.ToDateTime(item.createdAt);
-                       // detail.createdAt = detail.createdAt.Value.ToLocalTime();
-                        document.details.Add(detail);
-
+                        if (item.terminalId == terminal.cloudId)
+                        {
+                            Models.Range detail = new Range();
+                            detail.location = terminal.location;
+                            detail.company = company;
+                            detail.cloudId = item.cloudId;
+                            detail.code = item.code;
+                            detail.currentValue = item.currentValue;
+                            detail.endValue = item.endValue;
+                            detail.expiryDate = item.expiryDate;
+                            detail.startDate = item.startDate;
+                            detail.document = document;
+                            detail.updatedAt = Convert.ToDateTime(item.updatedAt);
+                            detail.updatedAt = detail.updatedAt.Value.ToLocalTime();
+                            // detail.createdAt = Convert.ToDateTime(item.createdAt);
+                            // detail.createdAt = detail.createdAt.Value.ToLocalTime();
+                            document.details.Add(detail);
+                        }
 
                     }
                     _db.Documents.Add(document);
@@ -228,6 +239,7 @@ namespace Core.Controllers
 
                 }
             }
+
             _db.SaveChanges();
         }
 

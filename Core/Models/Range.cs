@@ -9,6 +9,8 @@ namespace Core.Models
 {
     public class Range : BaseClass
     {
+        
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int localId { get; set; }
@@ -33,6 +35,13 @@ namespace Core.Models
         /// <value>The document.</value>
         [DataMember]
         public virtual Document document { get; set; }
+
+        /// <summary>
+        /// Gets or sets the document.
+        /// </summary>
+        /// <value>The document.</value>
+        [DataMember]
+        public virtual Location location { get; set; }
 
         /// <summary>
         /// Gets or sets the current value.

@@ -153,6 +153,7 @@ namespace Core.Controllers
 
         public void Upload(string slug)
         {
+            Core.Models.Company company = ctx.Companies.Where(x => x.slugCognitivo == slug).FirstOrDefault();
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
             List<object> syncList = new List<object>();
 
@@ -196,23 +197,24 @@ namespace Core.Controllers
                 }
                 else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.CreateOnLocal)
                 {
-                    Models.Contact item = new Contact();
-                    item.updatedAt = Convert.ToDateTime(data.updatedAt);
-                    item.updatedAt = item.updatedAt.Value.ToLocalTime();
-                    item.createdAt = Convert.ToDateTime(data.createdAt);
-                    item.createdAt = item.createdAt.Value.ToLocalTime();
+                    Models.Contact contact = new Contact();
+                    contact.company = company;
+                    contact.updatedAt = Convert.ToDateTime(data.updatedAt);
+                    contact.updatedAt = contact.updatedAt.Value.ToLocalTime();
+                    contact.createdAt = Convert.ToDateTime(data.createdAt);
+                    contact.createdAt = contact.createdAt.Value.ToLocalTime();
 
-                    item.address = data.address;
-                    item.alias = data.alias;
-                    item.cloudId = data.cloudId;
-                    item.creditLimit = data.creditLimit;
-                    item.email = data.email;
-                    item.leadTime = data.leadTime;
-                    item.localId = data.localId;
-                    item.taxId = data.taxId;
-                    item.telephone = data.telephone;
+                    contact.address = data.address;
+                    contact.alias = data.alias;
+                    contact.cloudId = data.cloudId;
+                    contact.creditLimit = data.creditLimit;
+                    contact.email = data.email;
+                    contact.leadTime = data.leadTime;
+                    contact.localId = data.localId;
+                    contact.taxId = data.taxId;
+                    contact.telephone = data.telephone;
 
-                    ctx.Contacts.Add(item);
+                    ctx.Contacts.Add(contact);
                 }
                 else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.UpdateOnCloud)
                 {

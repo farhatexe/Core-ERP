@@ -42,6 +42,7 @@ namespace Core.Models
         /// </summary>
         /// <value>The default type of the payment.</value>
         [DataMember]
+        
         public virtual PaymentType defaultPaymentType { get; set; }
 
         /// <summary>
@@ -50,6 +51,7 @@ namespace Core.Models
         /// <value>The default type of the account.</value>
        
         [DataMember]
+        
         public virtual Account defaultAccount { get; set; }
        
 

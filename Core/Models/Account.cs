@@ -12,11 +12,8 @@ namespace Core.Models
     /// </summary>
     public class Account : BaseClass
     {
-        public Account()
-        {
-            accountMovements = new ObservableCollection<AccountMovement>();
-        }
-
+       
+      
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int localId { get; set; }
@@ -56,12 +53,7 @@ namespace Core.Models
         [DataMember]
         public bool isActive { get; set; }
 
-        [DataMember]
-        /// <summary>
-        /// Gets or sets the account movements.
-        /// </summary>
-        /// <value>The account movements.</value>
-        public virtual ObservableCollection<AccountMovement> accountMovements { get; set; }
+     
 
         [DataMember]
         /// <summary>
@@ -91,7 +83,9 @@ namespace Core.Models
         /// <value>The action.</value>
         public int action { get; set; }
 
-        [DataMember]
+
+      
+        public virtual ObservableCollection<AccountMovement> accountMovements { get; set; }
         public virtual ObservableCollection<PointOfSale> pointOfSales { get; set; }
 
     }

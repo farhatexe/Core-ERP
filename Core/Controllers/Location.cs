@@ -69,6 +69,7 @@ namespace Core.Controllers
         }
         public void Upload(string slug)
         {
+            Core.Models.Company company = _db.Companies.Where(x => x.slugCognitivo == slug).FirstOrDefault();
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
             List<object> syncList = new List<object>();
             foreach (Core.Models.Location item in _db.Locations.ToList())
@@ -108,6 +109,7 @@ namespace Core.Controllers
                 else if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.CreateOnLocal)
                 {
                     Models.Location location = new Models.Location();
+                    location.company = company;
                     location.cloudId = data.cloudId;
                     location.currencyCode = data.currencyCode;
                     location.address = data.address;

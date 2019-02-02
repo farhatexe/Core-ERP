@@ -35,6 +35,10 @@ namespace Core.Controllers
 
         public void SaveChanges()
         {
+            Core.Models.Account Account = new Models.Account();
+            Account.currencyCode = "PYG";
+            Account.name = "Cash";
+            _db.Accounts.Add(Account);
             _db.SaveChanges();
         }
 

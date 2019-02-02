@@ -121,8 +121,12 @@ namespace Core.API
             {
                 SyncList = receive.Company(CompanySlug, Cognitivo.API.Enums.TimeSpan.LastMonth).OfType<object>().ToList();
             }
+            else if (Module == Modules.PointOfSale)
+            {
+                SyncList = receive.PointOfSale(CompanySlug, Cognitivo.API.Enums.TimeSpan.LastMonth).OfType<object>().ToList();
+            }
 
-            return SyncList;
+                return SyncList;
         }
     }
 }

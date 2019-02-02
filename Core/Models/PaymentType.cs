@@ -114,7 +114,7 @@ namespace Core.Models
         /// <value>The action.</value>
         public int action { get; set; }
 
-        [DataMember]
+     
         public virtual ObservableCollection<PointOfSale> pointOfSales { get; set; }
 
         public virtual ObservableCollection<AccountMovement> movements { get; set; }
