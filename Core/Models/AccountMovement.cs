@@ -5,6 +5,12 @@ using System.Runtime.Serialization;
 
 namespace Core.Models
 {
+   public enum Types
+    {
+        Starting,
+        Transaction,
+        Closing,
+    }
     /// <summary>
     /// All money account movements such as inflows and outflows are registered in this table.
     /// </summary>
@@ -26,6 +32,13 @@ namespace Core.Models
         /// </summary>
         /// <value>The  account cloud identifie.</value>
         public int accountCloudId { get; set; }
+
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the account.
+        /// </summary>
+        /// <value>The account.</value>
+        public virtual Session session { get; set; }
 
         [DataMember]
         /// <summary>
@@ -96,6 +109,13 @@ namespace Core.Models
         /// </summary>
         /// <value>The comment.</value>
         public string comment { get; set; }
+
+        [DataMember]
+        /// <summary>
+        /// Gets or sets the Type.
+        /// </summary>
+        /// <value>The debit.</value>
+        public Types type { get; set; }
 
         [DataMember]
         /// <summary>

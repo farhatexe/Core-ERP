@@ -16,23 +16,23 @@ namespace Core.Models
         /// Core accepts different types of behaviours.`
         /// </summary>
         public enum Behaviors
-        { 
+        {
             /// <summary>
             /// Normal: Such as Cash, Check, Credit Card.
             /// </summary>
-            Normal, 
+            Normal = 1,
             /// <summary>
             /// Same as Normal, except the money enters the account delayed. This requires an aditional process of varification before acrediting value into account.
             /// </summary>
-            Delayed,
+            Delayed = 2,
             /// <summary>
             /// Credit Behaviours are meant for Credit and Debit Notes. Where you use credits to pay off debt.
             /// </summary>
-            Credit, 
+            Credit = 3,
             /// <summary>
             /// Vat WithHolding depending on certain countries that require Customers or Suppliers to Withhold vat generated from the transaction.
             /// </summary>
-            VatWithholding 
+            VatWithholding = 4
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace Core.Models
         /// <value>The action.</value>
         public int action { get; set; }
 
-     
+
         public virtual ObservableCollection<PointOfSale> pointOfSales { get; set; }
 
         public virtual ObservableCollection<AccountMovement> movements { get; set; }

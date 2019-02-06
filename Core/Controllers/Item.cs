@@ -194,6 +194,8 @@ namespace Core.Controllers
                         item.volume = data.volume;
                         item.isPrivate = data.isPrivate;
                         item.isActive = data.isActive;
+                        item.isStockable = data.isStockable;
+                        item.vatCloudId = data.vatCloudId;
                         item.updatedAt = Convert.ToDateTime(data.updatedAt);
                         item.updatedAt = item.updatedAt.Value.ToLocalTime();
                         item.createdAt = Convert.ToDateTime(data.createdAt);
@@ -218,8 +220,10 @@ namespace Core.Controllers
                     item.weighWithScale = data.weighWithScale ?? 0;
                     item.weight = data.weight ?? 0;
                     item.volume = data.volume;
+                    item.isStockable = data.isStockable;
                     item.isPrivate = data.isPrivate;
                     item.isActive = data.isActive;
+                    item.vatCloudId = data.vatCloudId;
                     item.updatedAt = Convert.ToDateTime(data.updatedAt);
                     item.updatedAt = item.updatedAt.Value.ToLocalTime();
                     item.createdAt = Convert.ToDateTime(data.createdAt);
@@ -276,6 +280,7 @@ namespace Core.Controllers
             Item.sku = item.sku;
             Item.vatCloudId = item.vatCloudId;
             Item.volume = item.volume;
+            Item.isStockable = item.isStockable;
             Item.weight = item.weight;
             Item.weighWithScale = item.weighWithScale;
             return Item;

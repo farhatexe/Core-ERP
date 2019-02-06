@@ -50,11 +50,15 @@ namespace Core.Controllers
         /// <param name="currentObligation">Current obligation.</param>
         /// <param name="balance">Balance.</param>
         /// <param name="contractOffset">Contract offset.</param>
-        public decimal ReceivePayment(List<Models.Order> order,Models.Account account, ObservableCollection<MultiplePayments> MultiplePaymnets, DateTime paymentDate, string currencyCode, decimal currencyRate, decimal currentObligation, decimal balance = 0, int contractOffset = 0)
+        public decimal ReceivePayment(List<Models.Order> order, Models.Account account, ObservableCollection<MultiplePayments> MultiplePaymnets, DateTime paymentDate, string currencyCode, decimal currencyRate, decimal currentObligation, decimal balance = 0, int contractOffset = 0)
         {
             foreach (MultiplePayments item in MultiplePaymnets)
             {
-             ReceivePayments(order, account, item.PaymentType, DateTime.Now, currencyCode, 1, item.Amount);
+                if (item.Amount>0)
+                {
+                    ReceivePayments(order, account, item.PaymentType, DateTime.Now, currencyCode, 1, item.Amount);
+                }
+                
             }
             return 0;
         }
@@ -85,6 +89,8 @@ namespace Core.Controllers
                 credit = balance >= currentObligation ? currentObligation : balance,
                 currencyCode = currencyCode,
                 currencyRate = currencyRate,
+                session = order.session,
+                type = Types.Transaction
             };
 
             _db.AccountMovements.Add(movement);

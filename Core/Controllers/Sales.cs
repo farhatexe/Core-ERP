@@ -31,11 +31,12 @@ namespace Core.Controllers
         {
             if (includeArchived)
             {
-                _db.Orders.Take(take).Skip(skip).Load();
+                _db.Orders.Include(x => x.details).Take(take).Skip(skip).Load();
             }
             else
             {
                 _db.Orders.Where(x => x.isArchived == false)
+                    .Include(x=>x.details)
                     .Take(take)
                     .Skip(skip)
                     .Load();
@@ -74,10 +75,10 @@ namespace Core.Controllers
             Models.OrderDetail OrderDetail = new OrderDetail();
             OrderDetail.order = order;
             OrderDetail.item = Item;
-            int id = (int)Item.vatCloudId;
             if (Item.vatCloudId != null)
             {
-                OrderDetail.vat = _db.Vats.Include(x=>x.details).Where(x => x.localId == id).FirstOrDefault();
+                int id = (int)Item.vatCloudId;
+                OrderDetail.vat = _db.Vats.Include(x=>x.details).Where(x => x.cloudId == id).FirstOrDefault();
             }
 
             OrderDetail.quantity = quantity;
@@ -93,7 +94,7 @@ namespace Core.Controllers
         {
 
             Core.Models.Order Order = new Core.Models.Order();
-
+            Order.status = Enums.Status.Pending;
             //TODO Select proper location...
             location = _db.Locations.FirstOrDefault();
             //TODO Select Proper company...
@@ -103,6 +104,7 @@ namespace Core.Controllers
             //TODO Select proper Paymnetcontract
             Order.paymentContract = _db.PaymentContracts.FirstOrDefault();
             Order.session = session;
+            Order.range = location.ranges.Where(x => x.expiryDate > DateTime.Now && x.endValue > x.currentValue).FirstOrDefault();
             return Order;
         }
 
@@ -184,6 +186,7 @@ namespace Core.Controllers
             //Check if Order Range exist and is out of range.
             if (Order.range != null)
             {
+
                 if (Order.range.expiryDate != null && Order.range.expiryDate < Order.date)
                 {
                     Order.message = Message.Warning.OutOfDocumentRange;
@@ -192,7 +195,13 @@ namespace Core.Controllers
                 {
                     Order.message = Message.Warning.OutOfDocumentRange;
                 }
+                else
+                {
+                    Order.invoiceNumber = Order.range.document.numberTemplate + (Order.range.currentValue);
+                    Order.range.currentValue = Order.range.currentValue + 1;
+                }
             }
+          
 
             //If IgnoreErrors is False and Error message shows up, return without doing any work.
             if (IgnoreErrors == false && Order.message != null)

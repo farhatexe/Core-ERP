@@ -41,61 +41,65 @@ namespace Core.Controllers
             Models.Document document = Order.range.document;
             string design = document.designUrl;
 
-            if (Order.company != null)
+            if (document.designUrl != "" && document.designUrl != null)
             {
-                design = Replace(design, "@companyName", Order.company.name);
-                design = Replace(design, "@companyTaxId", Order.company.taxId);
-                design = Replace(design, "@companyAddress", Order.company.address);
-            }
-
-            if (Order.customer != null)
-            {
-                design = Replace(design, "@customerName", Order.customer.alias);
-                design = Replace(design, "@customerTaxId", Order.customer.taxId);
-                design = Replace(design, "@customerAddress", Order.customer.address);
-            }
-
-            if (Order.location != null)
-            {
-                design = Replace(design, "@locationName", Order.location.name);
-                design = Replace(design, "@locationAddress", Order.location.address);
-            }
-
-            design = Replace(design, "@paymentContract", (Order.paymentContract != null ? Order.paymentContract.name : design = "Cash"));
-            design = Replace(design, "@currencyName", Order.currency);
-            design = Replace(design, "@currencyRate", Order.currencyRate.ToString());
-
-            design = Replace(design, "@invoiceNumber", Order.invoiceNumber);
-            design = Replace(design, "@invoiceDate", Order.date.ToShortDateString());
-            design = Replace(design, "@invoiceDateTime", Order.date.ToShortDateString() + " " + Order.date.ToShortTimeString());
-
-            if (design.Contains("@invoiceDetails"))
-            {
-                string details = "";
-                foreach (Models.OrderDetail detail in Order.details)
+                if (Order.company != null)
                 {
-                    string itemDescription = detail.item != null ? detail.item.name : detail.itemDescription;
-                    string itemCode = detail.item != null ? "/t" + detail.item.sku : "";
-
-                    details = details +
-                    "/n" + itemCode + itemDescription +
-                    "/n" + Math.Round(detail.quantity, 2).ToString() + "/t" + Math.Round(detail.subTotalVat, 2).ToString();
+                    design = Replace(design, "@companyName", Order.company.name);
+                    design = Replace(design, "@companyTaxId", Order.company.taxId);
+                    design = Replace(design, "@companyAddress", Order.company.address);
                 }
 
-                design = Replace(design, "@invoiceDetails", details);
-            }
+                if (Order.customer != null)
+                {
+                    design = Replace(design, "@customerName", Order.customer.alias);
+                    design = Replace(design, "@customerTaxId", Order.customer.taxId);
+                    design = Replace(design, "@customerAddress", Order.customer.address);
+                }
 
-            design = Replace(design, "@invoiceTotal", Math.Round(Order.details.Sum(x => x.subTotal), 2).ToString());
-            design = Replace(design, "@invoiceTotalVat", Math.Round(Order.details.Sum(x => x.subTotalVat), 2).ToString());
+                if (Order.location != null)
+                {
+                    design = Replace(design, "@locationName", Order.location.name);
+                    design = Replace(design, "@locationAddress", Order.location.address);
+                }
 
-            if (design.Contains("@invoiceVatDetails"))
-            {
-                //loop for vat name and value
-            }
+                design = Replace(design, "@paymentContract", (Order.paymentContract != null ? Order.paymentContract.name : design = "Cash"));
+                design = Replace(design, "@currencyName", Order.currency);
+                design = Replace(design, "@currencyRate", Order.currencyRate.ToString());
 
-            if (design.Contains("@includePromo"))
-            {
-                //include code for discount on next purchase. this case you must create a new coupon or reference an existing coupon.
+                design = Replace(design, "@invoiceNumber", Order.invoiceNumber);
+                design = Replace(design, "@invoiceDate", Order.date.ToShortDateString());
+                design = Replace(design, "@invoiceDTime", Order.date.ToShortDateString() + " " + Order.date.ToShortTimeString());
+
+                if (design.Contains("@invoiceDetails"))
+                {
+                    string details = "";
+                    foreach (Models.OrderDetail detail in Order.details)
+                    {
+                        string itemDescription = detail.item != null ? detail.item.name : detail.itemDescription;
+                        string itemCode = detail.item != null ? "/t" + detail.item.sku : "";
+
+                        details = details +
+                        "/n" + itemCode + itemDescription +
+                        "/n" + Math.Round(detail.quantity, 2).ToString() + "/t" + Math.Round(detail.subTotalVat, 2).ToString();
+                    }
+
+                    design = Replace(design, "@invoiceDetails", details);
+                }
+
+                design = Replace(design, "@invoiceTotal", Math.Round(Order.details.Sum(x => x.subTotal), 2).ToString());
+                design = Replace(design, "@invoiceVatTotal", Math.Round(Order.details.Sum(x => x.subTotalVat), 2).ToString());
+
+                if (design.Contains("@invoiceVatDetails"))
+                {
+                    //loop for vat name and value
+                }
+
+                if (design.Contains("@includePromo"))
+                {
+                    //include code for discount on next purchase. this case you must create a new coupon or reference an existing coupon.
+                }
+
             }
 
             return design;

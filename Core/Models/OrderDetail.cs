@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Core.Models
@@ -27,12 +28,20 @@ namespace Core.Models
         /// <value>The cloud identifier.</value>
         public int? cloudId { get; set; }
 
+        private Order _order;
         [DataMember]
         /// <summary>
         /// Gets or sets the order.
         /// </summary>
         /// <value>The order.</value>
-        public virtual Order order { get; set; }
+        public virtual Order order {
+            get => _order;
+            set
+            {
+                _order = value;
+                _order.RaisePropertyChanged("total");
+            }
+        }
 
         [DataMember]
         /// <summary>
@@ -94,10 +103,10 @@ namespace Core.Models
                  RaisePropertyChanged("quantity");
                 RaisePropertyChanged("subTotal");
                 RaisePropertyChanged("subTotalVat");
-                if (order!=null)
-                {
-                    order.RaisePropertyChanged("total");
-                }
+                //if (order!=null)
+                //{
+                //    order.RaisePropertyChanged("total");
+                //}
               
             }
         }
@@ -125,10 +134,10 @@ namespace Core.Models
                 RaisePropertyChanged("priceVat");
                 RaisePropertyChanged("subTotal");
                 RaisePropertyChanged("subTotalVat");
-                if (order != null)
-                {
-                    order.RaisePropertyChanged("total");
-                }
+                //if (order != null)
+                //{
+                //    order.RaisePropertyChanged("total");
+                //}
             }
         }
         private decimal _price;
@@ -145,20 +154,18 @@ namespace Core.Models
             {
                 if (vat != null)
                 {
-                    decimal coefficient = 0;
+                    decimal finalCoefficient = 0;
                     foreach (VatDetail item in vat.details)
                     {
-                        coefficient = coefficient + item.coefficient;
+                        finalCoefficient += item.percentage * item.coefficient;
                     }
-                    return price + price * coefficient;
 
+                    return price + (price * finalCoefficient);
                 }
                 else
                 {
                     return price;
-
                 }
-
             }
             set
             {
@@ -175,7 +182,7 @@ namespace Core.Models
                         RaisePropertyChanged("priceVat");
                         if (vat != null)
                         {
-                            price = value / vat.coefficient;
+                            price = value / (1 + vat.details.Sum(x=>x.coefficient * x.percentage));
                             RaisePropertyChanged("price");
                         }
                         else
@@ -263,5 +270,12 @@ namespace Core.Models
         /// </summary>
         /// <value>The action.</value>
         public Enums.Action action { get; set; }
+
+        [NotMapped]
+        /// <summary>
+        /// Gets or sets the action.
+        /// </summary>
+        /// <value>The action.</value>
+        public bool isSelected { get; set; }
     }
 }

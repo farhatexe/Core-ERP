@@ -87,12 +87,16 @@ namespace Core.Models
         /// <value>Range used during current order.</value>
         public virtual Range range { get; set; }
 
+        Contact _customer;
         [DataMember]
         /// <summary>
         /// Gets or sets the customer.
         /// </summary>
         /// <value>The customer.</value>
-        public virtual Contact customer { get; set; }
+        public virtual Contact customer
+        {
+            get { return _customer; } set { _customer=value; RaisePropertyChanged("customer"); }
+        }
 
         [DataMember]
         /// <summary>
@@ -154,6 +158,7 @@ namespace Core.Models
         /// Gets or sets the details.
         /// </summary>
         /// <value>The details.</value>
+        [DataMember]
         public virtual ObservableCollection<OrderDetail> details { get; set; }
 
         /// <summary>

@@ -44,6 +44,7 @@ namespace Core.Models
         /// <value>The start date.</value>
         public DateTime startDate { get; set; }
 
+        [DataMember]
         /// <summary>
         /// Gets or sets the starting balance.
         /// </summary>
@@ -104,11 +105,57 @@ namespace Core.Models
         [DataMember]
         public virtual ObservableCollection<Order> orders { get; set; }
 
+        private decimal _CurrentEndingBalance;
         [NotMapped]
-        public decimal CurrentEndingBalance{
+        public decimal CurrentEndingBalance
+        {
             get
             {
-                return startingBalance + orders.Sum(x => x.total * x.currencyRate);
+                _CurrentEndingBalance = startingBalance + movements.
+                   Where(x => x.type == Types.Transaction && x.paymentType.behavior == PaymentType.Behaviors.Normal)
+                   .Sum(x => x.credit - x.debit);
+                return _CurrentEndingBalance;
+            }
+            set
+            {
+                _CurrentEndingBalance = value;
+            }
+        }
+
+
+
+        decimal _SalesBalance;
+        [NotMapped]
+        public decimal salesBalance
+        {
+            get
+            {
+                _SalesBalance = movements.
+                    Where(x => x.type == Types.Transaction && x.paymentType.behavior == PaymentType.Behaviors.Normal)
+                    .Sum(x => x.credit - x.debit);
+                return _SalesBalance;
+            }
+            set
+            {
+                _SalesBalance = value;
+            }
+        }
+
+
+        [NotMapped]
+        public decimal ClosingChange { get; set; }
+
+        private string _comment;
+        [NotMapped]
+        public string comment
+        {
+            get
+            {
+                return _comment;
+            }
+            set
+            {
+                _comment = value;
             }
         }
     }

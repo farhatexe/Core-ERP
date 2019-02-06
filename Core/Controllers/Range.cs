@@ -143,6 +143,7 @@ namespace Core.Controllers
                     else
                     {
                         document.name = data.name;
+                        document.module = data.module;
                         document.cloudId = data.cloudId;
                         document.updatedAt = Convert.ToDateTime(data.updatedAt);
                         document.updatedAt = document.updatedAt.Value.ToLocalTime();
@@ -186,6 +187,8 @@ namespace Core.Controllers
                     document.location = terminal.location;
                     document.cloudId = data.cloudId;
                     document.name = data.name;
+                    document.module = data.module;
+                    document.designUrl = data.designUrl;
                     document.updatedAt = Convert.ToDateTime(data.updatedAt);
                     document.updatedAt = document.updatedAt.Value.ToLocalTime();
                     document.createdAt = Convert.ToDateTime(data.createdAt);
@@ -220,7 +223,7 @@ namespace Core.Controllers
                 {
                     int localId = (int)data.localId;
                     Models.Document document = _db.Documents.Where(x => x.localId == localId).FirstOrDefault();
-
+                    document.module = data.module;
                     if (data.deletedAt != null)
                     {
                         document.updatedAt = Convert.ToDateTime(data.updatedAt);
