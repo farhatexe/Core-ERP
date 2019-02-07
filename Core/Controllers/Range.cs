@@ -145,6 +145,7 @@ namespace Core.Controllers
                         document.name = data.name;
                         document.module = data.module;
                         document.cloudId = data.cloudId;
+                        document.designUrl = data.designUrl;
                         document.updatedAt = Convert.ToDateTime(data.updatedAt);
                         document.updatedAt = document.updatedAt.Value.ToLocalTime();
                         document.createdAt = Convert.ToDateTime(data.createdAt);

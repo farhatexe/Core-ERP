@@ -271,5 +271,42 @@ namespace Core.Controllers
 
         }
 
+        public void PayExpenses(Core.Models.Session Session,Models.Account account, Models.PaymentType paymentType, DateTime paymentDate, string currencyCode, decimal currencyRate, decimal amount,string comment)
+        {
+            AccountMovement movement = new AccountMovement()
+            {
+                account = account,
+                paymentType = paymentType,
+                date = paymentDate,
+                debit = amount,
+                credit = 0,
+                currencyCode = currencyCode,
+                currencyRate = currencyRate,
+                session = Session,
+                type = Types.Transaction,
+                comment = comment
+            };
+            _db.AccountMovements.Add(movement);
+            _db.SaveChanges();
+        }
+        public void RecieveIncome(Core.Models.Session Session, Models.Account account, Models.PaymentType paymentType, DateTime paymentDate, string currencyCode, decimal currencyRate, decimal amount,string comment)
+        {
+            AccountMovement movement = new AccountMovement()
+            {
+                account = account,
+                paymentType = paymentType,
+                date = paymentDate,
+                debit = 0,
+                credit = amount,
+                currencyCode = currencyCode,
+                currencyRate = currencyRate,
+                session = Session,
+                type = Types.Transaction,
+                comment=comment
+            };
+            _db.AccountMovements.Add(movement);
+            _db.SaveChanges();
+        }
+
     }
 }
