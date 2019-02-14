@@ -151,7 +151,7 @@ namespace Core.Controllers
             ctx.SaveChanges();
         }
 
-        public void Upload(string slug)
+        public void Upload(string slug, Cognitivo.API.Enums.SyncWith SyncWith = Cognitivo.API.Enums.SyncWith.Production)
         {
             Core.Models.Company company = ctx.Companies.Where(x => x.slugCognitivo == slug).FirstOrDefault();
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
@@ -169,7 +169,7 @@ namespace Core.Controllers
             for (int i = 0; i < syncList.Count; i=i+1000)
             {
                 PagedSyncList = syncList.Skip(i).Take(1000).ToList();
-                List<object> ReturnItem = CognitivoAPI.UploadData(slug, "", PagedSyncList, Core.API.CognitivoAPI.Modules.Customer);
+                List<object> ReturnItem = CognitivoAPI.UploadData(slug, "", PagedSyncList, Core.API.CognitivoAPI.Modules.Customer,SyncWith);
                 foreach (dynamic data in ReturnItem)
                 {
 

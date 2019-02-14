@@ -190,7 +190,7 @@ namespace Core.Controllers
         }
 
 
-        public void Upload(string slug)
+        public void Upload(string slug, Cognitivo.API.Enums.SyncWith SyncWith = Cognitivo.API.Enums.SyncWith.Production)
         {
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
             List<object> syncList = new List<object>();
@@ -203,7 +203,7 @@ namespace Core.Controllers
                 syncList.Add(itempromotionModel);
             }
 
-            List<object> ReturnItem = CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Promotion);
+            List<object> ReturnItem = CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Promotion,SyncWith);
 
             foreach (dynamic data in ReturnItem)
             {

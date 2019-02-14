@@ -67,7 +67,7 @@ namespace Core.Controllers
             return pointOfSales;
           //  _db.SaveChanges();
         }
-        public void Upload(string slug)
+        public void Upload(string slug, Cognitivo.API.Enums.SyncWith SyncWith = Cognitivo.API.Enums.SyncWith.Production)
         {
             List<Models.PointOfSale> pointOfSales = new List<PointOfSale>();
             Core.Models.Company company = _db.Companies.Where(x => x.slugCognitivo == slug).FirstOrDefault();
@@ -80,7 +80,7 @@ namespace Core.Controllers
                 pointofsaleModel = UpdateData(pointofsaleModel, item);
                 syncList.Add(pointofsaleModel);
             }
-            List<object> ReturnItem = CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.PointOfSale);
+            List<object> ReturnItem = CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.PointOfSale,SyncWith);
             foreach (dynamic data in ReturnItem)
             {
                 if ((Cognitivo.API.Enums.Action)data.action == Cognitivo.API.Enums.Action.UpdateOnLocal)

@@ -80,7 +80,7 @@ namespace Core.Controllers
             _db.SaveChanges();
         }
 
-        public void Upload(string slug)
+        public void Upload(string slug, Cognitivo.API.Enums.SyncWith SyncWith = Cognitivo.API.Enums.SyncWith.Production)
         {
             Core.Models.Company company = _db.Companies.Where(x => x.slugCognitivo == slug).FirstOrDefault();
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
@@ -94,7 +94,7 @@ namespace Core.Controllers
                 syncList.Add(vatModel);
             }
 
-            List<object> ReturnItem = CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Vat);
+            List<object> ReturnItem = CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Vat,SyncWith);
 
             foreach (dynamic data in ReturnItem)
             {

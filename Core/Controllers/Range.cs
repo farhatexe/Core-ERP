@@ -110,7 +110,7 @@ namespace Core.Controllers
             _db.SaveChanges();
         }
 
-        public void Upload(string slug, PointOfSale terminal)
+        public void Upload(string slug, PointOfSale terminal, Cognitivo.API.Enums.SyncWith SyncWith = Cognitivo.API.Enums.SyncWith.Production)
         {
             Core.Models.Company company = _db.Companies.Where(x => x.slugCognitivo == slug).FirstOrDefault();
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
@@ -124,7 +124,7 @@ namespace Core.Controllers
                 syncList.Add(documentModel);
             }
 
-            List<object> ReturnItem = CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Document);
+            List<object> ReturnItem = CognitivoAPI.UploadData(slug, "", syncList, Core.API.CognitivoAPI.Modules.Document,SyncWith);
 
 
 

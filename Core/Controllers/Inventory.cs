@@ -173,11 +173,11 @@ namespace Core.Controllers
             db.SaveChanges();
         }
 
-        public void Upload(string slug)
+        public void Upload(string slug,Cognitivo.API.Enums.SyncWith SyncWith = Cognitivo.API.Enums.SyncWith.Production)
         {
             Core.API.CognitivoAPI CognitivoAPI = new Core.API.CognitivoAPI();
             List<object> InventoryList = db.Inventories.Cast<object>().ToList();
-            CognitivoAPI.UploadData(slug, "", InventoryList, Core.API.CognitivoAPI.Modules.Inventory);
+            CognitivoAPI.UploadData(slug, "", InventoryList, Core.API.CognitivoAPI.Modules.Inventory,SyncWith);
 
         }
     }
